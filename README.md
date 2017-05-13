@@ -8,7 +8,7 @@ TraME (Transportation Methods for Econometrics) is an R package for for
 solving problems of equilibrium computation and estimation in consumer 
 demand and matching frameworks via the Mass Transportation Approach.
 
-### Status [![Build Status](https://travis-ci.org/TraME-Project/TraME.svg)](https://travis-ci.org/TraME-Project/TraME) [![Build status](https://ci.appveyor.com/api/projects/status/github/TraME-Project/TraME?branch=master)](https://ci.appveyor.com/project/alfredgalichon/trame/branch/master)
+### Status [![Build Status](https://travis-ci.org/TraME-Project/TraME-R.svg)](https://travis-ci.org/TraME-Project/TraME-R) [![Build status](https://ci.appveyor.com/api/projects/status/github/TraME-Project/TraME?branch=master)](https://ci.appveyor.com/project/alfredgalichon/trame/branch/master)
 
 The package is under active development and should be considered as
 `alpha stage' software.
@@ -19,12 +19,11 @@ The quickest way to install TraME is via the devtools package.
 ```
 install.packages("devtools")
 library(devtools)
-install_github("TraME-Project/TraME")
+install_github("TraME-Project/TraME-R")
 ```
 The TraME test routines are invoked as follows:
 ```
 library(TraME)
-library(gurobi)
 tests_TraME()
 ```
 
