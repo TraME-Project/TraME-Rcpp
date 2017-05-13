@@ -3,7 +3,6 @@
   ##   Copyright (C) 2015 - 2017 the TraME Team:
   ##      Alfred Galichon
   ##      Keith O'Hara
-  ##      Simon Weber
   ##
   ##   This file is part of TraME.
   ##
@@ -39,6 +38,8 @@ RCPP_MODULE(rsc_module)
     using namespace Rcpp ;
 
     // function overloading requires some trickery
+    void (trame::arums::rsc::*build_1)(int, int) = &trame::arums::rsc::build ;
+
     SEXP (rsc_R::*G_1)(arma::vec) = &rsc_R::G_R ;
     SEXP (rsc_R::*G_2)(arma::vec, arma::mat) = &rsc_R::G_R ;
 
@@ -46,40 +47,40 @@ RCPP_MODULE(rsc_module)
     SEXP (rsc_R::*Gstar_2)(arma::vec, arma::mat) = &rsc_R::Gstar_R ;
   
     // now we can declare the class
-    class_<trame::rsc>( "rsc" )
+    class_<trame::arums::rsc>( "rsc" )
         .default_constructor()
 
         // basic objects
-        .field( "nbX", &trame::rsc::nbX )
-        .field( "nbY", &trame::rsc::nbY )
+        .field( "nbX", &trame::arums::rsc::nbX )
+        .field( "nbY", &trame::arums::rsc::nbY )
 
-        .field( "nbParams", &trame::rsc::nbParams )
-        .field( "outsideOption", &trame::rsc::outsideOption )
+        .field( "nbParams", &trame::arums::rsc::nbParams )
+        .field( "outsideOption", &trame::arums::rsc::outsideOption )
 
-        .field( "zeta", &trame::rsc::zeta )
+        .field( "zeta", &trame::arums::rsc::zeta )
 
-        .field( "U", &trame::rsc::U )
-        .field( "mu", &trame::rsc::mu )
+        .field( "U", &trame::arums::rsc::U )
+        .field( "mu", &trame::arums::rsc::mu )
 
-        .field( "U_sol", &trame::rsc::U_sol )
-        .field( "mu_sol", &trame::rsc::mu_sol )
+        .field( "U_sol", &trame::arums::rsc::U_sol )
+        .field( "mu_sol", &trame::arums::rsc::mu_sol )
 
         // read only objects
-        .field_readonly( "aux_ord", &trame::rsc::aux_ord )
+        .field_readonly( "aux_ord", &trame::arums::rsc::aux_ord )
 
-        .field_readonly( "aux_Influence_lhs", &trame::rsc::aux_Influence_lhs )
-        .field_readonly( "aux_Influence_rhs", &trame::rsc::aux_Influence_rhs )
+        .field_readonly( "aux_Influence_lhs", &trame::arums::rsc::aux_Influence_lhs )
+        .field_readonly( "aux_Influence_rhs", &trame::arums::rsc::aux_Influence_rhs )
 
-        .field_readonly( "aux_DinvPsigma", &trame::rsc::aux_DinvPsigma )
-        .field_readonly( "aux_Psigma", &trame::rsc::aux_Psigma )
+        .field_readonly( "aux_DinvPsigma", &trame::arums::rsc::aux_DinvPsigma )
+        .field_readonly( "aux_Psigma", &trame::arums::rsc::aux_Psigma )
 
         // member functions
-        .method( "build", &trame::rsc::build )
-        .method( "build_beta", &trame::rsc::build_beta )
+        .method( "build", build_1 )
+        .method( "build_beta", &trame::arums::rsc::build_beta )
     ;
 
     class_<rsc_R>( "rsc_R" )
-        .derives<trame::rsc>( "rsc" )
+        .derives<trame::arums::rsc>( "rsc" )
         .default_constructor()
 
         .method( "G", G_1 )
@@ -199,7 +200,7 @@ SEXP rsc_R::Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n)
 
 empirical_R rsc_R::simul_R(int nbDraws)
 {
-    trame::empirical emp_obj = this->simul(&nbDraws,NULL);
+    trame::arums::empirical emp_obj = this->simul(&nbDraws,NULL);
 
     empirical_R emp_R_obj = static_cast<empirical_R&>(emp_obj);
 

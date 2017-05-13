@@ -3,7 +3,6 @@
   ##   Copyright (C) 2015 - 2017 the TraME Team:
   ##      Alfred Galichon
   ##      Keith O'Hara
-  ##      Simon Weber
   ##
   ##   This file is part of TraME.
   ##
@@ -39,8 +38,8 @@ RCPP_MODULE(logit_module)
     using namespace Rcpp ;
 
     // function overloading requires some trickery
-    void (trame::logit::*build_1)(int, int) = &trame::logit::build ;
-    void (trame::logit::*build_2)(int, int, double, bool) = &trame::logit::build ;
+    void (trame::arums::logit::*build_1)(int, int) = &trame::arums::logit::build ;
+    void (trame::arums::logit::*build_2)(int, int, double, bool) = &trame::arums::logit::build ;
 
     SEXP (logit_R::*G_1)(arma::vec) = &logit_R::G_R ;
     SEXP (logit_R::*G_2)(arma::vec, arma::mat) = &logit_R::G_R ;
@@ -49,22 +48,22 @@ RCPP_MODULE(logit_module)
     SEXP (logit_R::*Gstar_2)(arma::vec, arma::mat) = &logit_R::Gstar_R ;
 
     // now we can declare the class
-    class_<trame::logit>( "logit" )
+    class_<trame::arums::logit>( "logit" )
         .default_constructor()
 
         // basic objects
-        .field( "nbX", &trame::logit::nbX )
-        .field( "nbY", &trame::logit::nbY )
+        .field( "nbX", &trame::arums::logit::nbX )
+        .field( "nbY", &trame::arums::logit::nbY )
 
-        .field( "nbParams", &trame::logit::nbParams )
-        .field( "sigma", &trame::logit::sigma )
-        .field( "outsideOption", &trame::logit::outsideOption )
+        .field( "nbParams", &trame::arums::logit::nbParams )
+        .field( "sigma", &trame::arums::logit::sigma )
+        .field( "outsideOption", &trame::arums::logit::outsideOption )
 
-        .field( "U", &trame::logit::U )
-        .field( "mu", &trame::logit::mu )
+        .field( "U", &trame::arums::logit::U )
+        .field( "mu", &trame::arums::logit::mu )
 
-        .field( "U_sol", &trame::logit::U_sol )
-        .field( "mu_sol", &trame::logit::mu_sol )
+        .field( "U_sol", &trame::arums::logit::U_sol )
+        .field( "mu_sol", &trame::arums::logit::mu_sol )
 
         // read only objects
         //.field_readonly( "", &trame::logit:: )
@@ -75,7 +74,7 @@ RCPP_MODULE(logit_module)
     ;
 
     class_<logit_R>( "logit_R" )
-        .derives<trame::logit>( "logit" )
+        .derives<trame::arums::logit>( "logit" )
         .default_constructor()
 
         .method( "G", G_1 )
@@ -163,7 +162,7 @@ SEXP logit_R::Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n)
 
 empirical_R logit_R::simul_R(int nbDraws)
 {
-    trame::empirical emp_obj = this->simul(&nbDraws,NULL);
+    trame::arums::empirical emp_obj = this->simul(&nbDraws,NULL);
 
     empirical_R emp_R_obj = static_cast<empirical_R&>(emp_obj);
 

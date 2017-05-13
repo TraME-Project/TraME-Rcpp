@@ -3,7 +3,6 @@
   ##   Copyright (C) 2015 - 2017 the TraME Team:
   ##      Alfred Galichon
   ##      Keith O'Hara
-  ##      Simon Weber
   ##
   ##   This file is part of TraME.
   ##
@@ -23,7 +22,7 @@
   ################################################################################*/
 
 /*
- * logit class
+ * logit additive random utility model (ARUM) class
  *
  * Keith O'Hara
  * 08/08/2016
@@ -34,24 +33,26 @@
 
 #include "trame.hpp"
 
-trame::logit::logit(int nbX_inp, int nbY_inp)
+trame::arums::logit::logit(int nbX_inp, int nbY_inp)
 {   
     this->build(nbX_inp,nbY_inp);
 }
 
-trame::logit::logit(int nbX_inp, int nbY_inp, double sigma_inp, bool outsideOption_inp)
+trame::arums::logit::logit(int nbX_inp, int nbY_inp, double sigma_inp, bool outsideOption_inp)
 {   
     this->build(nbX_inp,nbY_inp,sigma_inp,outsideOption_inp);
 }
 
-void trame::logit::build(int nbX_inp, int nbY_inp)
+void 
+trame::arums::logit::build(int nbX_inp, int nbY_inp)
 {   
     nbX = nbX_inp;
     nbY = nbY_inp;
     nbParams = 1;
 }
 
-void trame::logit::build(int nbX_inp, int nbY_inp, double sigma_inp, bool outsideOption_inp)
+void 
+trame::arums::logit::build(int nbX_inp, int nbY_inp, double sigma_inp, bool outsideOption_inp)
 {   
     nbX = nbX_inp;
     nbY = nbY_inp;
@@ -60,14 +61,14 @@ void trame::logit::build(int nbX_inp, int nbY_inp, double sigma_inp, bool outsid
     outsideOption = outsideOption_inp;
 }
 
-double trame::logit::G(const arma::vec& n)
+double 
+trame::arums::logit::G(const arma::vec& n)
 {   
-    double val = this->G(n,U,mu_sol);
-    //
-    return val;
+    return this->G(n,U,mu_sol);
 }
 
-double trame::logit::G(const arma::vec& n, const arma::mat& U_inp, arma::mat& mu_out)
+double 
+trame::arums::logit::G(const arma::vec& n, const arma::mat& U_inp, arma::mat& mu_out)
 {   
     arma::mat expU = arma::exp(U_inp / sigma);
     arma::vec denom = (outsideOption) ? (1.0 + arma::sum(expU,1)) : 0.0 + arma::sum(expU,1); // the '0.0 + ' fixes a compiling bug
@@ -78,14 +79,14 @@ double trame::logit::G(const arma::vec& n, const arma::mat& U_inp, arma::mat& mu
     return val;
 }
 
-double trame::logit::Gstar(const arma::vec& n)
+double 
+trame::arums::logit::Gstar(const arma::vec& n)
 {
-    double val = this->Gstar(n,mu_sol,U_sol);
-    //
-    return val;
+    return this->Gstar(n,mu_sol,U_sol);
 }
 
-double trame::logit::Gstar(const arma::vec& n, const arma::mat& mu_inp, arma::mat& U_out)
+double 
+trame::arums::logit::Gstar(const arma::vec& n, const arma::mat& mu_inp, arma::mat& U_out)
 {
     double val = 0.0;
 
@@ -104,7 +105,8 @@ double trame::logit::Gstar(const arma::vec& n, const arma::mat& mu_inp, arma::ma
     return val;
 }
 
-double trame::logit::Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out)
+double 
+trame::arums::logit::Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out)
 {
     double val_x = 0.0;
     //
@@ -122,7 +124,8 @@ double trame::logit::Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out)
 }
 
 // just to conform with other arums classes
-double trame::logit::Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out, int x)
+double 
+trame::arums::logit::Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out, int x)
 {
     double val_x = 0.0;
 
@@ -137,16 +140,16 @@ double trame::logit::Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out, int x
     return val_x;
 }
 
-double trame::logit::Gbar(const arma::mat& Ubar, const arma::mat& mubar, const arma::vec& n, arma::mat& U_out, arma::mat& mu_out)
+double 
+trame::arums::logit::Gbar(const arma::mat& Ubar, const arma::mat& mubar, const arma::vec& n, arma::mat& U_out, arma::mat& mu_out)
 {   
-    int i;
     double val=0.0, val_temp;
     
     U_out.set_size(nbX,nbY);
     mu_out.set_size(nbX,nbY);
     arma::mat U_x_temp, mu_x_temp;
     //
-    for (i=0; i<nbX; i++) {
+    for (int i=0; i<nbX; i++) {
         val_temp = Gbarx(Ubar.row(i).t(),(mubar.row(i).t())/n(i),U_x_temp,mu_x_temp);
         //
         val += n(i)*val_temp;
@@ -157,7 +160,8 @@ double trame::logit::Gbar(const arma::mat& Ubar, const arma::mat& mubar, const a
     return val;
 }
 
-double trame::logit::differMargX(double z, void* opt_data)
+double 
+trame::arums::logit::differMargX(double z, void* opt_data)
 {
     trame_logit_zeroin_data *d = reinterpret_cast<trame_logit_zeroin_data*>(opt_data);
 
@@ -167,7 +171,8 @@ double trame::logit::differMargX(double z, void* opt_data)
     return ret;
 }
 
-double trame::logit::Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arma::mat& U_x_out, arma::mat& mu_x_out)
+double 
+trame::arums::logit::Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arma::mat& U_x_out, arma::mat& mu_x_out)
 {
     double valx = 0.0;
 
@@ -190,22 +195,23 @@ double trame::logit::Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, ar
 }
 
 // just to conform with other arums classes
-double trame::logit::Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arma::mat& U_x_out, arma::mat& mu_x_out, int x)
+double 
+trame::arums::logit::Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arma::mat& U_x_out, arma::mat& mu_x_out, int x)
 {
-    double val_x = this->Gbarx(Ubar_x, mubar_x, U_x_out, mu_x_out);
-    //
-    return val_x;
+    return this->Gbarx(Ubar_x, mubar_x, U_x_out, mu_x_out);
 }
 
-arma::mat trame::logit::D2G(const arma::vec& n, bool xFirst)
+arma::mat 
+trame::arums::logit::D2G(const arma::vec& n, bool x_first)
 {
     arma::mat ret;
-    this->D2G(ret,n,xFirst);
+    this->D2G(ret,n,U,x_first);
     //
     return ret;
 }
 
-void trame::logit::D2G(arma::mat& H, const arma::vec& n, bool xFirst)
+void 
+trame::arums::logit::D2G(arma::mat& H, const arma::vec& n, bool x_first)
 {
     // NOTE: the formula is the same regardless of whether outsideOption is true
     
@@ -215,7 +221,7 @@ void trame::logit::D2G(arma::mat& H, const arma::vec& n, bool xFirst)
     for (int x = 0; x < nbX; x++) {
         for (int y = 0; y < nbY; y++) {
             for (int y_prime = 0; y_prime < nbY; y_prime++) {
-                if (xFirst) {
+                if (x_first) {
                     if (y==y_prime) {
                         H(x + nbX*y, x + nbX*y_prime) = mu_xy(x,y)*(1 - mu_xy(x,y)/n(x)) / sigma;
                     } else {
@@ -233,7 +239,17 @@ void trame::logit::D2G(arma::mat& H, const arma::vec& n, bool xFirst)
     }
 }
 
-void trame::logit::D2G(arma::mat& H, const arma::vec& n, const arma::mat& U_inp, bool xFirst)
+arma::mat 
+trame::arums::logit::D2G(const arma::vec& n, const arma::mat& U_inp, bool x_first)
+{
+    arma::mat ret;
+    this->D2G(ret,n,U_inp,x_first);
+    //
+    return ret;
+}
+
+void 
+trame::arums::logit::D2G(arma::mat& H, const arma::vec& n, const arma::mat& U_inp, bool x_first)
 {
     // NOTE: the formula is the same regardless of whether outsideOption is true
 
@@ -245,7 +261,7 @@ void trame::logit::D2G(arma::mat& H, const arma::vec& n, const arma::mat& U_inp,
     for (int x = 0; x < nbX; x++) {
         for (int y = 0; y < nbY; y++) {
             for (int y_prime = 0; y_prime < nbY; y_prime++) {
-                if (xFirst) {
+                if (x_first) {
                     if (y==y_prime) {
                         H(x + nbX*y, x + nbX*y_prime) = mu_xy(x,y)*(1 - mu_xy(x,y)/n(x)) / sigma;
                     } else {
@@ -263,55 +279,32 @@ void trame::logit::D2G(arma::mat& H, const arma::vec& n, const arma::mat& U_inp,
     }
 }
 
-arma::mat trame::logit::D2Gstar(const arma::vec& n, bool xFirst)
+arma::mat 
+trame::arums::logit::D2Gstar(const arma::vec& n, bool x_first)
 {
     arma::mat ret;
-    this->D2Gstar(ret,n,xFirst);
+    this->D2Gstar(ret,n,mu,x_first);
     //
     return ret;
 }
 
-arma::mat trame::logit::D2Gstar(const arma::vec& n, const arma::mat& mu_inp, bool xFirst)
+void 
+trame::arums::logit::D2Gstar(arma::mat &ret, const arma::vec& n, bool x_first)
+{
+    this->D2Gstar(ret,n,mu,x_first);
+}
+
+arma::mat 
+trame::arums::logit::D2Gstar(const arma::vec& n, const arma::mat& mu_inp, bool x_first)
 {
     arma::mat ret;
-    this->D2Gstar(ret,n,mu_inp,xFirst);
+    this->D2Gstar(ret,n,mu_inp,x_first);
     //
     return ret;
 }
 
-void trame::logit::D2Gstar(arma::mat &H, const arma::vec& n, bool xFirst)
-{
-    // NOTE: the formula is the same regardless of whether outsideOption == 1 or 0
-    
-    arma::vec mu_x0 = n - arma::sum(mu_sol,1);
-    arma::vec mu_x0_recip = arma::ones(mu_x0.n_rows,1) / mu_x0; // reciprocal of mu_x0
-    arma::mat mu_xy_recip = arma::ones(mu_sol.n_rows,mu_sol.n_cols) / mu_sol;
-    
-    H.zeros(nbX*nbY,nbX*nbY);
-    //
-    for (int x = 0; x < nbX; x++) {
-        for (int y = 0; y < nbY; y++) {
-            for (int y_prime = 0; y_prime < nbY; y_prime++) {
-                if (xFirst) {
-                    if (y==y_prime) {
-                        H(x + nbX*y, x + nbX*y_prime) = mu_x0_recip(x) + mu_xy_recip(x,y);
-                    }else{
-                        H(x + nbX*y, x + nbX*y_prime) = mu_x0_recip(x);
-                    }
-                } else {
-                    if (y==y_prime) {
-                        H(y + nbY*x, y_prime + nbY*x) = mu_x0_recip(x) + mu_xy_recip(x,y);
-                    } else {
-                        H(y + nbY*x, y_prime + nbY*x) = mu_x0_recip(x);
-                    }
-                }
-            }
-        }
-    }
-    H *= sigma;
-}
-
-void trame::logit::D2Gstar(arma::mat &H, const arma::vec& n, const arma::mat& mu_inp, bool xFirst)
+void 
+trame::arums::logit::D2Gstar(arma::mat &H, const arma::vec& n, const arma::mat& mu_inp, bool x_first)
 {
     // NOTE: the formula is the same regardless of whether outsideOption == 1 or 0
 
@@ -324,7 +317,7 @@ void trame::logit::D2Gstar(arma::mat &H, const arma::vec& n, const arma::mat& mu
     for (int x = 0; x < nbX; x++) {
         for (int y = 0; y < nbY; y++) {
             for (int y_prime = 0; y_prime < nbY; y_prime++) {
-                if (xFirst) {
+                if (x_first) {
                     if (y==y_prime) {
                         H(x + nbX*y, x + nbX*y_prime) = mu_x0_recip(x) + mu_xy_recip(x,y);
                     }else{
@@ -343,47 +336,64 @@ void trame::logit::D2Gstar(arma::mat &H, const arma::vec& n, const arma::mat& mu
     H *= sigma;
 }
 
-arma::mat trame::logit::dtheta_NablaGstar(const arma::vec& n, arma::mat* dtheta_inp, bool xFirst)
+arma::mat 
+trame::arums::logit::dparams_NablaGstar(const arma::vec& n, arma::mat* dparams_inp, bool x_first)
 {
     arma::mat ret;
-
-    this->dtheta_NablaGstar(ret,n,dtheta_inp,xFirst);
+    this->dparams_NablaGstar(ret,n,mu_sol,dparams_inp,x_first);
     //
     return ret;
 }
 
-void trame::logit::dtheta_NablaGstar(arma::mat &ret, const arma::vec& n, arma::mat* dtheta_inp, bool xFirst)
+void 
+trame::arums::logit::dparams_NablaGstar(arma::mat &ret, const arma::vec& n, arma::mat* dparams_inp, bool x_first)
+{
+    this->dparams_NablaGstar(ret,n,mu_sol,dparams_inp,x_first);
+}
+
+arma::mat 
+trame::arums::logit::dparams_NablaGstar(const arma::vec& n, const arma::mat& mu_inp, arma::mat* dparams_inp, bool x_first)
+{
+    arma::mat ret;
+    this->dparams_NablaGstar(ret,n,mu_inp,dparams_inp,x_first);
+    //
+    return ret;
+}
+
+void 
+trame::arums::logit::dparams_NablaGstar(arma::mat &ret, const arma::vec& n, const arma::mat& mu_inp, arma::mat* dparams_inp, bool x_first)
 {
     arma::mat logmu_temp, mu_x0;
 
-    arma::mat dtheta = (dtheta_inp) ? *dtheta_inp : arma::ones(1,1);
+    arma::mat dparams = (dparams_inp) ? *dparams_inp : arma::ones(1,1);
     
-    if (dtheta.n_elem==0) {
+    if (dparams.n_elem==0) {
         ret.zeros(nbX*nbY,0);
     } else {
         if (outsideOption) {
-            mu_x0 = arma::repmat(n - arma::sum(mu,1),1,mu.n_cols);
+            mu_x0 = arma::repmat(n - arma::sum(mu_inp,1),1,mu_inp.n_cols);
             
-            if (xFirst) {
-                logmu_temp = arma::vectorise(arma::log(mu/mu_x0));
+            if (x_first) {
+                logmu_temp = arma::vectorise(arma::log(mu_inp/mu_x0));
             } else {
-                logmu_temp = arma::vectorise(arma::trans(arma::log(mu/mu_x0)));
+                logmu_temp = arma::vectorise(arma::trans(arma::log(mu_inp/mu_x0)));
             }
             //
-            ret = arma::vectorise(dtheta) % logmu_temp;
+            ret = arma::vectorise(dparams) % logmu_temp;
         } else {
-            if (xFirst) {
-                logmu_temp = arma::vectorise(log(mu));
+            if (x_first) {
+                logmu_temp = arma::vectorise(log(mu_inp));
             } else {
-                logmu_temp = arma::vectorise(arma::trans(arma::log(mu)));
+                logmu_temp = arma::vectorise(arma::trans(arma::log(mu_inp)));
             }
             //
-            ret = arma::vectorise(dtheta) % logmu_temp;
+            ret = arma::vectorise(dparams) % logmu_temp;
         }
     }
 }
 
-trame::empirical trame::logit::simul()
+trame::arums::empirical 
+trame::arums::logit::simul()
 {
     empirical emp_obj;
     
@@ -392,7 +402,8 @@ trame::empirical trame::logit::simul()
     return emp_obj;
 }
 
-trame::empirical trame::logit::simul(int* nbDraws, int* seed)
+trame::arums::empirical 
+trame::arums::logit::simul(int* nbDraws, int* seed)
 {
     empirical emp_obj;
     
@@ -401,12 +412,14 @@ trame::empirical trame::logit::simul(int* nbDraws, int* seed)
     return emp_obj;
 }
 
-void trame::logit::simul(empirical& obj_out)
+void 
+trame::arums::logit::simul(empirical& obj_out)
 {
     this->simul(obj_out,NULL,NULL);
 }
 
-void trame::logit::simul(empirical& obj_out, int* nbDraws, int* seed_val)
+void 
+trame::arums::logit::simul(empirical& obj_out, int* nbDraws, int* seed_val)
 {
     int n_draws = 0;
     if (nbDraws) {

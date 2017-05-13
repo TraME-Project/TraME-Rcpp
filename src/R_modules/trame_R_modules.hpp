@@ -3,7 +3,6 @@
   ##   Copyright (C) 2015 - 2017 the TraME Team:
   ##      Alfred Galichon
   ##      Keith O'Hara
-  ##      Simon Weber
   ##
   ##   This file is part of TraME.
   ##
@@ -26,9 +25,10 @@
  * Derived classes to provide wrappers to the TraME library
  */
 
-class empirical_R : public trame::empirical
+class empirical_R : public trame::arums::empirical
 {
     public:
+        SEXP build_R(int nbX_inp, int nbY_inp);
         SEXP G_R(arma::vec n);
         SEXP G_R(arma::vec n, arma::mat U_inp);
         SEXP Gx_R(arma::mat U_x_inp, int x);
@@ -38,7 +38,7 @@ class empirical_R : public trame::empirical
         SEXP Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n);
 };
 
-class logit_R : public trame::logit
+class logit_R : public trame::arums::logit
 {
     public:
         SEXP G_R(arma::vec n);
@@ -50,27 +50,7 @@ class logit_R : public trame::logit
         empirical_R simul_R(int nbDraws);
 };
 
-class none_R : public trame::none
-{
-    public:
-        SEXP G_R(arma::vec n);
-        SEXP G_R(arma::vec n, arma::mat U_inp);
-        SEXP Gx_R(arma::mat U_x_inp, int x);
-        SEXP Gstar_R(arma::vec n);
-        SEXP Gstar_R(arma::vec n, arma::mat mu_inp);
-        SEXP Gstarx_R(arma::mat mu_x_inp, int x);
-        SEXP Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n);
-
-        empirical_R simul_R(int nbDraws);
-};
-
-class probit_R : public trame::probit
-{
-    public:
-        empirical_R simul_R(int nbDraws);
-};
-
-class rsc_R : public trame::rsc
+class none_R : public trame::arums::none
 {
     public:
         SEXP G_R(arma::vec n);
@@ -84,7 +64,27 @@ class rsc_R : public trame::rsc
         empirical_R simul_R(int nbDraws);
 };
 
-class rusc_R : public trame::rusc
+class probit_R : public trame::arums::probit
+{
+    public:
+        empirical_R simul_R(int nbDraws);
+};
+
+class rsc_R : public trame::arums::rsc
+{
+    public:
+        SEXP G_R(arma::vec n);
+        SEXP G_R(arma::vec n, arma::mat U_inp);
+        SEXP Gx_R(arma::mat U_x_inp, int x);
+        SEXP Gstar_R(arma::vec n);
+        SEXP Gstar_R(arma::vec n, arma::mat mu_inp);
+        SEXP Gstarx_R(arma::mat mu_x_inp, int x);
+        SEXP Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n);
+
+        empirical_R simul_R(int nbDraws);
+};
+
+class rusc_R : public trame::arums::rusc
 {
     public:
         SEXP G_R(arma::vec n);

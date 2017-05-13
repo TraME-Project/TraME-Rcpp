@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/bash
 ## TraME config script
 
 if [ -z ${CC+x} ]; then 
@@ -18,11 +18,12 @@ if [[ $USER == keith* ]]; then
 fi
 
 if [ -z ${ARMA_INCLUDE_PATH+x} ]; then 
-    ARMA_INCLUDE_PATH="-I/opt/local/include"
+    ARMA_INCLUDE_PATH="-I./include"
 fi
 
+TRAME_OPT_FLAGS="-O2"
 TRAME_SHLIB_NAME="libtrame.so"
-TRAME_INSTALL_PATH="/opt/local"
+TRAME_INSTALL_PATH="/usr/local"
 
 if [[ $OSTYPE == darwin* ]] ; then
     if [[ !(-z ${TRAME_R_VERSION+x}) ]]; then 
@@ -75,7 +76,9 @@ if [[ $OSTYPE == darwin* ]] ; then
         fi
     fi
 elif [[ $OSTYPE == *linux* ]] ; then
-    TRAME_BLAS_LAPACK="${TRAME_LAPACK_LIBS} ${TRAME_BLAS_LIBS}"
+    TRAME_OPT_FLAGS="-fPIC ${TRAME_OPT_FLAGS}"
+    TRAME_SHLIB_FLAGS="-fPIC -shared"
+    TRAME_BLAS_LAPACK="-lblas -llapack"
 
     if [ -d "/opt/gurobi"* ] ; then
         grb_dirs=( /opt/gurobi* )
@@ -92,7 +95,7 @@ elif [[ $OSTYPE == *linux* ]] ; then
         LP_LIB_RPATH=
     fi
 else
-    TRAME_BLAS_LAPACK=
+    TRAME_BLAS_LAPACK="-lblas -llapack"
 
     LP_INCLUDE_PATH=
     LP_LIB_PATH=
@@ -105,6 +108,7 @@ sed -e "s|@CC@|${CC}|" \
     -e "s|@FC@|${FC}|" \
     -e "s|@ARMA_INCLUDE_PATH@|${ARMA_INCLUDE_PATH}|" \
     -e "s|@TRAME_BLAS_LAPACK@|${TRAME_BLAS_LAPACK}|" \
+    -e "s|@TRAME_OPT_FLAGS@|${TRAME_OPT_FLAGS}|" \
     -e "s|@TRAME_SHLIB_NAME@|${TRAME_SHLIB_NAME}|" \
     -e "s|@TRAME_SHLIB_FLAGS@|${TRAME_SHLIB_FLAGS}|" \
     -e "s|@TRAME_INSTALL_PATH@|${TRAME_INSTALL_PATH}|" \

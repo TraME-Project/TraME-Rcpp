@@ -19,43 +19,6 @@
 ##
 ################################################################################
 
-inversePWA_old <- function(a, B, C, k = 1)
-{
-    nbX = length(a)
-    nbY = dim(B)[2]
-    #
-    vals = rep(0,nbX)
-    for(x in 1:nbX){    
-        sortB = sort(B[x,],index.return=T)
-        sigma = sortB$ix
-        
-        b = sortB$x
-        small_C = C[x,sigma]
-        
-        ylow = 1
-        yup = nbY
-        while(yup > ylow){
-            ymid = ylow + (yup - ylow) %/% 2
-            lhs = k * b[ymid] + sum(small_C * pmin(b[ymid],b))
-            if(lhs == a[x]){
-                yup = ylow = ymid
-            }else if(lhs > a[x]){
-                yup = ymid
-            }else{
-                ylow= ymid + 1
-            }
-        }
-        if((ylow==1) & ( k*b[ylow]+sum(small_C * pmin(b[ylow],b)) >= a[x])){
-            vals[x] = a[x] / (k+sum(small_C))
-        }else{
-            ysincluded = which((1:nbY) <= ylow)
-            vals[x]= (a[x] - sum((small_C*b)[ysincluded])) / (k + sum(small_C) - sum(small_C[ysincluded]))
-        }
-    }
-    #
-    return(vals)
-}
-
 inversePWA <- function(a, B, C, k=1.0)
 {
     #
@@ -216,4 +179,4 @@ tests_TraME <- function(nbDraws = 1e3,save_output=FALSE,output_file=NA)
     #
     ret <- list(main_hash = ret_main, arum_hash = ret_arum, equil_hash = ret_equil, estim_hash = ret_estim)
     return(ret)
-} 
+}

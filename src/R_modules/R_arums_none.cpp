@@ -3,7 +3,6 @@
   ##   Copyright (C) 2015 - 2017 the TraME Team:
   ##      Alfred Galichon
   ##      Keith O'Hara
-  ##      Simon Weber
   ##
   ##   This file is part of TraME.
   ##
@@ -46,30 +45,30 @@ RCPP_MODULE(none_module)
     SEXP (none_R::*Gstar_2)(arma::vec, arma::mat) = &none_R::Gstar_R ;
   
     // now we can declare the class
-    class_<trame::none>( "none" )
+    class_<trame::arums::none>( "none" )
         .default_constructor()
 
         // basic objects
-        .field( "nbX", &trame::none::nbX )
-        .field( "nbY", &trame::none::nbY )
+        .field( "nbX", &trame::arums::none::nbX )
+        .field( "nbY", &trame::arums::none::nbY )
 
-        .field( "nbParams", &trame::none::nbParams )
+        .field( "nbParams", &trame::arums::none::nbParams )
 
-        .field( "mu", &trame::none::mu )
-        .field( "U", &trame::none::U )
+        .field( "mu", &trame::arums::none::mu )
+        .field( "U", &trame::arums::none::U )
 
-        .field( "mu_sol", &trame::none::mu )
-        .field( "U_sol", &trame::none::U )
+        .field( "mu_sol", &trame::arums::none::mu )
+        .field( "U_sol", &trame::arums::none::U )
 
         // read only objects
-        //.field_readonly( "", &trame::none:: )
+        //.field_readonly( "", &trame::arums::none:: )
 
         // member functions
-        .method( "build", &trame::none::build )
+        .method( "build", &trame::arums::none::build )
     ;
 
     class_<none_R>( "none_R" )
-        .derives<trame::none>( "none" )
+        .derives<trame::arums::none>( "none" )
         .default_constructor()
 
         .method( "G", G_1 )
@@ -166,7 +165,7 @@ SEXP none_R::Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n)
 
 empirical_R none_R::simul_R(int nbDraws)
 {
-    trame::empirical emp_obj = this->simul(&nbDraws,NULL);
+    trame::arums::empirical emp_obj = this->simul(&nbDraws,NULL);
 
     empirical_R emp_R_obj = static_cast<empirical_R&>(emp_obj);
 

@@ -3,7 +3,6 @@
   ##   Copyright (C) 2015 - 2017 the TraME Team:
   ##      Alfred Galichon
   ##      Keith O'Hara
-  ##      Simon Weber
   ##
   ##   This file is part of TraME.
   ##
@@ -38,27 +37,27 @@ RCPP_MODULE(probit_module)
 {
     using namespace Rcpp ;
 
-    void (trame::probit::*build_1)(int, int, bool) = &trame::probit::build;
-    void (trame::probit::*build_2)(int, int, double, bool) = &trame::probit::build;
+    void (trame::arums::probit::*build_1)(int, int, bool) = &trame::arums::probit::build;
+    void (trame::arums::probit::*build_2)(int, int, double, bool) = &trame::arums::probit::build;
 
-    void (trame::probit::*unifCorrelCovMatrices_1)() = &trame::probit::unifCorrelCovMatrices;
-    void (trame::probit::*unifCorrelCovMatrices_2)(double) = &trame::probit::unifCorrelCovMatrices ;
+    void (trame::arums::probit::*unifCorrelCovMatrices_1)() = &trame::arums::probit::unifCorrelCovMatrices;
+    void (trame::arums::probit::*unifCorrelCovMatrices_2)(double) = &trame::arums::probit::unifCorrelCovMatrices ;
   
     // now we can declare the class
-    class_<trame::probit>( "probit" )
+    class_<trame::arums::probit>( "probit" )
         .default_constructor()
 
         // basic objects
-        .field( "nbX", &trame::probit::nbX )
-        .field( "nbY", &trame::probit::nbY )
+        .field( "nbX", &trame::arums::probit::nbX )
+        .field( "nbY", &trame::arums::probit::nbY )
 
-        .field( "nbParams", &trame::probit::nbParams )
-        .field( "aux_nbOptions", &trame::probit::aux_nbOptions )
-        .field( "outsideOption", &trame::probit::outsideOption )
+        .field( "nbParams", &trame::arums::probit::nbParams )
+        .field( "aux_nbOptions", &trame::arums::probit::aux_nbOptions )
+        .field( "outsideOption", &trame::arums::probit::outsideOption )
 
-        .field( "rho", &trame::probit::rho )
+        .field( "rho", &trame::arums::probit::rho )
 
-        .field( "Covar", &trame::probit::Covar )
+        .field( "Covar", &trame::arums::probit::Covar )
 
         // read only objects
         //.field_readonly( "", &probit:: )
@@ -71,7 +70,7 @@ RCPP_MODULE(probit_module)
     ;
 
     class_<probit_R>( "probit_R" )
-        .derives<trame::probit>( "probit" )
+        .derives<trame::arums::probit>( "probit" )
         .default_constructor()
 
         .method( "simul", &probit_R::simul_R )
@@ -81,7 +80,7 @@ RCPP_MODULE(probit_module)
 // wrapper functions to catch errors and handle memory pointers
 empirical_R probit_R::simul_R(int nbDraws)
 {
-    trame::empirical emp_obj = this->simul(&nbDraws,NULL);
+    trame::arums::empirical emp_obj = this->simul(&nbDraws,NULL);
 
     empirical_R emp_R_obj = static_cast<empirical_R&>(emp_obj);
 

@@ -3,7 +3,6 @@
   ##   Copyright (C) 2015 - 2017 the TraME Team:
   ##      Alfred Galichon
   ##      Keith O'Hara
-  ##      Simon Weber
   ##
   ##   This file is part of TraME.
   ##
@@ -34,28 +33,32 @@
 
 #include "trame.hpp"
 
-bool trame::bfgs(arma::vec& init_out_vals, std::function<double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)> opt_objfn, void* opt_data)
+bool 
+trame::bfgs(arma::vec& init_out_vals, std::function<double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)> opt_objfn, void* opt_data)
 {
     bool success = bfgs_int(init_out_vals,opt_objfn,opt_data,NULL,NULL,NULL);
     //
     return success;
 }
 
-bool trame::bfgs(arma::vec& init_out_vals, std::function<double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)> opt_objfn, void* opt_data, double& value_out)
+bool 
+trame::bfgs(arma::vec& init_out_vals, std::function<double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)> opt_objfn, void* opt_data, double& value_out)
 {
     bool success = bfgs_int(init_out_vals,opt_objfn,opt_data,&value_out,NULL,NULL);
     //
     return success;
 }
 
-bool trame::bfgs(arma::vec& init_out_vals, std::function<double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)> opt_objfn, void* opt_data, double& value_out, double err_tol_inp, int max_iter_inp)
+bool 
+trame::bfgs(arma::vec& init_out_vals, std::function<double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)> opt_objfn, void* opt_data, double& value_out, double err_tol_inp, int max_iter_inp)
 {
     bool success = bfgs_int(init_out_vals,opt_objfn,opt_data,&value_out,&err_tol_inp,&max_iter_inp);
     //
     return success;
 }
 
-bool trame::bfgs_int(arma::vec& init_out_vals, std::function<double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)> opt_objfn, void* opt_data, double* value_out, double* err_tol_inp, int* max_iter_inp)
+bool 
+trame::bfgs_int(arma::vec& init_out_vals, std::function<double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)> opt_objfn, void* opt_data, double* value_out, double* err_tol_inp, int* max_iter_inp)
 {
     // notation: 'p' stands for '+1'.
     //

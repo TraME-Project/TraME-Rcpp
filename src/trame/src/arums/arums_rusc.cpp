@@ -3,7 +3,6 @@
   ##   Copyright (C) 2015 - 2017 the TraME Team:
   ##      Alfred Galichon
   ##      Keith O'Hara
-  ##      Simon Weber
   ##
   ##   This file is part of TraME.
   ##
@@ -23,7 +22,7 @@
   ################################################################################*/
 
 /*
- * RUSC class
+ * Random Uniform Scalar Coefficient Model (RUSC) additive random utility model (ARUM) class
  *
  * Keith O'Hara
  * 08/08/2016
@@ -34,23 +33,25 @@
 
 #include "trame.hpp"
 
-trame::rusc::rusc(int nbX_inp, int nbY_inp)
+trame::arums::rusc::rusc(int nbX_inp, int nbY_inp)
 {
     this->build(nbX_inp, nbY_inp);
 }
 
-trame::rusc::rusc(arma::mat zeta_inp, bool outsideOption_inp)
+trame::arums::rusc::rusc(arma::mat zeta_inp, bool outsideOption_inp)
 {
     this->build(zeta_inp, outsideOption_inp);
 }
 
-void trame::rusc::build(int nbX_inp, int nbY_inp)
+void 
+trame::arums::rusc::build(int nbX_inp, int nbY_inp)
 {
     nbX = nbX_inp;
     nbY = nbY_inp;
 }
 
-void trame::rusc::build(arma::mat zeta_inp, bool outsideOption_inp)
+void 
+trame::arums::rusc::build(arma::mat zeta_inp, bool outsideOption_inp)
 {
     if (!outsideOption_inp) {
         printf("outsideOption=F not implemented yet on RUSC arums\n");
@@ -98,14 +99,16 @@ void trame::rusc::build(arma::mat zeta_inp, bool outsideOption_inp)
     }
 }
 
-double trame::rusc::G(const arma::vec& n)
+double 
+trame::arums::rusc::G(const arma::vec& n)
 {   
     double val = this->G(n,U,mu_sol);
     //
     return val;
 }
 
-double trame::rusc::G(const arma::vec& n, const arma::mat& U_inp, arma::mat& mu_out)
+double 
+trame::arums::rusc::G(const arma::vec& n, const arma::mat& U_inp, arma::mat& mu_out)
 {   
     double val=0.0, val_x_temp;
     
@@ -123,7 +126,8 @@ double trame::rusc::G(const arma::vec& n, const arma::mat& U_inp, arma::mat& mu_
     return val;
 }
 
-double trame::rusc::Gx(const arma::mat& U_x_inp, arma::mat& mu_x_out, int x)
+double 
+trame::arums::rusc::Gx(const arma::mat& U_x_inp, arma::mat& mu_x_out, int x)
 {
     int nbAlt = nbY + 1;
     int j,y,z;
@@ -177,14 +181,16 @@ double trame::rusc::Gx(const arma::mat& U_x_inp, arma::mat& mu_x_out, int x)
     return val_x;
 }
 
-double trame::rusc::Gstar(const arma::vec& n)
+double 
+trame::arums::rusc::Gstar(const arma::vec& n)
 {
     double val = this->Gstar(n,mu_sol,U_sol);
     //
     return val;
 }
 
-double trame::rusc::Gstar(const arma::vec& n, const arma::mat& mu_inp, arma::mat& U_out)
+double 
+trame::arums::rusc::Gstar(const arma::vec& n, const arma::mat& mu_inp, arma::mat& U_out)
 {   ;
     double val=0.0, val_x_temp;
     
@@ -202,7 +208,8 @@ double trame::rusc::Gstar(const arma::vec& n, const arma::mat& mu_inp, arma::mat
     return val;
 }
 
-double trame::rusc::Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out, int x)
+double 
+trame::arums::rusc::Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out, int x)
 {
     double val_x = 0;
     
@@ -214,7 +221,8 @@ double trame::rusc::Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out, int x)
     return val_x;
 }
 
-double trame::rusc::Gbar(const arma::mat& Ubar, const arma::mat& mubar, const arma::vec& n, arma::mat& U_out, arma::mat& mu_out)
+double 
+trame::arums::rusc::Gbar(const arma::mat& Ubar, const arma::mat& mubar, const arma::vec& n, arma::mat& U_out, arma::mat& mu_out)
 {   
     double val=0.0, val_temp;
     
@@ -234,7 +242,8 @@ double trame::rusc::Gbar(const arma::mat& Ubar, const arma::mat& mubar, const ar
     return val;
 }
 
-double trame::rusc::Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arma::mat& U_x_out, arma::mat& mu_x_out, int x)
+double 
+trame::arums::rusc::Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arma::mat& U_x_out, arma::mat& mu_x_out, int x)
 {
     int nbAlt = nbY + 1;
     double val_x = 0.0;
@@ -280,7 +289,8 @@ double trame::rusc::Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arm
     return val_x;
 }
 
-trame::empirical trame::rusc::simul()
+trame::arums::empirical 
+trame::arums::rusc::simul()
 {
     empirical emp_obj;
     this->simul(emp_obj,NULL,NULL);
@@ -288,7 +298,8 @@ trame::empirical trame::rusc::simul()
     return emp_obj;
 }
 
-trame::empirical trame::rusc::simul(int* nbDraws, int* seed)
+trame::arums::empirical 
+trame::arums::rusc::simul(int* nbDraws, int* seed)
 {
     empirical emp_obj;
     this->simul(emp_obj,nbDraws,seed);
@@ -296,12 +307,14 @@ trame::empirical trame::rusc::simul(int* nbDraws, int* seed)
     return emp_obj;
 }
 
-void trame::rusc::simul(empirical& obj_out)
+void 
+trame::arums::rusc::simul(empirical& obj_out)
 {
     this->simul(obj_out,NULL,NULL);
 }
 
-void trame::rusc::simul(empirical& obj_out, int* nbDraws, int* seed_val)
+void 
+trame::arums::rusc::simul(empirical& obj_out, int* nbDraws, int* seed_val)
 {
     int n_draws = 0;
     if (nbDraws) {

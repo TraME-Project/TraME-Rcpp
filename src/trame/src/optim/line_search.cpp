@@ -3,7 +3,6 @@
   ##   Copyright (C) 2015 - 2017 the TraME Team:
   ##      Alfred Galichon
   ##      Keith O'Hara
-  ##      Simon Weber
   ##
   ##   This file is part of TraME.
   ##
@@ -36,7 +35,8 @@
 
 #include "trame.hpp"
 
-double trame::line_search_mt(double step, arma::vec& x, arma::vec& grad, const arma::vec& direc, double* wolfe_cons_1_inp, double* wolfe_cons_2_inp, std::function<double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)> opt_objfn, void* opt_data)
+double 
+trame::line_search_mt(double step, arma::vec& x, arma::vec& grad, const arma::vec& direc, double* wolfe_cons_1_inp, double* wolfe_cons_2_inp, std::function<double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)> opt_objfn, void* opt_data)
 {
     int max_iter = 100;
 
@@ -157,7 +157,8 @@ double trame::line_search_mt(double step, arma::vec& x, arma::vec& grad, const a
     return step;
 }
 
-double trame::mt_sup_norm(double a, double b, double c)
+double 
+trame::mt_sup_norm(double a, double b, double c)
 {
     double ret = std::max(std::abs(a), std::abs(b));
     ret = std::max(ret, std::abs(c));
@@ -166,7 +167,8 @@ double trame::mt_sup_norm(double a, double b, double c)
 }
 
 // update 'interval of uncertainty'
-int trame::mt_step(double& st_best, double& f_best, double& d_best, double& st_other, double& f_other, double& d_other, double& step, double& f_step, double& d_step, bool& bracket, double step_min, double step_max)
+int 
+trame::mt_step(double& st_best, double& f_best, double& d_best, double& st_other, double& f_other, double& d_other, double& step, double& f_step, double& d_step, bool& bracket, double step_min, double step_max)
 {
     bool bound = false;
     int info = 0;

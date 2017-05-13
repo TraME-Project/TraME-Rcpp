@@ -13,6 +13,8 @@ export TRAME_LAPACK_LIBS="${LAPACK_LIBS}"
     cd src/trame
     sh configure
     make
+    mkdir ../../inst
+    mkdir ../../inst/libs
     cp ./libtrame.so ../../inst/libs/libtrame.so
     cd ../..
 #fi

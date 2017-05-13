@@ -3,7 +3,6 @@
   ##   Copyright (C) 2015 - 2017 the TraME Team:
   ##      Alfred Galichon
   ##      Keith O'Hara
-  ##      Simon Weber
   ##
   ##   This file is part of TraME.
   ##
@@ -36,6 +35,8 @@ RCPP_MODULE(empirical_module)
     using namespace Rcpp ;
 
     // function overloading requires some trickery
+    SEXP (empirical_R::*build_1)(int, int) = &empirical_R::build_R ;
+
     SEXP (empirical_R::*G_1)(arma::vec) = &empirical_R::G_R ;
     SEXP (empirical_R::*G_2)(arma::vec, arma::mat) = &empirical_R::G_R ;
 
@@ -43,38 +44,39 @@ RCPP_MODULE(empirical_module)
     SEXP (empirical_R::*Gstar_2)(arma::vec, arma::mat) = &empirical_R::Gstar_R ;
     
     // now we can declare the class
-    class_<trame::empirical>( "empirical" )
+    class_<trame::arums::empirical>( "empirical" )
         .default_constructor()
 
         // basic objects
-        .field( "nbX", &trame::empirical::nbX )
-        .field( "nbY", &trame::empirical::nbY )
+        .field( "nbX", &trame::arums::empirical::nbX )
+        .field( "nbY", &trame::arums::empirical::nbY )
 
-        .field( "nbParams", &trame::empirical::nbParams )
-        .field( "aux_nbDraws", &trame::empirical::aux_nbDraws )
-        .field( "nbOptions", &trame::empirical::nbOptions )
+        .field( "nbParams", &trame::arums::empirical::nbParams )
+        .field( "aux_nbDraws", &trame::arums::empirical::aux_nbDraws )
+        .field( "nbOptions", &trame::arums::empirical::nbOptions )
 
-        .field( "xHomogenous", &trame::empirical::xHomogenous )
-        .field( "outsideOption", &trame::empirical::outsideOption )
+        .field( "xHomogenous", &trame::arums::empirical::xHomogenous )
+        .field( "outsideOption", &trame::arums::empirical::outsideOption )
 
-        .field( "atoms", &trame::empirical::atoms )
+        .field( "atoms", &trame::arums::empirical::atoms )
 
-        .field( "U", &trame::empirical::U )
-        .field( "mu", &trame::empirical::mu )
+        .field( "U", &trame::arums::empirical::U )
+        .field( "mu", &trame::arums::empirical::mu )
 
-        .field( "U_sol", &trame::empirical::U_sol )
-        .field( "mu_sol", &trame::empirical::mu_sol )
+        .field( "U_sol", &trame::arums::empirical::U_sol )
+        .field( "mu_sol", &trame::arums::empirical::mu_sol )
 
         // read only objects
         //.field_readonly( "k_Gstar", &empirical::k_Gstar )
 
         // member functions
-        .method( "build", &trame::empirical::build )
     ;
 
     class_<empirical_R>( "empirical_R" )
-        .derives<trame::empirical>( "empirical" )
+        .derives<trame::arums::empirical>( "empirical" )
         .default_constructor()
+
+        .method( "build", build_1 )
 
         .method( "G", G_1 )
         .method( "G", G_2 )
@@ -87,6 +89,19 @@ RCPP_MODULE(empirical_module)
 }
 
 // wrapper functions to catch errors and handle memory pointers
+
+SEXP empirical_R::build_R(int nbX_inp, int nbY_inp)
+{
+    try {
+        this->build(nbX_inp, nbY_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+    return R_NilValue;
+}
+
 SEXP empirical_R::G_R(arma::vec n)
 {
     try {
