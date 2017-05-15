@@ -56,6 +56,9 @@ class ces
         arma::mat aux_gamma_exp; // exp(- gamma / tau), also labelled D
 
         // member functions
+        ~ces(){};
+         ces(){};
+        
         void build(const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, bool need_norm_inp);
         
         void trans();

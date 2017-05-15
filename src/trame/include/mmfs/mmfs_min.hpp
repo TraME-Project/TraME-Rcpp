@@ -51,6 +51,9 @@ class min
         arma::mat aux_gamma_exp; // exp(gamma / sigma), also labelled B
 
         // member functions
+        ~min(){};
+         min(){};
+
         void build(const arma::mat& alpha_inp, const arma::mat& gamma_inp, bool need_norm_inp);
         
         void trans();

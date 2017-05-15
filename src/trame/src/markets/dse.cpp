@@ -44,7 +44,7 @@ dse<arums::empirical,arums::empirical,transfers::tu>::solve(arma::mat& mu_sol, c
 {
     bool res = false;
     const char sig = (solver != NULL) ? solver[0] : char(0);
-    
+    /*
     if (solver) { // not NULL
         if (sig=='c') {
             res = cupids_lp(*this,mu_sol);
@@ -61,7 +61,7 @@ dse<arums::empirical,arums::empirical,transfers::tu>::solve(arma::mat& mu_sol, c
         if (sig=='o') {
             res = oap_lp(*this,mu_sol);
         }
-    } /*else {
+    } */ /*else {
         if (NTU) {
             res = darum(*this,mu_sol);
         } else if (TU) {

@@ -48,6 +48,9 @@ class geo
         arma::mat aux_phi_exp; // exp(phi_inp/(2*sigma)), also labelled K
 
         // member functions
+        ~geo(){};
+         geo(){};
+        
         void build(const arma::mat& phi_inp, bool need_norm_inp);
         
         void trans();
