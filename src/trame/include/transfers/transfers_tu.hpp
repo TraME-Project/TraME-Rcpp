@@ -45,53 +45,56 @@ class tu
         int nbParams;
 
         arma::mat phi;
-        arma::mat aux_phi_exp; // exp(phi_inp/(2*sigma)), also labelled K_TU
+        arma::mat aux_phi_exp; // exp(phi_inp/(2*sigma)), also labelled K
 
         // member functions
-        void build(const arma::mat& phi_TU, bool need_norm_TU);
+        ~tu(){};
+         tu(){};
+        
+        void build(const arma::mat& phi_inp, bool need_norm_inp);
         
         void trans();
 
-        void mmf(mmfs::geo& mmf_obj) const; // generate an MMF object from transfers
-        mmfs::geo mmf() const;
+        void gen_mmf(mmfs::geo& mmf_obj) const; // generate an MMF object from transfers
+        mmfs::geo gen_mmf() const;
 
         //
         // DSE-related functions
         arma::mat Psi(const arma::mat& U, const arma::mat& V) const;
-        arma::mat Psi(const arma::mat& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
-        arma::mat Psi(const double& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
-        arma::mat Psi(const arma::mat& U, const double& V, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat Psi(const arma::mat& U, const arma::mat& V, const arma::uvec* xs, const arma::uvec* ys) const;
+        arma::mat Psi(const double& U, const arma::mat& V, const arma::uvec* xs, const arma::uvec* ys) const;
+        arma::mat Psi(const arma::mat& U, const double& V, const arma::uvec* xs, const arma::uvec* ys) const;
         double Psi(const double& U, const double& V, int x_ind, int y_ind) const;
 
         arma::mat du_Psi(const arma::mat& U, const arma::mat& V) const;
-        arma::mat du_Psi(const arma::mat& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
-        arma::mat du_Psi(const double& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys) const;
-        arma::mat du_Psi(const arma::mat& U, const double& V, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat du_Psi(const arma::mat& U, const arma::mat& V, const arma::uvec* xs, const arma::uvec* ys) const;
+        arma::mat du_Psi(const double& U, const arma::mat& V, const arma::uvec* xs, const arma::uvec* ys) const;
+        arma::mat du_Psi(const arma::mat& U, const double& V, const arma::uvec* xs, const arma::uvec* ys) const;
 
         arma::mat dparams_Psi(const arma::mat& U, const arma::mat& V, const arma::mat& dparams);
         arma::mat dparams_Psi(const arma::mat& U, const arma::mat& V, const arma::mat* dparams);
 
         arma::mat Ucal(const arma::mat& vs) const;
-        arma::mat Ucal(const arma::mat& vs, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat Ucal(const arma::mat& vs, const arma::uvec* xs, const arma::uvec* ys) const;
         double Ucal(const double& vs, int xs, int ys) const;
         arma::mat Vcal(const arma::mat& us) const;
-        arma::mat Vcal(const arma::mat& us, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat Vcal(const arma::mat& us, const arma::uvec* xs, const arma::uvec* ys) const;
         double Vcal(const double& us, int xs, int ys) const;
 
         arma::mat UW(const arma::mat& Ws) const;
-        arma::mat UW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat UW(const arma::mat& Ws, const arma::uvec* xs, const arma::uvec* ys) const;
         double UW(const double& Ws, int x_ind, int y_ind) const;
         arma::mat VW(const arma::mat& Ws) const;
-        arma::mat VW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat VW(const arma::mat& Ws, const arma::uvec* xs, const arma::uvec* ys) const;
         double VW(const double& Ws, int x_ind, int y_ind) const;
 
         arma::mat dw_UW(const arma::mat& Ws) const;
-        arma::mat dw_UW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat dw_UW(const arma::mat& Ws, const arma::uvec* xs, const arma::uvec* ys) const;
         arma::mat dw_VW(const arma::mat& Ws) const;
-        arma::mat dw_VW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat dw_VW(const arma::mat& Ws, const arma::uvec* xs, const arma::uvec* ys) const;
 
         arma::mat WU(const arma::mat& Us);
-        arma::mat WU(const arma::mat& Us, arma::uvec* xs, arma::uvec* ys);
+        arma::mat WU(const arma::mat& Us, const arma::uvec* xs, const arma::uvec* ys);
         arma::mat WV(const arma::mat& Vs);
-        arma::mat WV(const arma::mat& Vs, arma::uvec* xs, arma::uvec* ys);
+        arma::mat WV(const arma::mat& Vs, const arma::uvec* xs, const arma::uvec* ys);
 };

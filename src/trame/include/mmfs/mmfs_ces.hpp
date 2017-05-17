@@ -22,7 +22,7 @@
   ################################################################################*/
 
 /*
- * Constant Elasticity of Substitution (CES) Marriage Matching Functions (MMFs) class
+ * Constant Elasticity of Substitution (CES) Matching Market Functions (MMFs) class
  * (Corresponds to the ETU transfers class)
  *
  * Keith O'Hara
@@ -39,7 +39,7 @@ class ces
     public:
         // build objects
         bool need_norm;
-        
+
         int nbX;
         int nbY;
         int nbParams;
@@ -47,6 +47,7 @@ class ces
         arma::mat alpha;
         arma::mat gamma;
         arma::mat tau;
+        
         arma::mat kappa; // kappa = -1/tau_inp
 
         arma::mat aux_alpha; // - alpha / tau = log(C)
@@ -58,17 +59,17 @@ class ces
         // member functions
         ~ces(){};
          ces(){};
-        
+
         void build(const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, bool need_norm_inp);
-        
+
         void trans();
 
         //
         // MFE-related functions
         arma::mat M(const arma::mat& a_xs, const arma::mat& b_ys) const;
-        arma::mat M(const arma::mat& a_xs, const arma::mat& b_ys, arma::uvec* xs, arma::uvec* ys) const;
-        arma::mat M(const double& a_xs, const arma::mat& b_ys, arma::uvec* xs, arma::uvec* ys) const;
-        arma::mat M(const arma::mat& a_xs, const double& b_ys, arma::uvec* xs, arma::uvec* ys) const;
+        arma::mat M(const arma::mat& a_xs, const arma::mat& b_ys, const arma::uvec* xs, const arma::uvec* ys) const;
+        arma::mat M(const double& a_xs, const arma::mat& b_ys, const arma::uvec* xs, const arma::uvec* ys) const;
+        arma::mat M(const arma::mat& a_xs, const double& b_ys, const arma::uvec* xs, const arma::uvec* ys) const;
 
         arma::mat dmu_x0(const arma::mat& a_xs, const arma::mat& b_ys) const;
         arma::mat dmu_0y(const arma::mat& a_xs, const arma::mat& b_ys) const;

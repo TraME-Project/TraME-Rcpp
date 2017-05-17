@@ -34,19 +34,19 @@
 #include "trame.hpp"
 
 void 
-trame::transfers::ntu::build(const arma::mat& alpha_NTU, const arma::mat& gamma_NTU, bool need_norm_NTU)
+trame::transfers::ntu::build(const arma::mat& alpha_inp, const arma::mat& gamma_inp, bool need_norm_inp)
 {
-    need_norm = need_norm_NTU;
+    need_norm = need_norm_inp;
 
-    nbX = alpha_NTU.n_rows;
-    nbY = alpha_NTU.n_cols;
+    nbX = alpha_inp.n_rows;
+    nbY = alpha_inp.n_cols;
     nbParams = 2*nbX*nbY;
 
-    alpha = alpha_NTU;
-    gamma = gamma_NTU;
+    alpha = alpha_inp;
+    gamma = gamma_inp;
 
-    aux_alpha_exp = arma::exp(alpha_NTU);
-    aux_gamma_exp = arma::exp(gamma_NTU);
+    aux_alpha_exp = arma::exp(alpha_inp);
+    aux_gamma_exp = arma::exp(gamma_inp);
 }
 
 void 
@@ -69,18 +69,18 @@ trame::transfers::ntu::trans()
 }
 
 void
-trame::transfers::ntu::mmf(mmfs::min& mmf_obj)
+trame::transfers::ntu::gen_mmf(mmfs::min& mmf_obj)
 const
 {
     mmf_obj.build(alpha,gamma,need_norm);
 }
 
 trame::mmfs::min
-trame::transfers::ntu::mmf()
+trame::transfers::ntu::gen_mmf()
 const
 {
     mmfs::min mmf_obj;
-    this->mmf(mmf_obj);
+    this->gen_mmf(mmf_obj);
     //
     return mmf_obj;
 }
@@ -97,7 +97,7 @@ const
 
 // Implicit Parameterization
 arma::mat 
-trame::transfers::ntu::Psi(const arma::mat& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys)
+trame::transfers::ntu::Psi(const arma::mat& U, const arma::mat& V, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
@@ -109,7 +109,7 @@ const
 }
 
 arma::mat 
-trame::transfers::ntu::Psi(const double& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys)
+trame::transfers::ntu::Psi(const double& U, const arma::mat& V, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
@@ -121,7 +121,7 @@ const
 }
 
 arma::mat 
-trame::transfers::ntu::Psi(const arma::mat& U, const double& V, arma::uvec* xs, arma::uvec* ys)
+trame::transfers::ntu::Psi(const arma::mat& U, const double& V, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
@@ -150,7 +150,7 @@ const
 }
 
 arma::mat 
-trame::transfers::ntu::du_Psi(const arma::mat& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys)
+trame::transfers::ntu::du_Psi(const arma::mat& U, const arma::mat& V, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
@@ -163,7 +163,7 @@ const
 }
 
 arma::mat 
-trame::transfers::ntu::du_Psi(const double& U, const arma::mat& V, arma::uvec* xs, arma::uvec* ys)
+trame::transfers::ntu::du_Psi(const double& U, const arma::mat& V, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
@@ -176,7 +176,7 @@ const
 }
 
 arma::mat 
-trame::transfers::ntu::du_Psi(const arma::mat& U, const double& V, arma::uvec* xs, arma::uvec* ys)
+trame::transfers::ntu::du_Psi(const arma::mat& U, const double& V, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
@@ -222,7 +222,7 @@ const
 }
 
 arma::mat 
-trame::transfers::ntu::Ucal(const arma::mat& vs, arma::uvec* xs, arma::uvec* ys)
+trame::transfers::ntu::Ucal(const arma::mat& vs, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
@@ -254,7 +254,7 @@ const
 }
 
 arma::mat 
-trame::transfers::ntu::Vcal(const arma::mat& us, arma::uvec* xs, arma::uvec* ys)
+trame::transfers::ntu::Vcal(const arma::mat& us, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
@@ -286,7 +286,7 @@ const
 }
 
 arma::mat 
-trame::transfers::ntu::UW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys)
+trame::transfers::ntu::UW(const arma::mat& Ws, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
@@ -314,7 +314,7 @@ const
 }
 
 arma::mat 
-trame::transfers::ntu::VW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys)
+trame::transfers::ntu::VW(const arma::mat& Ws, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
@@ -342,7 +342,7 @@ const
 }
 
 arma::mat 
-trame::transfers::ntu::dw_UW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys)
+trame::transfers::ntu::dw_UW(const arma::mat& Ws, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
@@ -361,7 +361,7 @@ const
 }
 
 arma::mat 
-trame::transfers::ntu::dw_VW(const arma::mat& Ws, arma::uvec* xs, arma::uvec* ys)
+trame::transfers::ntu::dw_VW(const arma::mat& Ws, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
@@ -379,7 +379,7 @@ trame::transfers::ntu::WU(const arma::mat& Us)
 }
 
 arma::mat 
-trame::transfers::ntu::WU(const arma::mat& Us, arma::uvec* xs, arma::uvec* ys)
+trame::transfers::ntu::WU(const arma::mat& Us, const arma::uvec* xs, const arma::uvec* ys)
 {
     arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
     arma::uvec y_ind = (ys) ? *ys : uvec_linspace(0, nbY-1);
@@ -396,7 +396,7 @@ trame::transfers::ntu::WV(const arma::mat& Vs)
 }
 
 arma::mat 
-trame::transfers::ntu::WV(const arma::mat& Vs, arma::uvec* xs, arma::uvec* ys)
+trame::transfers::ntu::WV(const arma::mat& Vs, const arma::uvec* xs, const arma::uvec* ys)
 {
     arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
     arma::uvec y_ind = (ys) ? *ys : uvec_linspace(0, nbY-1);

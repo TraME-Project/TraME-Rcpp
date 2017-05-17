@@ -28,7 +28,7 @@
  * 08/16/2016
  *
  * This version:
- * 03/12/2017
+ * 05/16/2017
  */
 
 template<class Tt>
@@ -36,13 +36,13 @@ class mfe
 {
     public:
         // build objects
-        bool need_norm;
-        bool outsideOption;
+        bool need_norm = false;
+        bool outsideOption = true;
 
         int nbX;
         int nbY;
 
-        double sigma;
+        double sigma = 1.0;
 
         arma::vec n;
         arma::vec m;
@@ -50,23 +50,26 @@ class mfe
         Tt mmfs_obj;
 
         // member functions
+        ~mfe(){};
+         mfe(){};
+        explicit mfe(const arma::vec& n_inp, const arma::vec& m_inp);
+        explicit mfe(double sigma_inp, bool need_norm_inp);
+        explicit mfe(const arma::vec& n_inp, const arma::vec& m_inp, double sigma_inp, bool need_norm_inp);
+
         void build(const arma::vec& n_inp, const arma::vec& m_inp);
+        void build(double sigma_inp, bool need_norm_inp);
+        void build(const arma::vec& n_inp, const arma::vec& m_inp, double sigma_inp, bool need_norm_inp);
 
-        void build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, double* sigma_inp, bool need_norm_inp);
-        void build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp);
+        void build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& mmfs_params_inp_1);
+        void build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& mmfs_params_inp_1, const arma::mat& mmfs_params_inp_2);
+        void build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& mmfs_params_inp_1, const arma::mat& mmfs_params_inp_2, const arma::mat& mmfs_params_inp_3);
 
-        void build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, double* sigma_inp, bool need_norm_inp);
-        void build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp);
-
-        void build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, double* sigma_inp, bool need_norm_inp);
-        void build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp);
-
-        void trans();
+        void trans(); // market transpose
 
         arma::vec marg_x_inv(const arma::mat& B_ys) const;
-        arma::vec marg_x_inv(const arma::mat& B_ys, arma::uvec* xs) const;
+        arma::vec marg_x_inv(const arma::mat& B_ys, const arma::uvec* xs) const;
         arma::vec marg_y_inv(const arma::mat& A_xs) const;
-        arma::vec marg_y_inv(const arma::mat& A_xs, arma::uvec* ys) const;
+        arma::vec marg_y_inv(const arma::mat& A_xs, const arma::uvec* ys) const;
 
         bool solve(arma::mat& mu_sol);
         bool solve(arma::mat& mu_sol, const char* solver);

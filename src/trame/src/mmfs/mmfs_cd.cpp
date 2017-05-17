@@ -22,7 +22,7 @@
   ################################################################################*/
 
 /*
- * Cobb-Douglas (CD) Marriage Matching Functions (MMFs) class
+ * Cobb-Douglas (CD) Matching Market Functions (MMFs) class
  * Corresponds to LTU transfers class
  *
  * Keith O'Hara
@@ -76,9 +76,7 @@ arma::mat
 trame::mmfs::cd::M(const arma::mat& a_xs, const arma::mat& b_ys)
 const
 {
-    arma::mat ret = this->M(a_xs,b_ys,NULL,NULL);
-    //
-    return ret;
+    return this->M(a_xs,b_ys,NULL,NULL);
 }
 
 arma::mat

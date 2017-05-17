@@ -15,7 +15,10 @@ OBJECTS_MMFS= $(SOURCES_MMFS:.cpp=.o)
 SOURCES_AUX= ./R_aux/inv_pwa_R.cpp
 OBJECTS_AUX= $(SOURCES_AUX:.cpp=.o)
 
-OBJECTS=$(OBJECTS_MODULES) $(OBJECTS_AUX) $(OBJECTS_MMFS)
+SOURCES_TRANS= ./R_transfers/R_transfers_etu.cpp ./R_transfers/R_transfers_ltu.cpp ./R_transfers/R_transfers_ntu.cpp ./R_transfers/R_transfers_tu.cpp
+OBJECTS_TRANS= $(SOURCES_TRANS:.cpp=.o)
+
+OBJECTS=$(OBJECTS_MODULES) $(OBJECTS_AUX) $(OBJECTS_MMFS) $(OBJECTS_TRANS)
 
 all: $(SHLIB)
 

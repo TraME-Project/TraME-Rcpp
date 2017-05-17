@@ -22,71 +22,63 @@
   ################################################################################*/
 
 /*
- * transfers class module
+ * LTU transfers class module
  *
  * Keith O'Hara
  * 11/08/2016
  *
  * This version:
- * 11/10/2016
+ * 05/16/2017
  */
 
 #include "trameR.hpp"
 
-RCPP_MODULE(transfers_module)
+RCPP_MODULE(transfers_ltu_module)
 {
     using namespace Rcpp ;
 
     // function overloading requires some trickery
-    SEXP (transfers_R::*Psi_1)(arma::mat, arma::mat) = &transfers_R::Psi_R ;
-    SEXP (transfers_R::*Psi_2)(arma::mat, arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_R::Psi_R ;
+    void (transfers_ltu_R::*build_1)(arma::mat, arma::mat) = &transfers_ltu_R::build_R ;
+    void (transfers_ltu_R::*build_2)(arma::mat, arma::mat, bool) = &transfers_ltu_R::build_R ;
 
-    SEXP (transfers_R::*du_Psi_1)(arma::mat, arma::mat) = &transfers_R::du_Psi_R ;
-    SEXP (transfers_R::*du_Psi_2)(arma::mat, arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_R::du_Psi_R ;
+    SEXP (transfers_ltu_R::*Psi_1)(arma::mat, arma::mat) = &transfers_ltu_R::Psi_R ;
+    SEXP (transfers_ltu_R::*Psi_2)(arma::mat, arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_ltu_R::Psi_R ;
 
-    SEXP (transfers_R::*Ucal_1)(arma::mat) = &transfers_R::Ucal_R ;
-    SEXP (transfers_R::*Ucal_2)(arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_R::Ucal_R ;
+    SEXP (transfers_ltu_R::*du_Psi_1)(arma::mat, arma::mat) = &transfers_ltu_R::du_Psi_R ;
+    SEXP (transfers_ltu_R::*du_Psi_2)(arma::mat, arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_ltu_R::du_Psi_R ;
 
-    SEXP (transfers_R::*Vcal_1)(arma::mat) = &transfers_R::Vcal_R ;
-    SEXP (transfers_R::*Vcal_2)(arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_R::Vcal_R ;
+    SEXP (transfers_ltu_R::*Ucal_1)(arma::mat) = &transfers_ltu_R::Ucal_R ;
+    SEXP (transfers_ltu_R::*Ucal_2)(arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_ltu_R::Ucal_R ;
+
+    SEXP (transfers_ltu_R::*Vcal_1)(arma::mat) = &transfers_ltu_R::Vcal_R ;
+    SEXP (transfers_ltu_R::*Vcal_2)(arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_ltu_R::Vcal_R ;
 
     // now we can declare the class
-    class_<trame::transfers>( "transfers" )
+    class_<trame::transfers::ltu>( "transfers_ltu" )
         .default_constructor()
 
         // basic objects
-        .field( "ETU", &trame::transfers::ETU )
-        .field( "LTU", &trame::transfers::LTU )
-        .field( "NTU", &trame::transfers::NTU )
-        .field( "TU", &trame::transfers::TU )
-
-        .field( "nbX", &trame::transfers::nbX )
-        .field( "nbY", &trame::transfers::nbY )
-        .field( "nbParams", &trame::transfers::nbParams )
-
-        .field( "phi", &trame::transfers::phi )
+        .field( "nbX", &trame::transfers::ltu::nbX )
+        .field( "nbY", &trame::transfers::ltu::nbY )
+        .field( "nbParams", &trame::transfers::ltu::nbParams )
         
-        .field( "alpha", &trame::transfers::alpha )
-        .field( "gamma", &trame::transfers::gamma )
-        .field( "lambda", &trame::transfers::lambda )
-        .field( "tau", &trame::transfers::tau )
+        .field( "lambda", &trame::transfers::ltu::lambda )
+        .field( "phi", &trame::transfers::ltu::phi )
 
         // read only objects
-        //.field_readonly( "", &trame::transfers:: )
+        .field_readonly( "transfers_type", &trame::transfers::ltu::transfers_type )
 
         // member functions
     ;
 
-    class_<transfers_R>( "transfers_R" )
-        .derives<trame::transfers>( "transfers" )
+    class_<transfers_ltu_R>( "transfers_ltu_R" )
+        .derives<trame::transfers::ltu>( "transfers_ltu" )
         .default_constructor()
 
-        .method( "build_ETU", &transfers_R::build_ETU_R )
-        .method( "build_LTU", &transfers_R::build_LTU_R )
-        .method( "build_NTU", &transfers_R::build_NTU_R )
-        .method( "build_TU", &transfers_R::build_TU_R )
+        .method( "build", build_1 )
+        .method( "build", build_2 )
 
-        .method( "trans", &transfers_R::trans_R )
+        .method( "trans", &transfers_ltu_R::trans_R )
 
         .method( "Psi", Psi_1 )
         .method( "Psi", Psi_2 )
@@ -99,11 +91,11 @@ RCPP_MODULE(transfers_module)
     ;
 }
 
-// wrapper functions to catch errors and handle memory pointers (which Rcpp can't do)
-void transfers_R::build_ETU_R(arma::mat alpha_ETU, arma::mat gamma_ETU, arma::mat tau_ETU)
+// wrapper functions to catch errors and handle memory pointers
+void transfers_ltu_R::build_R(arma::mat lambda_inp, arma::mat phi_inp)
 {
     try {
-        this->build_ETU(alpha_ETU,gamma_ETU,tau_ETU);
+        this->build(lambda_inp,phi_inp,false);
     } catch( std::exception &ex ) {
         forward_exception_to_r( ex );
     } catch(...) {
@@ -111,10 +103,10 @@ void transfers_R::build_ETU_R(arma::mat alpha_ETU, arma::mat gamma_ETU, arma::ma
 	}
 }
 
-void transfers_R::build_LTU_R(arma::mat lambda_LTU, arma::mat phi_LTU)
+void transfers_ltu_R::build_R(arma::mat lambda_inp, arma::mat phi_inp, bool need_norm_inp)
 {
     try {
-        this->build_LTU(lambda_LTU,phi_LTU);
+        this->build(lambda_inp,phi_inp,need_norm_inp);
     } catch( std::exception &ex ) {
         forward_exception_to_r( ex );
     } catch(...) {
@@ -122,29 +114,7 @@ void transfers_R::build_LTU_R(arma::mat lambda_LTU, arma::mat phi_LTU)
 	}
 }
 
-void transfers_R::build_NTU_R(arma::mat alpha_NTU, arma::mat gamma_NTU)
-{
-    try {
-        this->build_NTU(alpha_NTU,gamma_NTU);
-    } catch( std::exception &ex ) {
-        forward_exception_to_r( ex );
-    } catch(...) {
-        ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
-}
-
-void transfers_R::build_TU_R(arma::mat phi_TU)
-{
-    try {
-        this->build_TU(phi_TU);
-    } catch( std::exception &ex ) {
-        forward_exception_to_r( ex );
-    } catch(...) {
-        ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
-}
-
-void transfers_R::trans_R()
+void transfers_ltu_R::trans_R()
 {
     try {
         this->trans();
@@ -155,7 +125,7 @@ void transfers_R::trans_R()
 	}
 }
 
-SEXP transfers_R::Psi_R(arma::mat U, arma::mat V)
+SEXP transfers_ltu_R::Psi_R(arma::mat U, arma::mat V)
 {
     try {
         arma::mat psi_out = this->Psi(U,V);
@@ -169,7 +139,7 @@ SEXP transfers_R::Psi_R(arma::mat U, arma::mat V)
     return R_NilValue;
 }
 
-SEXP transfers_R::Psi_R(arma::mat U, arma::mat V, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
+SEXP transfers_ltu_R::Psi_R(arma::mat U, arma::mat V, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
 {
     try {
         int x_ind_size = x_ind.size();
@@ -209,7 +179,7 @@ SEXP transfers_R::Psi_R(arma::mat U, arma::mat V, Rcpp::IntegerVector x_ind, Rcp
     return R_NilValue;
 }
 
-SEXP transfers_R::du_Psi_R(arma::mat U, arma::mat V)
+SEXP transfers_ltu_R::du_Psi_R(arma::mat U, arma::mat V)
 {
     try {
         arma::mat du_psi_out = this->du_Psi(U,V);
@@ -223,7 +193,7 @@ SEXP transfers_R::du_Psi_R(arma::mat U, arma::mat V)
     return R_NilValue;
 }
 
-SEXP transfers_R::du_Psi_R(arma::mat U, arma::mat V, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
+SEXP transfers_ltu_R::du_Psi_R(arma::mat U, arma::mat V, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
 {
     try {
         int x_ind_size = x_ind.size();
@@ -263,7 +233,7 @@ SEXP transfers_R::du_Psi_R(arma::mat U, arma::mat V, Rcpp::IntegerVector x_ind, 
     return R_NilValue;
 }
 
-SEXP transfers_R::Ucal_R(arma::mat vs)
+SEXP transfers_ltu_R::Ucal_R(arma::mat vs)
 {
     try {
         arma::mat ucal_out = this->Ucal(vs);
@@ -277,7 +247,7 @@ SEXP transfers_R::Ucal_R(arma::mat vs)
     return R_NilValue;
 }
 
-SEXP transfers_R::Ucal_R(arma::mat vs, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
+SEXP transfers_ltu_R::Ucal_R(arma::mat vs, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
 {
     try {
         int x_ind_size = x_ind.size();
@@ -317,7 +287,7 @@ SEXP transfers_R::Ucal_R(arma::mat vs, Rcpp::IntegerVector x_ind, Rcpp::IntegerV
     return R_NilValue;
 }
 
-SEXP transfers_R::Vcal_R(arma::mat us)
+SEXP transfers_ltu_R::Vcal_R(arma::mat us)
 {
     try {
         arma::mat vcal_out = this->Vcal(us);
@@ -331,7 +301,7 @@ SEXP transfers_R::Vcal_R(arma::mat us)
     return R_NilValue;
 }
 
-SEXP transfers_R::Vcal_R(arma::mat us, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
+SEXP transfers_ltu_R::Vcal_R(arma::mat us, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
 {
     try {
         int x_ind_size = x_ind.size();
