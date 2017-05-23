@@ -31,47 +31,67 @@
  * 11/13/2016
  */
 
-class transfers_R : public trame::transfers
+class mfe_cd_R : public trame::mfe<trame::mmfs::cd>
 {
     public:
-        void build_ETU_R(arma::mat alpha_ETU, arma::mat gamma_ETU, arma::mat tau_ETU);
-        void build_LTU_R(arma::mat lambda_LTU, arma::mat phi_LTU);
-        void build_NTU_R(arma::mat alpha_NTU, arma::mat gamma_NTU);
-        void build_TU_R(arma::mat phi_TU);
+        void build_R(arma::vec n_inp, arma::vec m_inp);
+        void build_R(double sigma_inp, bool need_norm_inp);
+        void build_R(arma::vec n_inp, arma::vec m_inp, double sigma_inp, bool need_norm_inp);
+        void build_R(arma::vec n_inp, arma::vec m_inp, arma::mat lambda_inp, arma::mat phi_inp);
 
-        void trans_R();
-
-        SEXP Psi_R(arma::mat U, arma::mat V);
-        SEXP Psi_R(arma::mat U, arma::mat V, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind);
-
-        SEXP du_Psi_R(arma::mat U, arma::mat V);
-        SEXP du_Psi_R(arma::mat U, arma::mat V, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind);
-
-        SEXP Ucal_R(arma::mat vs);
-        SEXP Ucal_R(arma::mat vs, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind);
-
-        SEXP Vcal_R(arma::mat us);
-        SEXP Vcal_R(arma::mat us, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind);
-};
-
-class mfe_mmf_R : public trame::mfe<trame::mmf>
-{
-    public:
-        void build_ETU_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, arma::mat tau_inp, bool need_norm_inp);
-        void build_ETU_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, arma::mat tau_inp, double sigma_inp, bool need_norm_inp);
-
-        void build_LTU_R(arma::vec n_inp, arma::vec m_inp, arma::mat lambda_inp, arma::mat phi_inp, bool need_norm_inp);
-        void build_LTU_R(arma::vec n_inp, arma::vec m_inp, arma::mat lambda_inp, arma::mat phi_inp, double sigma_inp, bool need_norm_inp);
-
-        void build_NTU_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, bool need_norm_inp);
-        void build_NTU_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, double sigma_inp, bool need_norm_inp);
-        
-        void build_TU_R(arma::vec n_inp, arma::vec m_inp, arma::mat phi_inp, bool need_norm_inp);
-        void build_TU_R(arma::vec n_inp, arma::vec m_inp, arma::mat phi_inp, double sigma_inp, bool need_norm_inp);
+        mmfs_cd_R get_mmfs();
+        void set_mmfs(mmfs_cd_R mmfs_inp);
 
         SEXP solve_R();
+        SEXP solve_R(Rcpp::CharacterVector solver_inp);
 };
 
+class mfe_ces_R : public trame::mfe<trame::mmfs::ces>
+{
+    public:
+        void build_R(arma::vec n_inp, arma::vec m_inp);
+        void build_R(double sigma_inp, bool need_norm_inp);
+        void build_R(arma::vec n_inp, arma::vec m_inp, double sigma_inp, bool need_norm_inp);
+        void build_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, arma::mat tau_inp);
+
+        mmfs_ces_R get_mmfs();
+        void set_mmfs(mmfs_ces_R mmfs_inp);
+
+        SEXP solve_R();
+        SEXP solve_R(Rcpp::CharacterVector solver_inp);
+};
+
+class mfe_geo_R : public trame::mfe<trame::mmfs::geo>
+{
+    public:
+        void build_R(arma::vec n_inp, arma::vec m_inp);
+        void build_R(double sigma_inp, bool need_norm_inp);
+        void build_R(arma::vec n_inp, arma::vec m_inp, double sigma_inp, bool need_norm_inp);
+        void build_R(arma::vec n_inp, arma::vec m_inp, arma::mat phi_inp);
+
+        mmfs_geo_R get_mmfs();
+        void set_mmfs(mmfs_geo_R mmfs_inp);
+
+        SEXP solve_R();
+        SEXP solve_R(Rcpp::CharacterVector solver_inp);
+};
+
+class mfe_min_R : public trame::mfe<trame::mmfs::min>
+{
+    public:
+        void build_R(arma::vec n_inp, arma::vec m_inp);
+        void build_R(double sigma_inp, bool need_norm_inp);
+        void build_R(arma::vec n_inp, arma::vec m_inp, double sigma_inp, bool need_norm_inp);
+        void build_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp);
+
+        mmfs_min_R get_mmfs();
+        void set_mmfs(mmfs_min_R mmfs_inp);
+
+        SEXP solve_R();
+        SEXP solve_R(Rcpp::CharacterVector solver_inp);
+};
+
+/*
 class dse_empirical_R : public trame::dse<trame::empirical>
 {
     public:
@@ -202,3 +222,4 @@ class dse_rusc_R : public trame::dse<trame::rusc>
 };
 
 #include "trame_R_markets.tpp"
+*/

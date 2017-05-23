@@ -18,7 +18,10 @@ OBJECTS_AUX= $(SOURCES_AUX:.cpp=.o)
 SOURCES_TRANS= ./R_transfers/R_transfers_etu.cpp ./R_transfers/R_transfers_ltu.cpp ./R_transfers/R_transfers_ntu.cpp ./R_transfers/R_transfers_tu.cpp
 OBJECTS_TRANS= $(SOURCES_TRANS:.cpp=.o)
 
-OBJECTS=$(OBJECTS_MODULES) $(OBJECTS_AUX) $(OBJECTS_MMFS) $(OBJECTS_TRANS)
+SOURCES_MFES= ./R_markets/R_mfe_mmf.cpp
+OBJECTS_MFES= $(SOURCES_MFES:.cpp=.o)
+
+OBJECTS=$(OBJECTS_MODULES) $(OBJECTS_AUX) $(OBJECTS_MMFS) $(OBJECTS_TRANS) $(OBJECTS_MFES)
 
 all: $(SHLIB)
 
