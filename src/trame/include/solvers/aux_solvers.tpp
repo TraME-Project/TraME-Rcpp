@@ -37,7 +37,7 @@
  */
 
 template<typename Tg, typename Th, typename Tt>
-arma::mat 
+arma::mat
 w_upper_bound(const dse<Tg,Th,Tt>& market)
 {
     int nbX = market.nbX;
@@ -62,11 +62,8 @@ w_upper_bound(const dse<Tg,Th,Tt>& market)
     double mu_fill;
     arma::uvec x_ind(1);
     arma::vec mu_cond_x(nbY,1);
-    arma::mat U_star_x, Z;
 
-    arma::mat w(nbX,nbY);
-    arma::mat U(nbX,nbY);
-    arma::mat V(nbX,nbY);
+    arma::mat U_star_x, Z, w(nbX,nbY), U(nbX,nbY), V(nbX,nbY);
 
     while (Z_min_val < 0 && iter < max_iter) {
         iter ++;

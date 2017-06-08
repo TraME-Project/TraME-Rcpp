@@ -23,12 +23,13 @@
 
 /*
  * general model class
+ * internal functions
  *
  * Keith O'Hara
  * 11/19/2016
  *
  * This version:
- * 05/27/2017
+ * 06/06/2017
  */
 
 //
@@ -38,7 +39,16 @@ template<typename Tm>
 arma::mat model_build_int(const Tm& market_obj, const arma::mat& X_inp, const arma::mat& Y_inp);
 
 template<typename Tm>
-void model_dmu(const Tm& market_obj, const arma::mat& dtheta_Psi, arma::mat& mu_out, arma::vec& mu_x0_out, arma::vec& mu_0y_out, arma::mat& dmu_out);
+void model_to_market_int(Tm& market_obj, const arma::mat& model_data, const arma::mat& theta, const arma::vec& n, const arma::vec& m, int nbX, int nbY, int dX, int dY, bool need_norm);
+
+template<typename Tg, typename Th, typename Tt>
+void model_to_market_int(dse<Tg,Th,Tt>& market_obj, const arma::mat& model_data, const arma::mat& theta, const Tg& arums_G_inp, const Th& arums_H_inp, const arma::vec& n, const arma::vec& m, int nbX, int nbY, int dX, int dY, bool need_norm);
+
+template<typename Tt>
+void model_to_market_int(mfe<Tt>& market_obj, const arma::mat& model_data, const arma::mat& theta, const arma::vec& n, const arma::vec& m, int nbX, int nbY, int dX, int dY, double sigma, bool need_norm);
+
+template<typename Tm>
+void model_dmu(Tm& market_obj, const arma::mat& dtheta_Psi, arma::mat& mu_out, arma::vec& mu_x0_out, arma::vec& mu_0y_out, arma::mat& dmu_out);
 
 //
 // structs
@@ -65,12 +75,161 @@ struct trame_model_mle_opt_data {
     model<Tm> model_obj;
 };
 
+struct trame_model_mfe_mme_opt_data {
+    int max_iter_ipfp;
+    double tol_ipfp;
+
+    int nbX;
+    int nbY;
+
+    int dX;
+    int dY;
+
+    double sigma;
+
+    arma::vec p;
+    arma::vec q;
+
+    arma::mat IX;
+    arma::mat tIY;
+
+    arma::mat f;
+    arma::mat g;
+
+    arma::mat v;
+    arma::mat Pi_hat;
+
+    arma::mat phi_xy; // should be (nbX*nbY) x (nbParams)
+};
+
 //
 // functions with specializations
 
+template<typename Tg, typename Th>
+arma::mat
+model_build_int(const dse<Tg,Th,transfers::etu>& market_obj, const arma::mat& X_inp, const arma::mat& Y_inp)
+{
+    int nbX = X_inp.n_rows;
+    int nbY = Y_inp.n_rows;
+
+    // int dX = X_inp.n_cols;
+    // int dY = Y_inp.n_cols;
+
+    arma::mat eX = arma::ones(nbX,1);
+    arma::mat eY = arma::ones(nbY,1);
+    //
+    arma::mat model_data = arma::abs(arma::kron(eY,X_inp) - arma::kron(Y_inp,eX));
+
+    return model_data;
+}
+
+template<typename Tg, typename Th>
+arma::mat
+model_build_int(const dse<Tg,Th,transfers::tu>& market_obj, const arma::mat& X_inp, const arma::mat& Y_inp)
+{
+    int nbX = X_inp.n_rows;
+    int nbY = Y_inp.n_rows;
+
+    int dX = X_inp.n_cols;
+    int dY = Y_inp.n_cols;
+
+    int dim_theta = dX*dY;
+    //
+    arma::mat phi_xy_temp = arma::kron(Y_inp,X_inp);
+    arma::cube phi_xyk_temp(phi_xy_temp.memptr(),nbX,nbY,dim_theta,false); // share memory
+
+    arma::mat model_data = cube_to_mat(phi_xyk_temp);
+
+    return model_data;
+}
+
+template<>
+inline
+arma::mat
+model_build_int(const mfe<mmfs::geo>& market_obj, const arma::mat& X_inp, const arma::mat& Y_inp)
+{
+    int nbX = X_inp.n_rows;
+    int nbY = Y_inp.n_rows;
+
+    int dX = X_inp.n_cols;
+    int dY = Y_inp.n_cols;
+
+    int dim_theta = dX*dY;
+    //
+    arma::mat phi_xy_temp = arma::kron(Y_inp,X_inp);
+    arma::cube phi_xyk_temp(phi_xy_temp.memptr(),nbX,nbY,dim_theta,false); // share memory
+
+    arma::mat model_data = cube_to_mat(phi_xyk_temp);
+
+    return model_data;
+}
+
+// model |-> market
+
+template<typename Tg, typename Th>
+void
+model_to_market_int(dse<Tg,Th,transfers::etu>& market_obj, const arma::mat& model_data, const arma::mat& theta, const arma::vec& n, const arma::vec& m, int nbX, int nbY, int dX, int dY, bool need_norm)
+{
+    arma::mat theta_1 = theta.rows(0,dX-1);
+    arma::mat theta_2 = theta.rows(dX,dX+dY-1);
+    double theta_3 = theta(theta.n_rows-1);
+
+    arma::mat alpha = arma::reshape(model_data*theta_1,nbX,nbY);
+    arma::mat gamma = arma::reshape(model_data*theta_2,nbX,nbY);
+    arma::mat tau(nbX,nbY);
+    tau.fill(theta_3);
+
+    market_obj.build(n,m,alpha,gamma,tau,need_norm);
+}
+
+template<typename Tg, typename Th>
+void
+model_to_market_int(dse<Tg,Th,transfers::etu>& market_obj, const arma::mat& model_data, const arma::mat& theta, const Tg& arums_G_inp, const Th& arums_H_inp, const arma::vec& n, const arma::vec& m, int nbX, int nbY, int dX, int dY, bool need_norm)
+{
+    arma::mat theta_1 = theta.rows(0,dX-1);
+    arma::mat theta_2 = theta.rows(dX,dX+dY-1);
+    double theta_3 = theta(theta.n_rows-1);
+
+    arma::mat alpha = arma::reshape(model_data*theta_1,nbX,nbY);
+    arma::mat gamma = arma::reshape(model_data*theta_2,nbX,nbY);
+    arma::mat tau(nbX,nbY);
+    tau.fill(theta_3);
+
+    market_obj.build(n,m,alpha,gamma,tau,arums_G_inp,arums_H_inp,need_norm);
+}
+
+template<typename Tg, typename Th>
+void
+model_to_market_int(dse<Tg,Th,transfers::tu>& market_obj, const arma::mat& model_data, const arma::mat& theta, const arma::vec& n, const arma::vec& m, int nbX, int nbY, int dX, int dY, bool need_norm)
+{
+    arma::mat phi = arma::reshape(model_data*theta,nbX,nbY);
+    market_obj.build(n,m,phi,need_norm);
+}
+
+template<typename Tg, typename Th>
+void
+model_to_market_int(dse<Tg,Th,transfers::tu>& market_obj, const arma::mat& model_data, const arma::mat& theta, const Tg& arums_G_inp, const Th& arums_H_inp, const arma::vec& n, const arma::vec& m, int nbX, int nbY, int dX, int dY, bool need_norm)
+{
+    arma::mat phi = arma::reshape(model_data*theta,nbX,nbY);
+    market_obj.build(n,m,phi,arums_G_inp,arums_H_inp,need_norm);
+}
+
+template<>
+inline
+void
+model_to_market_int(mfe<mmfs::geo>& market_obj, const arma::mat& model_data, const arma::mat& theta, const arma::vec& n, const arma::vec& m, int nbX, int nbY, int dX, int dY, double sigma, bool need_norm)
+{
+    arma::mat phi = arma::reshape(model_data*theta,nbX,nbY);
+
+    market_obj.build(sigma,need_norm);
+    market_obj.build(n,m,phi);
+}
+
+// gradient
+
 template<typename Tg, typename Th, typename Tt>
 void
-model_dmu(const dse<Tg,Th,Tt>& market_obj, const arma::mat& dtheta_Psi, arma::mat& mu_out, arma::vec& mu_x0_out, arma::vec& mu_0y_out, arma::mat& dmu_out)
+model_dmu(dse<Tg,Th,Tt>& market_obj, const arma::mat& dtheta_Psi, arma::mat& mu_out, arma::vec& mu_x0_out, arma::vec& mu_0y_out, arma::mat& dmu_out)
 {
     arma::mat mu, U, V;
     market_obj.solve(mu,U,V,NULL);
@@ -93,42 +252,4 @@ model_dmu(const dse<Tg,Th,Tt>& market_obj, const arma::mat& dtheta_Psi, arma::ma
     mu_x0_out = mu_x0;
     mu_0y_out = mu_0y;
     dmu_out = dmu;
-}
-
-template<typename Tg, typename Th>
-arma::mat 
-model_build_int(const dse<Tg,Th,transfers::etu>& market_obj, const arma::mat& X_inp, const arma::mat& Y_inp)
-{
-    int nbX = X_inp.n_rows;
-    int nbY = Y_inp.n_rows;
-
-    // int dX = X_inp.n_cols;
-    // int dY = Y_inp.n_cols;
-
-    arma::mat eX = arma::ones(nbX,1);
-    arma::mat eY = arma::ones(nbY,1);
-    //
-    arma::mat model_data = arma::abs(arma::kron(eY,X_inp) - arma::kron(Y_inp,eX));
-
-    return model_data;
-}
-
-template<typename Tg, typename Th>
-arma::mat 
-model_build_int(const dse<Tg,Th,transfers::tu>& market_obj, const arma::mat& X_inp, const arma::mat& Y_inp)
-{
-    int nbX = X_inp.n_rows;
-    int nbY = Y_inp.n_rows;
-
-    int dX = X_inp.n_cols;
-    int dY = Y_inp.n_cols;
-
-    int dim_theta = dX*dY;
-    //
-    arma::mat phi_xy_temp = arma::kron(Y_inp,X_inp);
-    arma::cube phi_xyk_temp(phi_xy_temp.memptr(),nbX,nbY,dim_theta,false); // share memory
-
-    arma::mat model_data = cube_to_mat(phi_xyk_temp);
-
-    return model_data;
 }

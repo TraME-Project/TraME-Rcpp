@@ -28,14 +28,14 @@
  * 08/17/2016
  *
  * This version:
- * 05/23/2017
+ * 06/07/2017
  */
 
 //
 // short build function
 
 inline
-void 
+void
 dse_base::build(const arma::vec& n_inp, const arma::vec& m_inp)
 {
     nbX = n_inp.n_elem;
@@ -50,7 +50,7 @@ dse_base::build(const arma::vec& n_inp, const arma::vec& m_inp)
 }
 
 inline
-void 
+void
 dse_base::build(const arma::vec& n_inp, const arma::vec& m_inp, bool need_norm_inp)
 {
     nbX = n_inp.n_elem;
@@ -69,7 +69,7 @@ dse_base::build(const arma::vec& n_inp, const arma::vec& m_inp, bool need_norm_i
 
 template<typename Tg, typename Th>
 inline
-void 
+void
 dse<Tg,Th,transfers::etu>::build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, bool need_norm_inp)
 {
     nbX = n_inp.n_elem;
@@ -93,7 +93,7 @@ dse<Tg,Th,transfers::etu>::build(const arma::vec& n_inp, const arma::vec& m_inp,
 // general arums input
 template<typename Tg, typename Th>
 inline
-void 
+void
 dse<Tg,Th,transfers::etu>::build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, const Tg& arums_G_inp, const Th& arums_H_inp, bool need_norm_inp)
 {
     nbX = n_inp.n_elem;
@@ -118,7 +118,7 @@ dse<Tg,Th,transfers::etu>::build(const arma::vec& n_inp, const arma::vec& m_inp,
 template<typename Tg, typename Th> 
 template<typename Ta, typename Tb>
 inline
-void 
+void
 dse<Tg,Th,transfers::etu>::build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, Ta arums_G_inp, Tb arums_H_inp, int nbDraws, int seed, bool need_norm_inp)
 {
     nbX = n_inp.n_elem;
@@ -144,7 +144,7 @@ dse<Tg,Th,transfers::etu>::build(const arma::vec& n_inp, const arma::vec& m_inp,
 
 template<typename Tg, typename Th>
 inline
-void 
+void
 dse<Tg,Th,transfers::ltu>::build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, bool need_norm_inp)
 {
     nbX = n_inp.n_elem;
@@ -168,7 +168,7 @@ dse<Tg,Th,transfers::ltu>::build(const arma::vec& n_inp, const arma::vec& m_inp,
 // general arums input
 template<typename Tg, typename Th>
 inline
-void 
+void
 dse<Tg,Th,transfers::ltu>::build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, const Tg& arums_G_inp, const Th& arums_H_inp, bool need_norm_inp)
 {
     nbX = n_inp.n_elem;
@@ -193,7 +193,7 @@ dse<Tg,Th,transfers::ltu>::build(const arma::vec& n_inp, const arma::vec& m_inp,
 template<typename Tg, typename Th> 
 template<typename Ta, typename Tb>
 inline
-void 
+void
 dse<Tg,Th,transfers::ltu>::build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, Ta arums_G_inp, Tb arums_H_inp, int nbDraws, int seed, bool need_norm_inp)
 {
     nbX = n_inp.n_elem;
@@ -219,7 +219,7 @@ dse<Tg,Th,transfers::ltu>::build(const arma::vec& n_inp, const arma::vec& m_inp,
 
 template<typename Tg, typename Th>
 inline
-void 
+void
 dse<Tg,Th,transfers::ntu>::build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, bool need_norm_inp)
 {
     nbX = n_inp.n_elem;
@@ -243,7 +243,7 @@ dse<Tg,Th,transfers::ntu>::build(const arma::vec& n_inp, const arma::vec& m_inp,
 // general arums input
 template<typename Tg, typename Th>
 inline
-void 
+void
 dse<Tg,Th,transfers::ntu>::build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const Tg& arums_G_inp, const Th& arums_H_inp, bool need_norm_inp)
 {
     nbX = n_inp.n_elem;
@@ -268,7 +268,7 @@ dse<Tg,Th,transfers::ntu>::build(const arma::vec& n_inp, const arma::vec& m_inp,
 template<typename Tg, typename Th> 
 template<typename Ta, typename Tb>
 inline
-void 
+void
 dse<Tg,Th,transfers::ntu>::build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, Ta arums_G_inp, Tb arums_H_inp, int nbDraws, int seed, bool need_norm_inp)
 {
     nbX = n_inp.n_elem;
@@ -294,7 +294,7 @@ dse<Tg,Th,transfers::ntu>::build(const arma::vec& n_inp, const arma::vec& m_inp,
 
 template<typename Tg, typename Th>
 inline
-void 
+void
 dse<Tg,Th,transfers::tu>::build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, bool need_norm_inp)
 {
     nbX = n_inp.n_elem;
@@ -318,7 +318,7 @@ dse<Tg,Th,transfers::tu>::build(const arma::vec& n_inp, const arma::vec& m_inp, 
 // general arums input
 template<typename Tg, typename Th>
 inline
-void 
+void
 dse<Tg,Th,transfers::tu>::build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, const Tg& arums_G_inp, const Th& arums_H_inp, bool need_norm_inp)
 {
     nbX = n_inp.n_elem;
@@ -343,7 +343,7 @@ dse<Tg,Th,transfers::tu>::build(const arma::vec& n_inp, const arma::vec& m_inp, 
 template<typename Tg, typename Th> 
 template<typename Ta, typename Tb>
 inline
-void 
+void
 dse<Tg,Th,transfers::tu>::build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, Ta arums_G_inp, Tb arums_H_inp, int nbDraws, int seed, bool need_norm_inp)
 {
     nbX = n_inp.n_elem;
@@ -369,7 +369,7 @@ dse<Tg,Th,transfers::tu>::build(const arma::vec& n_inp, const arma::vec& m_inp, 
 
 /*
 template<typename Tg, typename Th, typename Tt>
-void 
+void
 dse<Tg,Th,Tt>::trans()
 {
     int nbX_temp = nbX;
@@ -391,23 +391,41 @@ dse<Tg,Th,Tt>::trans()
 */
 
 template<typename Tg, typename Th, typename Tt>
-void 
+void
+trans_market(const dse<Tg,Th,Tt>& market_obj, dse<Th,Tg,Tt>& trans_market_obj)
+{
+    trans_market_obj.nbX = market_obj.nbY;
+    trans_market_obj.nbY = market_obj.nbX;
+
+    trans_market_obj.n = market_obj.m;
+    trans_market_obj.m = market_obj.n;
+    // Keith: fill in normalization later
+
+    trans_market_obj.trans_obj = market_obj.trans_obj;
+    trans_market_obj.trans_obj.trans();
+
+    trans_market_obj.arums_G = market_obj.arums_H;
+    trans_market_obj.arums_H = market_obj.arums_G;
+    //
+}
+
+// template<typename Tg, typename Th, typename Tt>
+// dse<Th,Tg,Tt> 
+// trans_market(const dse<Tg,Th,Tt>& market_obj)
+// {
+//     dse<Th,Tg,Tt> new_market;
+
+//     trans_market(market_obj,new_market);
+//     //
+//     return new_market;
+// }
+
+template<typename Tg, typename Th, typename Tt>
+void
 dse<Tg,Th,Tt>::trans(dse<Th,Tg,Tt>& trans_market_obj)
 const
 {
-    trans_market_obj.nbX = nbY;
-    trans_market_obj.nbY = nbX;
-
-    trans_market_obj.n = m;
-    trans_market_obj.m = n;
-    // Keith: fill in normalization later
-
-    trans_market_obj.trans_obj = trans_obj;
-    trans_market_obj.trans_obj.trans();
-
-    trans_market_obj.arums_G = arums_H;
-    trans_market_obj.arums_H = arums_G;
-    //
+    trans_market(*this,trans_market_obj);
 }
 
 template<typename Tg, typename Th, typename Tt>
@@ -417,100 +435,240 @@ const
 {
     dse<Th,Tg,Tt> new_market;
 
-    this->trans(new_market);
+    trans_market(*this,new_market);
     //
     return new_market;
 }
 
+template<typename Tg, typename Th>
+void
+dse<Tg,Th,transfers::etu>::trans(dse<Th,Tg,transfers::etu>& trans_market_obj)
+const
+{
+    trans_market(*this,trans_market_obj);
+}
+
+template<typename Tg, typename Th>
+dse<Th,Tg,transfers::etu> 
+dse<Tg,Th,transfers::etu>::trans()
+const
+{
+    dse<Th,Tg,transfers::etu> new_market;
+
+    trans_market(*this,new_market);
+    //
+    return new_market;
+}
+
+template<typename Tg, typename Th>
+void
+dse<Tg,Th,transfers::ltu>::trans(dse<Th,Tg,transfers::ltu>& trans_market_obj)
+const
+{
+    trans_market(*this,trans_market_obj);
+}
+
+template<typename Tg, typename Th>
+dse<Th,Tg,transfers::ltu> 
+dse<Tg,Th,transfers::ltu>::trans()
+const
+{
+    dse<Th,Tg,transfers::ltu> new_market;
+
+    trans_market(*this,new_market);
+    //
+    return new_market;
+}
+
+template<typename Tg, typename Th>
+void
+dse<Tg,Th,transfers::ntu>::trans(dse<Th,Tg,transfers::ntu>& trans_market_obj)
+const
+{
+    trans_market(*this,trans_market_obj);
+}
+
+template<typename Tg, typename Th>
+dse<Th,Tg,transfers::ntu> 
+dse<Tg,Th,transfers::ntu>::trans()
+const
+{
+    dse<Th,Tg,transfers::ntu> new_market;
+
+    trans_market(*this,new_market);
+    //
+    return new_market;
+}
+
+template<typename Tg, typename Th>
+void
+dse<Tg,Th,transfers::tu>::trans(dse<Th,Tg,transfers::tu>& trans_market_obj)
+const
+{
+    trans_market(*this,trans_market_obj);
+}
+
+template<typename Tg, typename Th>
+dse<Th,Tg,transfers::tu> 
+dse<Tg,Th,transfers::tu>::trans()
+const
+{
+    dse<Th,Tg,transfers::tu> new_market;
+
+    trans_market(*this,new_market);
+    //
+    return new_market;
+}
+
+//
+// solve functions
+
 template<typename Tg, typename Th, typename Tt>
-bool 
+bool
 dse<Tg,Th,Tt>::solve(arma::mat& mu_sol)
 {
-    bool res = this->solve(mu_sol,NULL);
+    bool res = equil_solve(*this,mu_sol);
     //
     return res;
 }
 
 template<typename Tg, typename Th, typename Tt>
-bool 
+bool
 dse<Tg,Th,Tt>::solve(arma::mat& mu_sol, const char* solver)
 {
-    bool res = false;
-    const char sig = (solver != NULL) ? solver[0] : char(0);
-    
-    if (solver) { // not NULL
-        if (sig=='a') {
-            res = arc_newton(*this,mu_sol);
-        }
-        /*if (sig=='c') { // only works with empirical case
-            res = cupids_lp(*this,mu_sol);
-        }*/
-        if (sig=='d') {
-            res = darum(*this,mu_sol);
-        }
-        if (sig=='e') {
-            res = eap_nash(*this,mu_sol);
-        }
-        if (sig=='j') {
-            res = jacobi(*this,mu_sol);
-        }
-        if (sig=='m') {
-            res = max_welfare(*this,mu_sol);
-        }
-        if (sig=='o') {
-            res = oap_lp(*this,mu_sol);
-        }
-    }/* else { // default
-        if (NTU) {
-            res = darum(*this,mu_sol);
-        } else if (TU) {
-            res = max_welfare(*this,mu_sol);
-        } else {
-            res = jacobi(*this,mu_sol);
-        }
-    }*/
+    bool res = equil_solve(*this,mu_sol,solver);
     //
     return res;
 }
 
 template<typename Tg, typename Th, typename Tt>
-bool 
+bool
 dse<Tg,Th,Tt>::solve(arma::mat& mu_sol, arma::mat& U_out, arma::mat& V_out, const char* solver)
 {
-    bool res = false;
-    const char sig = (solver != NULL) ? solver[0] : char(0);
-    
-    if (solver) { // not NULL
-        if (sig=='a') {
-            res = arc_newton(*this,mu_sol,U_out,V_out);
-        }
-        // if (sig=='c') { // only works with empirical case
-        //     res = cupids_lp(*this,mu_sol);
-        // }
-        if (sig=='d') {
-            res = darum(*this,mu_sol,U_out,V_out);
-        }
-        if (sig=='e') {
-            res = eap_nash(*this,mu_sol,U_out,V_out);
-        }
-        if (sig=='j') {
-            res = jacobi(*this,mu_sol,U_out,V_out);
-        }
-        if (sig=='m') {
-            res = max_welfare(*this,mu_sol,U_out,V_out);
-        }
-        if (sig=='o') {
-            res = oap_lp(*this,mu_sol,U_out,V_out);
-        }
-    }/* else { // default
-        if (NTU) {
-            res = darum(*this,mu_sol,U_out,V_out);
-        } else if (TU) {
-            res = max_welfare(*this,mu_sol,U_out,V_out);
-        } else {
-            res = jacobi(*this,mu_sol,U_out,V_out);
-        }
-    }*/
+    bool res = equil_solve(*this,mu_sol,U_out,V_out,solver);
     //
     return res;
 }
+
+template<typename Tg, typename Th>
+bool
+dse<Tg,Th,transfers::etu>::solve(arma::mat& mu_sol)
+{
+    bool res = equil_solve(*this,mu_sol);
+    //
+    return res;
+}
+
+template<typename Tg, typename Th>
+bool
+dse<Tg,Th,transfers::etu>::solve(arma::mat& mu_sol, const char* solver)
+{
+    bool res = equil_solve(*this,mu_sol,solver);
+    //
+    return res;
+}
+
+template<typename Tg, typename Th>
+bool
+dse<Tg,Th,transfers::etu>::solve(arma::mat& mu_sol, arma::mat& U_out, arma::mat& V_out, const char* solver)
+{
+    bool res = equil_solve(*this,mu_sol,U_out,V_out,solver);
+    //
+    return res;
+}
+
+template<typename Tg, typename Th>
+bool
+dse<Tg,Th,transfers::ltu>::solve(arma::mat& mu_sol)
+{
+    bool res = equil_solve(*this,mu_sol);
+    //
+    return res;
+}
+
+template<typename Tg, typename Th>
+bool
+dse<Tg,Th,transfers::ltu>::solve(arma::mat& mu_sol, const char* solver)
+{
+    bool res = equil_solve(*this,mu_sol,solver);
+    //
+    return res;
+}
+
+template<typename Tg, typename Th>
+bool
+dse<Tg,Th,transfers::ltu>::solve(arma::mat& mu_sol, arma::mat& U_out, arma::mat& V_out, const char* solver)
+{
+    bool res = equil_solve(*this,mu_sol,U_out,V_out,solver);
+    //
+    return res;
+}
+
+template<typename Tg, typename Th>
+bool
+dse<Tg,Th,transfers::ntu>::solve(arma::mat& mu_sol)
+{
+    bool res = equil_solve(*this,mu_sol);
+    //
+    return res;
+}
+
+template<typename Tg, typename Th>
+bool
+dse<Tg,Th,transfers::ntu>::solve(arma::mat& mu_sol, const char* solver)
+{
+    bool res = equil_solve(*this,mu_sol,solver);
+    //
+    return res;
+}
+
+template<typename Tg, typename Th>
+bool
+dse<Tg,Th,transfers::ntu>::solve(arma::mat& mu_sol, arma::mat& U_out, arma::mat& V_out, const char* solver)
+{
+    bool res = equil_solve(*this,mu_sol,U_out,V_out,solver);
+    //
+    return res;
+}
+
+template<typename Tg, typename Th>
+bool
+dse<Tg,Th,transfers::tu>::solve(arma::mat& mu_sol)
+{
+    bool res = equil_solve(*this,mu_sol);
+    //
+    return res;
+}
+
+template<typename Tg, typename Th>
+bool
+dse<Tg,Th,transfers::tu>::solve(arma::mat& mu_sol, const char* solver)
+{
+    bool res = equil_solve(*this,mu_sol,solver);
+    //
+    return res;
+}
+
+template<typename Tg, typename Th>
+bool
+dse<Tg,Th,transfers::tu>::solve(arma::mat& mu_sol, arma::mat& U_out, arma::mat& V_out, const char* solver)
+{
+    bool res = equil_solve(*this,mu_sol,U_out,V_out,solver);
+    //
+    return res;
+}
+
+//
+// further specializations
+
+// // we specialize because cupids_lp is only defined for empirical classes
+// template<>
+// inline
+// bool
+// dse<arums::empirical,arums::empirical,transfers::tu>::solve(arma::mat& mu_sol, const char* solver)
+// {
+//     bool res = false;
+//     res = cupids_lp(*this,mu_sol);
+//     //
+//     return res;
+// }

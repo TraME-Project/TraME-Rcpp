@@ -22,13 +22,27 @@
   ################################################################################*/
 
 /*
- * general model class
+ * main solve function for DSE markets
  *
  * Keith O'Hara
- * 11/19/2016
+ * 08/01/2016
  *
  * This version:
- * 03/22/2017
+ * 06/01/2017
  */
 
-#include "model_dse.tpp"
+#ifndef _trame_equil_solve_HPP
+#define _trame_equil_solve_HPP
+
+template<typename Tg, typename Th, typename Tt>
+bool equil_solve(const dse<Tg,Th,Tt>& market_obj, arma::mat& mu_sol);
+
+template<typename Tg, typename Th, typename Tt>
+bool equil_solve(const dse<Tg,Th,Tt>& market_obj, arma::mat& mu_sol, const char* solver);
+
+template<typename Tg, typename Th, typename Tt>
+bool equil_solve(const dse<Tg,Th,Tt>& market_obj, arma::mat& mu_sol, arma::mat& U, arma::mat& V, const char* solver);
+
+#include "equil_solve.tpp"
+
+#endif

@@ -28,8 +28,11 @@
  * 08/15/2016
  *
  * This version:
- * 03/13/2017
+ * 06/03/2017
  */
+
+#ifndef _trame_transfers_tu_HPP
+#define _trame_transfers_tu_HPP
 
 // some functions are const restricted because of calls to const market pointers in equilibrium solvers
 
@@ -50,9 +53,9 @@ class tu
         // member functions
         ~tu(){};
          tu(){};
-        
+
         void build(const arma::mat& phi_inp, bool need_norm_inp);
-        
+
         void trans();
 
         void gen_mmf(mmfs::geo& mmf_obj) const; // generate an MMF object from transfers
@@ -71,8 +74,8 @@ class tu
         arma::mat du_Psi(const double& U, const arma::mat& V, const arma::uvec* xs, const arma::uvec* ys) const;
         arma::mat du_Psi(const arma::mat& U, const double& V, const arma::uvec* xs, const arma::uvec* ys) const;
 
-        arma::mat dparams_Psi(const arma::mat& U, const arma::mat& V, const arma::mat& dparams);
-        arma::mat dparams_Psi(const arma::mat& U, const arma::mat& V, const arma::mat* dparams);
+        arma::mat dparams_Psi(const arma::mat& U, const arma::mat& V, const arma::mat& dparams) const;
+        arma::mat dparams_Psi(const arma::mat& U, const arma::mat& V, const arma::mat* dparams) const;
 
         arma::mat Ucal(const arma::mat& vs) const;
         arma::mat Ucal(const arma::mat& vs, const arma::uvec* xs, const arma::uvec* ys) const;
@@ -98,3 +101,5 @@ class tu
         arma::mat WV(const arma::mat& Vs);
         arma::mat WV(const arma::mat& Vs, const arma::uvec* xs, const arma::uvec* ys);
 };
+
+#endif

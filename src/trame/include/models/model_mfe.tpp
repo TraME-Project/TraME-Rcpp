@@ -22,76 +22,48 @@
   ################################################################################*/
 
 /*
- * general model class
+ * model<mfe> class
  *
  * Keith O'Hara
  * 11/19/2016
  *
  * This version:
- * 03/22/2017
+ * 06/06/2017
  */
 
 // Note: 'theta' refers to model parameters;'params' refers to the structural parameters
 
 //
-// first method to build
+// build
 
-template<typename Tg, typename Th, typename Tt>
-inline 
-void 
-model<dse<Tg,Th,Tt>>::build(const arma::cube& phi_xyk_inp)
-{
-    this->build_int(phi_xyk_inp,NULL,NULL);
-}
-
-template<typename Tg, typename Th, typename Tt>
-inline 
-void 
-model<dse<Tg,Th,Tt>>::build(const arma::cube& phi_xyk_inp, const arma::vec& n_inp, const arma::vec& m_inp)
-{
-    this->build_int(phi_xyk_inp,&n_inp,&m_inp);
-}
-
-template<typename Tg, typename Th, typename Tt>
-inline 
-void 
-model<dse<Tg,Th,Tt>>::build_int(const arma::cube& phi_xyk_inp, const arma::vec* n_inp, const arma::vec* m_inp)
-{
-    need_norm = false;
-
-    nbX = phi_xyk_inp.n_rows;
-    nbY = phi_xyk_inp.n_cols;
-    nbParams = phi_xyk_inp.n_slices;
-    //
-    n = (n_inp) ? *n_inp : arma::ones(nbX,1);
-    m = (m_inp) ? *m_inp : arma::ones(nbY,1);
-
-    phi_xyk = phi_xyk_inp;
-}
-
-//
-// second method to build
-
-template<typename Tm>
-inline 
-void 
-model<Tm>::build(const arma::mat& X_inp, const arma::mat& Y_inp)
-{
-    this->build_int(X_inp,Y_inp,NULL,NULL);
-}
-
-template<typename Tm>
+template<typename Tt>
 inline
 void
-model<Tm>::build(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp)
+model<mfe<Tt>>::build(const arma::mat& X_inp, const arma::mat& Y_inp)
 {
-    this->build_int(X_inp,Y_inp,&n_inp,&m_inp);
+    this->build_int(X_inp,Y_inp,NULL,NULL,NULL);
 }
 
-template<typename Tm>
+template<typename Tt>
 inline
 void
-model<Tm>::build_int(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec* n_inp, const arma::vec* m_inp)
+model<mfe<Tt>>::build(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp)
+{
+    this->build_int(X_inp,Y_inp,&n_inp,&m_inp,NULL);
+}
+
+template<typename Tt>
+inline
+void
+model<mfe<Tt>>::build(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp, const double& sigma_inp)
+{
+    this->build_int(X_inp,Y_inp,&n_inp,&m_inp,&sigma_inp);
+}
+
+template<typename Tt>
+inline
+void
+model<mfe<Tt>>::build_int(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec* n_inp, const arma::vec* m_inp, const double* sigma_inp)
 {
     need_norm = false;
 
@@ -101,212 +73,282 @@ model<Tm>::build_int(const arma::mat& X_inp, const arma::mat& Y_inp, const arma:
     dX = X_inp.n_cols;
     dY = Y_inp.n_cols;
 
-    nbParams = dX*dY;
+    dim_theta = dX*dY;
+
+    double sigma = (sigma_inp) ? *sigma_inp : 1.0;
+    market_obj.sigma = sigma;
     //
     n = (n_inp) ? *n_inp : arma::ones(nbX,1);
     m = (m_inp) ? *m_inp : arma::ones(nbY,1);
-    //
-    arma::mat phi_xy_temp = arma::kron(Y_inp,X_inp);
-    arma::cube phi_xyk_temp(phi_xy_temp.memptr(),nbX,nbY,nbParams,false); // share memory
 
-    phi_xyk = phi_xyk_temp;
+    if (arma::accu(n) != arma::accu(m)) {
+        printf("Unequal mass of individuals in an affinity model.\n");
+    }
+    //
+    model_data = model_build_int(market_obj,X_inp,Y_inp);
 }
 
 //
-// build markets (TU case only right now)
+// build markets
 
-template<typename Tm>
-void 
-model<Tm>::model_to_market(const arma::mat& theta)
-{
-    market_obj.build(n,m,Phi_xy_theta(theta),NULL,need_norm);
-}
-
-template<typename Tg, typename Th, typename Tt>
+template<typename Tt>
 void
-model_to_market_int(const dse<Tg,Th,Tt>& market_obj, const arma::mat& theta, const arma::vec& n_inp, const arma::vec& m_inp, bool need_norm_inp)
+model<mfe<Tt>>::model_to_market(const arma::mat& theta)
 {
-    market_obj.build(n,m,Phi_xy_theta(theta),NULL,need_norm);
+    model_to_market_int(market_obj,model_data,theta,n,m,nbX,nbY,dX,dY,need_norm);
 }
-
-// template<typename Tm>
-// void 
-// model<Tm>::build_market_TU(const arma::mat& theta)
-// {
-//     market_obj.build(n,m,Phi_xy_theta(theta),NULL,need_norm);
-// }
-
-// general arums input
-// template<typename Tm>
-// template<typename Ta, typename Tb>
-// void 
-// model<Tm>::build_market_TU(const arma::mat& theta, const Ta& arums_G_inp, const Tb& arums_H_inp)
-// {
-//     market_obj.build(n,m,Phi_xy_theta(theta),arums_G_inp,arums_H_inp,need_norm);
-// }
-
-// empirical version
-// template<typename Tm> 
-// template<typename Ta, typename Tb>
-// void 
-// model<Tm>::build_market_TU(const arma::mat& theta, const Ta& arums_G_inp, const Tb& arums_H_inp, int nbDraws, int seed)
-// {
-//     market_obj.build(n,m,Phi_xy_theta(theta),arums_G_inp,arums_H_inp,nbDraws,seed,need_norm);
-// }
 
 //
 // gradients
 
-template<typename Tm>
-void 
-model<Tm>::dtheta_mu(const arma::mat& theta, const arma::mat* dtheta, arma::mat& mu_out, arma::vec& mu_x0_out, arma::vec& mu_0y_out, arma::mat& dmu_out)
-{
-    build_market_TU(theta); // need to replace this later with general 'parametric_market'
-
-    // arma::mat dparams_Psi, dparams_G, dparams_H;
-    // dparam(dtheta,dparams_Psi,&dparams_G,&dparams_H);
-    arma::mat dparams_Psi;
-    dparam(dtheta,dparams_Psi,NULL,NULL);
-    //
-    model_dmu(market_obj,dparams_Psi,mu_out,mu_x0_out,mu_0y_out,dmu_out);
-}
-
-template<typename Tm>
-void 
-model<Tm>::dparam(const arma::mat* dparams_inp, arma::mat& dparamsPsi_out)
-{
-    this->dparam(dparams_inp,dparamsPsi_out,NULL,NULL);
-}
-
-template<typename Tm>
-void 
-model<Tm>::dparam(const arma::mat* dparams_inp, arma::mat& dparamsPsi_out, arma::mat* dparamsG_out, arma::mat* dparamsH_out)
-{
-    arma::mat dparams_mat = (dparams_inp) ? *dparams_inp : arma::eye(nbParams,nbParams);
-
-    dparamsPsi_out = Phi_xy() * dparams_mat;
-    //
-    if (dparamsG_out) {
-        *dparamsG_out = arma::zeros(0,dparams_mat.n_cols);
-    }
-    if (dparamsH_out) {
-        *dparamsH_out = arma::zeros(0,dparams_mat.n_cols);
-    }
-}
-
-template<typename Tg, typename Th, typename Tt>
+template<typename Tt>
 void
-model_dmu(const dse<Tg,Th,Tt>& market_obj, const arma::mat& dparams_Psi, arma::mat& mu_out, arma::vec& mu_x0_out, arma::vec& mu_0y_out, arma::mat& dmu_out)
+model<mfe<Tt>>::dtheta(const arma::mat* delta_theta_inp, arma::mat& dtheta_M_out)
 {
-    arma::mat mu, U, V;
-    market_obj.solve(mu,U,V,NULL);
+    arma::mat delta_theta_mat = (delta_theta_inp) ? *delta_theta_inp : arma::eye(dim_theta,dim_theta);
 
-    arma::vec mu_x0 = market_obj.n - arma::sum(mu,1);
-    arma::vec mu_0y = market_obj.m - arma::trans(arma::sum(mu,0));
-
-    arma::vec du_Psi_vec = arma::vectorise(market_obj.trans_obj.du_Psi(U,V));
-    arma::vec dv_Psi_vec = 1.0 - du_Psi_vec;
-    //
-    arma::mat HessGstar = market_obj.arums_G.D2Gstar(market_obj.n,mu,true);
-    arma::mat HessHstar = market_obj.arums_H.D2Gstar(market_obj.m,mu.t(),false);
-    //
-    arma::mat denom = elem_prod(du_Psi_vec,HessGstar) + elem_prod(dv_Psi_vec,HessHstar);
-    arma::mat term_1 = market_obj.trans_obj.dtheta_Psi(U,V,dparams_Psi);
-
-    arma::mat dmu = - arma::solve(denom,term_1);
-    //
-    mu_out = mu;
-    mu_x0_out = mu_x0;
-    mu_0y_out = mu_0y;
-    dmu_out = dmu;
+    dtheta_M_out = model_data * delta_theta_mat;
 }
 
-//
-// MLE
-
-template<typename Tm>
-bool 
-model<Tm>::mle(const arma::mat& mu_hat, arma::mat& theta_hat, const arma::mat* theta_0_inp)
+template<typename Tt>
+arma::mat
+model<mfe<Tt>>::dtheta(const arma::mat* delta_theta_inp)
 {
-    bool success = false;
-    //
-    double err_tol = 1E-06;
-    int max_iter = 5000;
+    arma::mat dtheta_M_out;
+    this->dtheta(delta_theta_inp,dtheta_M_out);
 
-    arma::vec theta_0;
-    (theta_0_inp) ? theta_0 = *theta_0_inp : initial_theta(theta_0);
-
-    build_market_TU(theta_0);
-
-    bool by_individual = true;
-    double scale = std::max(arma::accu(n),arma::accu(m));
-
-    arma::vec mu_hat_x0 = n - arma::sum(mu_hat,1);
-    arma::vec mu_hat_0y = m - arma::trans(arma::sum(mu_hat,0));
-    //
-    // add optimization data
-    trame_model_mle_opt_data<Tm> opt_data;
-    
-    opt_data.model_obj = *this;
-    opt_data.by_individual = by_individual;
-    opt_data.scale = scale;
-    
-    opt_data.mu_hat = mu_hat;
-    opt_data.mu_hat_x0 = mu_hat_x0;
-    opt_data.mu_hat_0y = mu_hat_0y;
-    //
-    double obj_val = 0;
-
-    success = model_mle_optim(theta_0,log_likelihood,&opt_data,&obj_val,&err_tol,&max_iter);
-    //
-    theta_hat = theta_0;
-
-    return success;
+    return dtheta_M_out;
 }
 
 //
 // MME
 
-template<typename Tm>
-bool 
-model<Tm>::mme(const arma::mat& mu_hat, arma::mat& theta_hat)
+// template<typename Tt>
+// bool 
+// model<mfe<Tt>>::mme(const arma::mat& mu_hat, arma::mat& theta_hat, const arma::mat* theta_0_inp)
+// {
+//     bool success = false;
+//     //
+//     // double xtol_rel = (xtol_rel_inp) ? *xtol_rel_inp : 1E-04;
+//     // int max_eval = (max_eval_inp) ? *max_eval_inp : 1E05;
+//     double err_tol = 1E-06;
+//     int max_iter = 5000;
+
+//     arma::vec theta_0;
+//     (theta_0_inp) ? theta_0 = *theta_0_inp : theta_0 = initial_theta();
+
+//     arma::mat dtheta_Psi;
+//     dtheta(NULL,dtheta_Psi);
+
+//     model_to_market(theta_0);
+
+//     arma::mat kron_term = dtheta_Psi;
+//     arma::mat C_hat = arma::vectorise(arma::trans(arma::vectorise(mu_hat)) * kron_term);
+//     //
+//     // add optimization data
+//     trame_model_mme_opt_data<mfe<Tt>> opt_data;
+    
+//     opt_data.market = market_obj;
+//     opt_data.dim_theta = dim_theta;
+//     opt_data.C_hat = C_hat;
+//     opt_data.kron_term = kron_term;
+//     //
+//     arma::vec sol_vec = arma::join_cols(arma::vectorise(kron_term * theta_0)/2.0,theta_0);
+
+//     double obj_val = 0;
+
+//     success = model_mme_optim(sol_vec,model_mme_opt_objfn,&opt_data,&obj_val,&err_tol,&max_iter);
+//     //
+//     arma::mat U = arma::reshape(sol_vec.rows(0,nbX*nbY-1),nbX,nbY);
+//     theta_hat = sol_vec.rows(nbX*nbY,nbX*nbY+dim_theta-1);
+
+//     // double val_ret = obj_val;
+//     //
+//     return success;
+// }
+
+template<typename Tt>
+bool
+model<mfe<Tt>>::mme_woregul(const arma::mat& mu_hat, arma::mat& theta_hat, double& val_ret, double* xtol_rel_inp, int* max_eval_inp, double* tol_ipfp_inp, double* max_iter_ipfp_inp)
 {
     bool success = false;
     //
-    // double xtol_rel = (xtol_rel_inp) ? *xtol_rel_inp : 1E-04;
-    // int max_eval = (max_eval_inp) ? *max_eval_inp : 1E05;
-    double err_tol = 1E-06;
-    int max_iter = 5000;
+    double xtol_rel = (xtol_rel_inp) ? *xtol_rel_inp : 1E-04;
+    int max_eval = (max_eval_inp) ? *max_eval_inp : 1E05;
 
-    arma::vec theta_0;
-    initial_theta(theta_0);
+    double tol_ipfp = (tol_ipfp_inp) ? *tol_ipfp_inp : 1E-14;
+    int max_iter_ipfp = (max_iter_ipfp_inp) ? *max_iter_ipfp_inp : 1E05;
+    //
+    arma::mat C_hat = Phi_k(mu_hat);
+    //
+    double total_mass = arma::accu(n);
 
-    arma::mat dtheta_Psi;
-    dparam(NULL,dtheta_Psi);
+    if (std::abs(arma::accu(mu_hat) - total_mass) > 1E-06) { // we use this instead of a raw '!=' to account for rounding error
+        printf("Total number of couples does not coincide with margins.\n");
+        return success;
+    }
+    //
+    arma::vec p = n / total_mass;
+    arma::vec q = m / total_mass;
 
-    build_market_TU(theta_0);
+    arma::mat IX = arma::ones(nbX,1);
+    arma::mat tIY = arma::ones(1,nbY);
 
-    arma::mat kron_term = dtheta_Psi;
-    arma::mat C_hat = arma::vectorise(arma::trans(arma::vectorise(mu_hat)) * kron_term);
+    arma::mat f = p * tIY;
+    arma::mat g = IX * q.t();
+
+    arma::mat Pi_hat = mu_hat / total_mass;
+    arma::mat v = arma::zeros(1,nbY);
+
+    // arma::mat phi_xy = arma::reshape(phi_xyk_aux,nbX*nbY,dim_theta);
     //
     // add optimization data
-    trame_model_mme_opt_data<Tm> opt_data;
-    
-    opt_data.market = market_obj;
-    opt_data.nbParams = nbParams;
-    opt_data.C_hat = C_hat;
-    opt_data.kron_term = kron_term;
-    //
-    arma::vec sol_vec = arma::join_cols(arma::vectorise(kron_term * theta_0)/2.0,theta_0);
+    trame_model_mfe_mme_opt_data opt_data;
 
+    opt_data.max_iter_ipfp = max_iter_ipfp;
+    opt_data.tol_ipfp = tol_ipfp;
+
+    opt_data.nbX = nbX;
+    opt_data.nbY = nbY;
+
+    opt_data.dX = dX;
+    opt_data.dY = dY;
+
+    opt_data.sigma = market_obj.sigma;
+
+    opt_data.p = p;
+    opt_data.q = q;
+
+    opt_data.IX = IX;
+    opt_data.tIY = tIY;
+
+    opt_data.f = f;
+    opt_data.g = g;
+
+    opt_data.v = v;
+    opt_data.Pi_hat = Pi_hat;
+
+    opt_data.phi_xy = model_data; // should be (nbX*nbY) x (dim_theta)
+    //
+    arma::vec opt_vec = arma::zeros(dX*dY,1);
     double obj_val = 0;
 
-    success = model_mme_optim(sol_vec,model_mme_opt_objfn,&opt_data,&obj_val,&err_tol,&max_iter);
+    success = model_mme_optim(opt_vec,model_mfe_mme_opt_objfn,&opt_data,&obj_val,&xtol_rel,&max_eval);
     //
-    arma::mat U = arma::reshape(sol_vec.rows(0,nbX*nbY-1),nbX,nbY);
-    theta_hat = sol_vec.rows(nbX*nbY,nbX*nbY+nbParams-1);
+    if (success) {
+        theta_hat = opt_vec;
+        val_ret = model_mfe_mme_opt_objfn(opt_vec,NULL,&opt_data);
+    }
+    //
+    return success;
+}
 
-    //double val_ret = obj_val;
+template<typename Tt>
+bool
+model<mfe<Tt>>::mme_regul(const arma::mat& mu_hat, const double& lambda, arma::mat& theta_hat, double& val_ret, double* xtol_rel_inp, int* max_eval_inp, double* tol_ipfp_inp, double* max_iter_ipfp_inp)
+{
+    bool success = false;
+    //
+    double xtol_rel = (xtol_rel_inp) ? *xtol_rel_inp : 1E-04;
+    int max_eval = (max_eval_inp) ? *max_eval_inp : 1E05;
+
+    double tol_ipfp = (tol_ipfp_inp) ? *tol_ipfp_inp : 1E-14;
+    int max_iter_ipfp = (max_iter_ipfp_inp) ? *max_iter_ipfp_inp : 1E05;
+
+    double sigma = market_obj.sigma;
+    //
+    arma::mat C_hat = Phi_k(mu_hat);
+    // arma::mat C_hat = arma::vectorise(arma::trans(arma::vectorise(mu_hat)) * model_data);
+    //
+    double total_mass = arma::accu(n);
+
+    if (std::abs(arma::accu(mu_hat) - total_mass) > 1E-06) { // we use this instead of a raw '!=' to account for rounding error
+        printf("Total number of couples does not coincide with margins.\n");
+        return success;
+    }
+    //
+    arma::vec p = n / total_mass;
+    arma::vec q = m / total_mass;
+
+    arma::mat IX = arma::ones(nbX,1);
+    arma::mat tIY = arma::ones(1,nbY);
+
+    arma::mat f = p * tIY;
+    arma::mat g = IX * q.t();
+
+    arma::mat Pi_hat = mu_hat / total_mass;
+    arma::mat v = arma::zeros(1,nbY);
+    arma::mat A = arma::zeros(dX*dY,1);
+
+    arma::mat Phi = arma::reshape(dtheta(&A),nbX,nbY);
+
+    // arma::mat Phi = arma::reshape(Phi_xy(arma::vectorise(A)),nbX,nbY);
+    //
+    int iter_ipfp = 0, iter_count = 0;
+    double err_ipfp = 2*tol_ipfp, err_val = 1.0;
+    double t_k = 0.3; // step size for the prox grad algorithm (or grad descent when lambda=0)
+    double alpha = 1.0; // for optimality check
+    
+    double the_val = 1.0, the_val_old = 1E04;
+    arma::vec d, d_opt;
+    arma::mat v_next = v, u, Pi, the_grad, A_mat, U, V, D, svd_mat, D_opt, opt_mat;
+
+    while (err_val > xtol_rel && iter_count < max_eval) {
+        iter_count++;
+
+        Phi = arma::reshape(dtheta(&A),nbX,nbY);
+        err_ipfp= 2*tol_ipfp;
+        iter_ipfp = 0;
+
+        while (err_ipfp > tol_ipfp && iter_ipfp < max_iter_ipfp) {
+            iter_ipfp++;
+
+            u = sigma * arma::log(arma::sum(g % arma::exp((Phi - IX * v)/sigma),1));
+            v_next = sigma * arma::log(arma::sum(f % arma::exp((Phi - u * tIY)/sigma),0));
+
+            err_ipfp = elem_max(arma::abs( arma::sum(g % arma::exp((Phi - IX * v_next - u*tIY)/sigma),1) - 1.0 ));
+            v = v_next;
+        }
+        //
+        Pi = f % g % arma::exp( (Phi - IX*v - u*tIY)/sigma );
+        the_grad = Phi_k(Pi - Pi_hat);
+
+        A -= t_k*the_grad;
+        //
+        if (lambda > 0) {
+            // compute the proximal operator
+            A_mat = arma::reshape(A,dX,dY);
+            arma::svd(U,d,V,A_mat);
+            D = arma::diagmat(elem_max(d - lambda*t_k,0.0));
+            A = arma::vectorise(U * D * V.t());
+        } // if lambda = 0 then we are just taking one step of gradient descent
+        //
+        if (iter_count % 10 == 0) {
+            //alpha = 1.0;
+            svd_mat = arma::reshape(A - alpha*the_grad,dX,dY);
+            arma::svd(U,d_opt,V,svd_mat);
+            D_opt = arma::diagmat(elem_max(d_opt - alpha*lambda, 0.0));
+
+            opt_mat = arma::accu(arma::pow(A - arma::vectorise(U * D_opt *V.t()), 2));
+        }
+        //
+        if (lambda > 0) {
+            the_val = arma::accu(the_grad % arma::vectorise(A)) - sigma * arma::accu(Pi % arma::log(Pi)) + lambda * arma::accu(D);
+        } else {
+            the_val = arma::accu(the_grad % arma::vectorise(A)) - sigma * arma::accu(Pi % arma::log(Pi));
+        }
+
+        err_val = std::abs(the_val - the_val_old);
+        //
+        the_val_old = the_val;
+    }
+
+    if (err_val <= xtol_rel && iter_count < max_eval) {
+        success = true;
+    }
+    //
+    theta_hat = arma::vectorise(A);
+    val_ret = the_val;
     //
     return success;
 }
@@ -314,27 +356,27 @@ model<Tm>::mme(const arma::mat& mu_hat, arma::mat& theta_hat)
 //
 // solve wrappers
 
-template<typename Tm>
-bool 
-model<Tm>::solve(arma::mat& mu_sol)
+template<typename Tt>
+bool
+model<mfe<Tt>>::solve(arma::mat& mu_sol)
 {
     bool res = market_obj.solve(mu_sol,NULL);
     //
     return res;
 }
 
-template<typename Tm>
-bool 
-model<Tm>::solve(arma::mat& mu_sol, const char* solver)
+template<typename Tt>
+bool
+model<mfe<Tt>>::solve(arma::mat& mu_sol, const char* solver)
 {
     bool res = market_obj.solve(mu_sol,solver);
     //
     return res;
 }
 
-template<typename Tm>
-bool 
-model<Tm>::solve(arma::mat& mu_sol, arma::mat& U, arma::mat& V, const char* solver)
+template<typename Tt>
+bool
+model<mfe<Tt>>::solve(arma::mat& mu_sol, arma::mat& U, arma::mat& V, const char* solver)
 {
     bool res = market_obj.solve(mu_sol,U,V,solver);
     //
@@ -344,284 +386,103 @@ model<Tm>::solve(arma::mat& mu_sol, arma::mat& U, arma::mat& V, const char* solv
 //
 // internal
 
-// Keith: should probably switch this to be a member variable
-template<typename Tm>
+template<typename Tt>
 inline
-arma::mat 
-model<Tm>::Phi_xy()
+void
+model<mfe<Tt>>::initial_theta(arma::mat& theta_0)
 {
-    return cube_to_mat(phi_xyk);
+    theta_0.zeros(dim_theta,1);
 }
 
-template<typename Tm>
+template<typename Tt>
 inline
-arma::mat 
-model<Tm>::Phi_xy_theta(const arma::mat& theta)
+arma::mat
+model<mfe<Tt>>::initial_theta()
 {
-    arma::mat ret = arma::reshape(Phi_xy() * theta,nbX,nbY);
+    return arma::zeros(dim_theta,1);
+}
+
+template<typename Tt>
+inline
+arma::mat
+model<mfe<Tt>>::Phi_k(const arma::mat& mu_hat)
+{
+    arma::mat ret = arma::vectorise(arma::trans(arma::vectorise(mu_hat))*model_data);
+    //
     return ret;
-}
-
-template<typename Tm>
-inline
-void 
-model<Tm>::initial_theta(arma::mat& params)
-{
-    params.zeros(nbParams,1);
 }
 
 //
 // optimization-related functions
 
-template<typename Tm>
-bool 
-model<Tm>::model_mle_optim(arma::vec& init_out_vals, std::function<double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)> opt_objfn, void* opt_data, double* value_out, double* err_tol_inp, int* max_iter_inp)
+template<typename Tt>
+bool
+model<mfe<Tt>>::model_mme_optim(arma::vec& init_out_vals, std::function<double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)> opt_objfn, void* opt_data, double* value_out, double* err_tol_inp, int* max_iter_inp)
 {
     bool success = generic_optim(init_out_vals,opt_objfn,opt_data,value_out,err_tol_inp,max_iter_inp);
     //
     return success;
 }
 
-template<typename Tm>
-double 
-model<Tm>::log_likelihood(const arma::vec& vals_inp, arma::vec* grad_vec, void* opt_data)
+template<typename Tt>
+double
+model<mfe<Tt>>::model_mfe_mme_opt_objfn(const arma::vec& vals_inp, arma::vec* grad, void* opt_data)
 {
-    trame_model_mle_opt_data<Tm> *d = reinterpret_cast<trame_model_mle_opt_data<Tm>*>(opt_data);
-
-    bool by_individual = d->by_individual;
-
-    int nbX = d->model_obj.nbX;
-    int nbY = d->model_obj.nbY;
-
-    double scale = d->scale;
-
-    arma::mat mu_hat = d->mu_hat;
-    arma::vec mu_hat_x0 = d->mu_hat_x0;
-    arma::vec mu_hat_0y = d->mu_hat_0y;
+    trame_model_mfe_mme_opt_data *d = reinterpret_cast<trame_model_mfe_mme_opt_data*>(opt_data);
     //
-    arma::vec mu_x0, mu_0y;
-    arma::mat mu, dmu;
+    int nbX = d->nbX;
+    int nbY = d->nbY;
 
-    d->model_obj.dtheta_mu(vals_inp,NULL,mu,mu_x0,mu_0y,dmu);
+    //int dX = d->dX;
+    //int dY = d->dY;
+    
+    int max_iter_ipfp = d->max_iter_ipfp;
+    double tol_ipfp = d->tol_ipfp;
+
+    double sigma = d->sigma;
+
+    arma::vec p = d->p;
+    arma::vec q = d->q;
+
+    arma::mat IX = d->IX;
+    arma::mat tIY = d->tIY;
+
+    arma::mat f = d->f;
+    arma::mat g = d->g;
+
+    arma::mat v = d->v;
+    arma::mat Pi_hat = d->Pi_hat;
+
+    arma::mat phi_xy = d->phi_xy; // should be (nbX*nbY) x (dim_theta), replaces a member function call
     //
-    double ret_val = 0.0;
+    arma::mat Phi = arma::reshape(phi_xy * vals_inp,nbX,nbY);
+    //
+    int iter_ipfp = 0;
+    double err_ipfp= 2*tol_ipfp;
+    arma::mat v_next = v, u;
 
-    if (by_individual) {
-        ret_val = - arma::accu(2.0*mu_hat % arma::log(mu)) - arma::accu(mu_hat_x0 % arma::log(mu_x0)) - arma::accu(mu_hat_0y % arma::log(mu_0y));
+    while (err_ipfp > tol_ipfp && iter_ipfp < max_iter_ipfp) {
+        iter_ipfp++;
 
-        if (grad_vec) {
-            arma::mat term_1 = arma::trans( elem_sub(2.0*mu_hat/arma::reshape(mu,nbX,nbY), mu_hat_x0/mu_x0) );
-            arma::mat term_2 = mu_hat_0y / mu_0y;
+        u = sigma * arma::log(arma::sum(g % arma::exp((Phi - IX * v)/sigma),1));
+        v_next = sigma * arma::log(arma::sum( f % arma::exp((Phi - u * tIY)/sigma),0));
 
-            arma::mat term_grad = elem_prod(arma::vectorise(arma::trans(elem_sub(term_1,term_2))),dmu);
-
-            *grad_vec = (- arma::trans(arma::sum(term_grad,0))) / scale;
-        }
-    } else {
-        double N = arma::accu(arma::join_cols(arma::vectorise(mu),arma::join_cols(mu_x0,mu_0y)));
-
-        ret_val = - arma::accu(mu_hat % arma::log(mu / N)) - arma::accu(mu_hat_x0 % arma::log(mu_x0 / N)) - arma::accu(mu_hat_0y % arma::log(mu_0y / N));
-
-        if (grad_vec) {
-            arma::mat term_1 = arma::trans( elem_sub(mu_hat/arma::reshape(mu,nbX,nbY), mu_hat_x0/mu_x0) );
-            arma::mat term_2 = mu_hat_0y / mu_0y;
-
-            arma::mat term_grad = elem_prod(arma::vectorise(arma::trans(elem_sub(term_1,term_2))),dmu);
-
-            arma::vec term_3 = (arma::accu(arma::join_cols(arma::vectorise(mu_hat),arma::join_cols(mu_hat_x0,mu_hat_0y))) / N)  * arma::trans(arma::sum(dmu,0));
-
-            *grad_vec = (- arma::trans(arma::sum(term_grad,0)) - term_3) / scale;
-        }
+        err_ipfp = elem_max(arma::abs( arma::sum(g % arma::exp((Phi - IX * v_next - u*tIY)/sigma),1) - 1.0 ));
+        v = v_next;
     }
     //
-    return ret_val / scale;
-}
-
-template<typename Tm>
-bool 
-model<Tm>::model_mme_optim(arma::vec& init_out_vals, std::function<double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)> opt_objfn, void* opt_data, double* value_out, double* err_tol_inp, int* max_iter_inp)
-{
-    bool success = generic_optim(init_out_vals,opt_objfn,opt_data,value_out,err_tol_inp,max_iter_inp);
-    //
-    return success;
-}
-
-template<typename Tm>
-double 
-model<Tm>::model_mme_opt_objfn(const arma::vec& vals_inp, arma::vec* grad, void* opt_data)
-{
-    trame_model_mme_opt_data<Tm> *d = reinterpret_cast<trame_model_mme_opt_data<Tm>*>(opt_data);
-    //
-    int nbX = d->market.nbX;
-    int nbY = d->market.nbY;
-    int nbParams = d->nbParams;
-    arma::mat C_hat = d->C_hat;
-    arma::mat kron_term = d->kron_term;
-    //
-    arma::mat U = arma::reshape(vals_inp.rows(0,nbX*nbY-1),nbX,nbY);
-
-    arma::mat theta = vals_inp.rows(nbX*nbY,nbParams + nbX*nbY - 1);
-    arma::mat phi_mat = arma::reshape(kron_term * theta,nbX,nbY);
-    //
-    arma::mat mu_G, mu_H;
-
-    double val_G = d->market.arums_G.G(d->market.n,U,mu_G);
-    double val_H = d->market.arums_H.G(d->market.m,arma::trans(phi_mat - U),mu_H);
-    //
-    double ret = val_G + val_H - arma::accu(theta%C_hat);
+    arma::mat Pi = f % g % arma::exp( (Phi - IX*v - u*tIY)/sigma );
+    arma::mat the_grad = phi_xy.t() * arma::vectorise(Pi - Pi_hat);
 
     if (grad) {
-        arma::vec grad_U = arma::vectorise(mu_G - mu_H.t());
-        arma::vec grad_theta = arma::vectorise( arma::trans(arma::vectorise(mu_H.t())) * kron_term ) - C_hat;
-        
-        *grad = arma::join_cols(grad_U,grad_theta);
+        *grad = the_grad;
     }
+    //
+    // update v for the next opt call
+    d->v = v;
+    opt_data = reinterpret_cast<void*>(d);
+    //
+    double ret = arma::accu(the_grad % arma::vectorise(vals_inp)) - sigma*arma::accu(Pi%arma::log(Pi));
     //
     return ret;
 }
-
-/*
-template<typename Tg, typename Th, typename Tt>
-bool model<Tg,Th,Tt>::mme(const arma::mat& mu_hat, arma::mat& theta_hat)
-{
-    bool success = false;
-    //
-    //double xtol_rel = (xtol_rel_inp) ? *xtol_rel_inp : 1E-04;
-    //int max_eval = (max_eval_inp) ? *max_eval_inp : 1E05;
-
-    arma::vec theta_0;
-    initial_theta(theta_0);
-
-    arma::mat dtheta_Psi;
-    dparam(NULL,dtheta_Psi);
-
-    build_market_TU(theta_0);
-
-    arma::mat kron_term = dtheta_Psi;
-    arma::mat C_hat = arma::vectorise(arma::trans(arma::vectorise(mu_hat)) * kron_term);
-    //
-    // add optimization data
-    trame_model_opt_data<Ta> opt_data;
-    
-    opt_data.market = market_obj;
-    opt_data.nbParams = nbParams;
-    opt_data.C_hat = C_hat;
-    opt_data.kron_term = kron_term;
-    //
-    arma::vec A_0 = arma::join_cols(arma::vectorise(kron_term * theta_0)/2.0,theta_0);
-    int n_pars_opt = A_0.n_elem;
-
-    std::vector<double> sol_vec = arma::conv_to< std::vector<double> >::from(A_0);
-    double obj_val = 0;
-
-    //std::vector<double> grad_vec;
-    //double val_ret = model_mme_opt_objfn(sol_vec,grad_vec,&opt_data);
-
-    success = model_mme_nlopt(n_pars_opt,sol_vec,obj_val,NULL,NULL,model_mme_opt_objfn,opt_data);
-    //
-    arma::mat sol_mat = arma::conv_to< arma::mat >::from(sol_vec);
-
-    arma::mat U = arma::reshape(sol_mat.rows(0,nbX*nbY-1),nbX,nbY);
-    theta_hat = sol_mat.rows(nbX*nbY,nbX*nbY+nbParams-1);
-    double val_ret = obj_val;
-    //
-    return success;
-}
-*/
-
-/*
-template<typename Tg, typename Th, typename Tt>
-bool model<Tg,Th,Tt>::model_mme_nlopt(int n_pars, std::vector<double>& io_val, double& opt_val, double* lb, double* ub,
-                                double (*opt_objfn)(const std::vector<double> &x_inp, std::vector<double> &grad, void *opt_data),
-                                trame_model_opt_data<Ta> opt_data)
-{
-    bool success = false;
-
-    nlopt::opt opt_trame(nlopt::LD_LBFGS, n_pars);
-    nlopt::result result;
-
-    if (lb) {
-        opt_trame.set_lower_bounds(*lb);
-    }
-    if (ub) {
-        opt_trame.set_upper_bounds(*ub);
-    }
-
-    opt_trame.set_min_objective(*opt_objfn, &opt_data);
-    
-    opt_trame.set_xtol_rel(1E-04);
-    //opt_trame.set_ftol_rel(1e-15);
-    opt_trame.set_maxeval(1E05);
-
-    double minf;
-    try {
-        result = opt_trame.optimize(io_val, minf);
-    } catch(...) {
-        printf("error in mme optimization (using LBFGS);\n");
-        printf("retrying with MMA\n");
-
-        nlopt::opt opt_trame_2(nlopt::LD_MMA, n_pars);
-
-        if (lb) {
-            opt_trame_2.set_lower_bounds(*lb);
-        }
-        if (ub) {
-            opt_trame_2.set_upper_bounds(*ub);
-        }
-
-        opt_trame_2.set_min_objective(*opt_objfn, &opt_data);
-        
-        opt_trame_2.set_xtol_rel(1E-04);
-        //opt_trame_2.set_ftol_rel(1e-15);
-        opt_trame_2.set_maxeval(1E05);
-
-        result = opt_trame_2.optimize(io_val, minf);
-    }
-
-    if (result > 0) {
-        opt_val = minf;
-        success = true;
-    }
-
-    return success;
-}
-*/
-
-/*
-template<typename Tg, typename Th, typename Tt>
-double model<Tg,Th,Tt>::model_mme_opt_objfn(const std::vector<double> &x_inp, std::vector<double> &grad, void *opt_data)
-{
-    //std::cout << "begin opt!" << std::endl;
-    trame_model_opt_data<Ta> *d = reinterpret_cast<trame_model_opt_data<Ta>*>(opt_data);
-    //
-    int nbX = d->market.nbX;
-    int nbY = d->market.nbY;
-    int nbParams = d->nbParams;
-    arma::mat C_hat = d->C_hat;
-    arma::mat kron_term = d->kron_term;
-
-    arma::mat x_mat = arma::conv_to< arma::mat >::from(x_inp);
-    
-    arma::mat U = arma::reshape(x_mat.rows(0,nbX*nbY-1),nbX,nbY);
-
-    arma::mat theta = x_mat.rows(nbX*nbY,nbParams + nbX*nbY - 1);
-    arma::mat phi_mat = arma::reshape(kron_term * theta,nbX,nbY);
-    //
-    arma::mat mu_G, mu_H;
-
-    double val_G = d->market.arums_G.G(d->market.n,U,mu_G);
-    double val_H = d->market.arums_H.G(d->market.m,arma::trans(phi_mat - U),mu_H);
-    //
-    if (!grad.empty()) {
-        arma::vec grad_U = arma::vectorise(mu_G - mu_H.t());
-        arma::vec grad_theta = arma::vectorise( arma::trans(arma::vectorise(mu_H.t())) * kron_term ) - C_hat;
-        arma::vec grad_vec = arma::join_cols(grad_U,grad_theta);
-
-        grad = arma::conv_to< std::vector<double> >::from(grad_vec);
-    }
-    //
-    double ret = val_G + val_H - arma::accu(theta%C_hat);
-    //
-    return ret;
-}
-*/
