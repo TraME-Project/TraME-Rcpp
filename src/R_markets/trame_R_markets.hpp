@@ -91,6 +91,85 @@ class mfe_min_R : public trame::mfe<trame::mmfs::min>
         SEXP solve_R(Rcpp::CharacterVector solver_inp);
 };
 
+//
+// DSE-logit
+
+class dse_logit_etu_R : public trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>
+{
+    public:
+        void build_ETU_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, arma::mat tau_inp, bool need_norm_inp);
+        void build_ETU_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, arma::mat tau_inp, logit_R arums_G_inp, logit_R arums_H_inp, bool need_norm_inp);
+
+        transfers_etu_R get_transfers_R();
+        void set_transfers_R(transfers_etu_R trans_obj_inp);
+
+        SEXP solve_R();
+        SEXP solve_R(Rcpp::CharacterVector solver_inp);
+
+        logit_R get_arums_G();
+        void set_arums_G(logit_R arums_G_inp);
+        logit_R get_arums_H();
+        void set_arums_H(logit_R arums_H_inp);
+        void set_arums(logit_R arums_G_inp, logit_R arums_H_inp);
+};
+
+class dse_logit_ltu_R : public trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::ltu>
+{
+    public:
+        void build_LTU_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, bool need_norm_inp);
+        void build_LTU_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, logit_R arums_G_inp, logit_R arums_H_inp, bool need_norm_inp);
+
+        transfers_ltu_R get_transfers_R();
+        void set_transfers_R(transfers_ltu_R trans_obj_inp);
+
+        SEXP solve_R();
+        SEXP solve_R(Rcpp::CharacterVector solver_inp);
+
+        logit_R get_arums_G();
+        void set_arums_G(logit_R arums_G_inp);
+        logit_R get_arums_H();
+        void set_arums_H(logit_R arums_H_inp);
+        void set_arums(logit_R arums_G_inp, logit_R arums_H_inp);
+};
+
+class dse_logit_ntu_R : public trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::ntu>
+{
+    public:
+        void build_NTU_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, bool need_norm_inp);
+        void build_NTU_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, logit_R arums_G_inp, logit_R arums_H_inp, bool need_norm_inp);
+
+        transfers_ntu_R get_transfers_R();
+        void set_transfers_R(transfers_ntu_R trans_obj_inp);
+
+        SEXP solve_R();
+        SEXP solve_R(Rcpp::CharacterVector solver_inp);
+
+        logit_R get_arums_G();
+        void set_arums_G(logit_R arums_G_inp);
+        logit_R get_arums_H();
+        void set_arums_H(logit_R arums_H_inp);
+        void set_arums(logit_R arums_G_inp, logit_R arums_H_inp);
+};
+
+class dse_logit_tu_R : public trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::tu>
+{
+    public:
+        void build_TU_R(arma::vec n_inp, arma::vec m_inp, arma::mat phi_inp, bool need_norm_inp);
+        void build_TU_R(arma::vec n_inp, arma::vec m_inp, arma::mat phi_inp, logit_R arums_G_inp, logit_R arums_H_inp, bool need_norm_inp);
+
+        transfers_tu_R get_transfers_R();
+        void set_transfers_R(transfers_tu_R trans_obj_inp);
+
+        SEXP solve_R();
+        SEXP solve_R(Rcpp::CharacterVector solver_inp);
+
+        logit_R get_arums_G();
+        void set_arums_G(logit_R arums_G_inp);
+        logit_R get_arums_H();
+        void set_arums_H(logit_R arums_H_inp);
+        void set_arums(logit_R arums_G_inp, logit_R arums_H_inp);
+};
+
 /*
 class dse_empirical_R : public trame::dse<trame::empirical>
 {

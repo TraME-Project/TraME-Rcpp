@@ -6,8 +6,8 @@ PKG_CPPFLAGS= -std=c++11 -Wall -O2 -DTRAME_RCPP_ARMADILLO -I./ -I./trame/include
 PKG_LIBS= -L./trame/ -ltrame $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 #PKG_LIBS= -L./trame/ -ltrame -framework Accelerate
 
-SOURCES_MODULES= ./R_modules/R_arums_empirical.cpp ./R_modules/R_arums_logit.cpp ./R_modules/R_arums_none.cpp ./R_modules/R_arums_probit.cpp ./R_modules/R_arums_rsc.cpp ./R_modules/R_arums_rusc.cpp
-OBJECTS_MODULES= $(SOURCES_MODULES:.cpp=.o)
+SOURCES_ARUMS= ./R_arums/R_arums_empirical.cpp ./R_arums/R_arums_logit.cpp ./R_arums/R_arums_none.cpp ./R_arums/R_arums_probit.cpp ./R_arums/R_arums_rsc.cpp ./R_arums/R_arums_rusc.cpp
+OBJECTS_ARUMS= $(SOURCES_ARUMS:.cpp=.o)
 
 SOURCES_MMFS= ./R_mmfs/R_mmfs_cd.cpp ./R_mmfs/R_mmfs_ces.cpp ./R_mmfs/R_mmfs_geo.cpp ./R_mmfs/R_mmfs_min.cpp
 OBJECTS_MMFS= $(SOURCES_MMFS:.cpp=.o)
@@ -21,7 +21,10 @@ OBJECTS_TRANS= $(SOURCES_TRANS:.cpp=.o)
 SOURCES_MFES= ./R_markets/R_mfe_mmf.cpp
 OBJECTS_MFES= $(SOURCES_MFES:.cpp=.o)
 
-OBJECTS=$(OBJECTS_MODULES) $(OBJECTS_AUX) $(OBJECTS_MMFS) $(OBJECTS_TRANS) $(OBJECTS_MFES)
+SOURCES_DSES= ./R_markets/R_dse_logit.cpp
+OBJECTS_DSES= $(SOURCES_DSES:.cpp=.o)
+
+OBJECTS=$(OBJECTS_ARUMS) $(OBJECTS_AUX) $(OBJECTS_MMFS) $(OBJECTS_TRANS) $(OBJECTS_MFES) $(OBJECTS_DSES)
 
 all: $(SHLIB)
 
