@@ -1,7 +1,8 @@
 
 #include "trame.hpp"
 
-#include "modules/arums/trame_R_arums.hpp"
-#include "modules/mmfs/trame_R_mmfs.hpp"
-#include "modules/transfers/trame_R_transfers.hpp"
-#include "modules/markets/trame_R_markets.hpp"
+#include "modules/arums/R_arums.hpp"
+#include "modules/mmfs/R_mmfs.hpp"
+#include "modules/transfers/R_transfers.hpp"
+#include "modules/markets/R_dse.hpp"
+#include "modules/markets/R_mfe.hpp"

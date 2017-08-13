@@ -1,4 +1,4 @@
 #! /bin/sh
 ## TraME R cleanup script
 
-rm -f ./*so ./R_arums/*.o ./R_aux/*.o ./R_markets/*.o ./R_modules/*.o ./R_mmfs/*.o ./R_transfers/*.o
+rm -f ./*so ./modules/arums/*.o ./modules/anc/*.o ./modules/markets/*.o ./modules/modules/*.o ./modules/mmfs/*.o ./modules/transfers/*.o

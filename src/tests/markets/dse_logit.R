@@ -25,11 +25,11 @@ phi_LTU = (lambda*alpha + zeta*gamma) / (lambda + zeta)
 dse_logit_obj_TU <- new(dse_logit_tu_R)
 dse_logit_obj_TU$build(n,m,phi,FALSE)
 
-dse_logit_obj_LTU <- new(dse_logit_R)
-dse_logit_obj_LTU$build_LTU(n,m,lambda_LTU,phi_LTU,FALSE)
+dse_logit_obj_LTU <- new(dse_logit_ltu_R)
+dse_logit_obj_LTU$build(n,m,lambda_LTU,phi_LTU,FALSE)
 
-dse_logit_obj_NTU <- new(dse_logit_R)
-dse_logit_obj_NTU$build_NTU(n,m,alpha,gamma,FALSE)
+dse_logit_obj_NTU <- new(dse_logit_ntu_R)
+dse_logit_obj_NTU$build(n,m,alpha,gamma,FALSE)
 #
 dse_logit_obj_TU$solve("jacobi")
 #dse_logit_obj_LTU$solve()
