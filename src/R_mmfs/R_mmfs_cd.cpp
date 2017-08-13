@@ -133,13 +133,17 @@ SEXP mmfs_cd_R::M_R(arma::mat a_xs, arma::mat b_ys, Rcpp::IntegerVector x_ind, R
         int y_ind_size = y_ind.size();
 
         arma::mat mu_out;
+
         //
         // default case to mirror NULL
+
         if (x_ind_size == 0 && y_ind_size == 0) {
             mu_out = this->M(a_xs,b_ys);
         }
+
         //
         // correct for zero indexing (R indexing - 1)
+        
         arma::uvec x_ind_uvec, y_ind_uvec;
 
         if (x_ind_size != 0) {
@@ -150,9 +154,9 @@ SEXP mmfs_cd_R::M_R(arma::mat a_xs, arma::mat b_ys, Rcpp::IntegerVector x_ind, R
         }
         //
         if (x_ind_size != 0 && y_ind_size == 0) {
-            mu_out = this->M(a_xs,b_ys,&x_ind_uvec,NULL);
+            mu_out = this->M(a_xs,b_ys,&x_ind_uvec,nullptr);
         } else if (x_ind_size == 0 && y_ind_size != 0) {
-            mu_out = this->M(a_xs,b_ys,NULL,&y_ind_uvec);
+            mu_out = this->M(a_xs,b_ys,nullptr,&y_ind_uvec);
         } else {
             mu_out = this->M(a_xs,b_ys,&x_ind_uvec,&y_ind_uvec);
         }
