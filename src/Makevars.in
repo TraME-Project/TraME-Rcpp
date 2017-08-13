@@ -6,26 +6,25 @@ PKG_CPPFLAGS= -std=c++11 -Wall -O2 -DUSE_RCPP_ARMADILLO -I./ -I./trame/include
 PKG_LIBS= -L./trame/ -ltrame $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 #PKG_LIBS= -L./trame/ -ltrame -framework Accelerate
 
-SOURCES_ARUMS= ./R_arums/R_arums_empirical.cpp ./R_arums/R_arums_logit.cpp ./R_arums/R_arums_none.cpp ./R_arums/R_arums_probit.cpp ./R_arums/R_arums_rsc.cpp ./R_arums/R_arums_rusc.cpp
+SOURCES_ARUMS= ./modules/arums/R_arums_empirical.cpp ./modules/arums/R_arums_logit.cpp ./modules/arums/R_arums_none.cpp ./modules/arums/R_arums_probit.cpp ./modules/arums/R_arums_rsc.cpp ./modules/arums/R_arums_rusc.cpp
 OBJECTS_ARUMS= $(SOURCES_ARUMS:.cpp=.o)
 
-SOURCES_MMFS= ./R_mmfs/R_mmfs_cd.cpp ./R_mmfs/R_mmfs_ces.cpp ./R_mmfs/R_mmfs_geo.cpp ./R_mmfs/R_mmfs_min.cpp
+SOURCES_MMFS= ./modules/mmfs/R_mmfs_cd.cpp ./modules/mmfs/R_mmfs_ces.cpp ./modules/mmfs/R_mmfs_geo.cpp ./modules/mmfs/R_mmfs_min.cpp
 OBJECTS_MMFS= $(SOURCES_MMFS:.cpp=.o)
 
-SOURCES_AUX= ./R_aux/inv_pwa_R.cpp
-OBJECTS_AUX= $(SOURCES_AUX:.cpp=.o)
+SOURCES_ANC= ./modules/anc/inv_pwa_R.cpp
+OBJECTS_ANC= $(SOURCES_ANC:.cpp=.o)
 
-SOURCES_TRANS= ./R_transfers/R_transfers_etu.cpp ./R_transfers/R_transfers_ltu.cpp ./R_transfers/R_transfers_ntu.cpp ./R_transfers/R_transfers_tu.cpp
+SOURCES_TRANS= ./modules/transfers/R_transfers_etu.cpp ./modules/transfers/R_transfers_ltu.cpp ./modules/transfers/R_transfers_ntu.cpp ./modules/transfers/R_transfers_tu.cpp
 OBJECTS_TRANS= $(SOURCES_TRANS:.cpp=.o)
 
-SOURCES_MFES= ./R_markets/R_mfe_mmf.cpp
+SOURCES_MFES= ./modules/markets/R_mfe_mmf.cpp
 OBJECTS_MFES= $(SOURCES_MFES:.cpp=.o)
 
-SOURCES_DSES= ./R_markets/R_dse_logit.cpp
+SOURCES_DSES= ./modules/markets/R_dse_logit.cpp
 OBJECTS_DSES= $(SOURCES_DSES:.cpp=.o)
 
-#OBJECTS=$(OBJECTS_ARUMS) $(OBJECTS_AUX) $(OBJECTS_MMFS) $(OBJECTS_TRANS) $(OBJECTS_MFES) $(OBJECTS_DSES)
-OBJECTS=$(OBJECTS_ARUMS) $(OBJECTS_AUX) $(OBJECTS_MMFS) $(OBJECTS_TRANS) $(OBJECTS_MFES)
+OBJECTS=$(OBJECTS_ARUMS) $(OBJECTS_ANC) $(OBJECTS_MMFS) $(OBJECTS_TRANS) $(OBJECTS_MFES) $(OBJECTS_DSES)
 
 all: $(SHLIB)
 

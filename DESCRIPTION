@@ -7,13 +7,13 @@ Author: Alfred Galichon [aut, cre],
     Keith O'Hara [aut],
     Simon Weber [ctb],
     Yifei Sun [ctb]
-Maintainer: Alfred Galichon <ag133@nyu.edu>
+Maintainer: Keith O'Hara <keith.ohara@nyu.edu>
 Description: A package for solving problems of equilibrium computation and estimation via the Mass Transportation Approach.
 License: GPL (>=2)
-Depends: R (>= 3.2.0), Rcpp, RcppArmadillo, Matrix, digest
+Depends: R (>= 3.2.0), Rcpp, RcppArmadillo, digest
 LinkingTo: Rcpp, RcppArmadillo (>= 0.6.400.2)
 SystemRequirements: Gurobi or GLPK library
 RcppModules: empirical_module, logit_module, none_module, probit_module, rsc_module, rusc_module, 
     mmfs_cd_module, mmfs_ces_module, mmfs_geo_module, mmfs_min_module,
     transfers_etu_module, transfers_ltu_module, transfers_ntu_module, transfers_tu_module,
-    mfe_mmf_module
+    mfe_mmf_module, dse_logit_module
