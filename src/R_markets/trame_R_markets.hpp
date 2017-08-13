@@ -28,16 +28,18 @@
  * 10/20/2016
  *
  * This version:
- * 11/13/2016
+ * 08/13/2017
  */
+
+//
+// MFE
 
 class mfe_cd_R : public trame::mfe<trame::mmfs::cd>
 {
     public:
         void build_R(arma::vec n_inp, arma::vec m_inp);
         void build_R(double sigma_inp, bool need_norm_inp);
-        void build_R(arma::vec n_inp, arma::vec m_inp, double sigma_inp, bool need_norm_inp);
-        void build_R(arma::vec n_inp, arma::vec m_inp, arma::mat lambda_inp, arma::mat phi_inp);
+        void build_R(arma::vec n_inp, arma::vec m_inp, arma::mat lambda_inp, arma::mat phi_inp, double sigma_inp, bool need_norm_inp);
 
         mmfs_cd_R get_mmfs();
         void set_mmfs(mmfs_cd_R mmfs_inp);
@@ -51,8 +53,7 @@ class mfe_ces_R : public trame::mfe<trame::mmfs::ces>
     public:
         void build_R(arma::vec n_inp, arma::vec m_inp);
         void build_R(double sigma_inp, bool need_norm_inp);
-        void build_R(arma::vec n_inp, arma::vec m_inp, double sigma_inp, bool need_norm_inp);
-        void build_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, arma::mat tau_inp);
+        void build_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, arma::mat tau_inp, double sigma_inp, bool need_norm_inp);
 
         mmfs_ces_R get_mmfs();
         void set_mmfs(mmfs_ces_R mmfs_inp);
@@ -66,8 +67,7 @@ class mfe_geo_R : public trame::mfe<trame::mmfs::geo>
     public:
         void build_R(arma::vec n_inp, arma::vec m_inp);
         void build_R(double sigma_inp, bool need_norm_inp);
-        void build_R(arma::vec n_inp, arma::vec m_inp, double sigma_inp, bool need_norm_inp);
-        void build_R(arma::vec n_inp, arma::vec m_inp, arma::mat phi_inp);
+        void build_R(arma::vec n_inp, arma::vec m_inp, arma::mat phi_inp, double sigma_inp, bool need_norm_inp);
 
         mmfs_geo_R get_mmfs();
         void set_mmfs(mmfs_geo_R mmfs_inp);
@@ -81,8 +81,7 @@ class mfe_min_R : public trame::mfe<trame::mmfs::min>
     public:
         void build_R(arma::vec n_inp, arma::vec m_inp);
         void build_R(double sigma_inp, bool need_norm_inp);
-        void build_R(arma::vec n_inp, arma::vec m_inp, double sigma_inp, bool need_norm_inp);
-        void build_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp);
+        void build_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, double sigma_inp, bool need_norm_inp);
 
         mmfs_min_R get_mmfs();
         void set_mmfs(mmfs_min_R mmfs_inp);

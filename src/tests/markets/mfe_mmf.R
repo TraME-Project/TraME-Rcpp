@@ -1,9 +1,11 @@
-library(TraME)
 rm(list=ls())
+
+library(TraME.R)
+
 #library(gurobi)
 #
-nbX = 180
-nbY = 160
+nbX = 18
+nbY = 16
 sigma = 1
 
 n = rep(1,nbX)
@@ -20,16 +22,16 @@ phi = alpha + gamma
 lambda_LTU = lambda/(lambda + zeta)
 phi_LTU = (lambda*alpha + zeta*gamma) / (lambda + zeta)
 #
-mfe_mmf_obj_TU <- new(mfe_mmf_R)
-mfe_mmf_obj_TU$build_TU(n,m,phi,sigma,FALSE)
+mfe_geo_obj <- new(mfe_geo_R)
+mfe_geo_obj$build(n,m,phi,sigma,FALSE)
 
-mfe_mmf_obj_LTU <- new(mfe_mmf_R)
-mfe_mmf_obj_LTU$build_LTU(n,m,lambda_LTU,phi_LTU,sigma,FALSE)
+mfe_cd_obj <- new(mfe_cd_R)
+mfe_cd_obj$build(n,m,lambda_LTU,phi_LTU,sigma,FALSE)
 
-mfe_mmf_obj_NTU <- new(mfe_mmf_R)
-mfe_mmf_obj_NTU$build_NTU(n,m,alpha,gamma,sigma,FALSE)
+mfe_min_obj <- new(mfe_min_R)
+mfe_min_obj$build(n,m,alpha,gamma,sigma,FALSE)
 #
-sol_TU <- mfe_mmf_obj_TU$solve()
-sol_LTU <- mfe_mmf_obj_LTU$solve()
-sol_NTU <- mfe_mmf_obj_NTU$solve()
+sol_geo <- mfe_geo_obj$solve()
+sol_cd <- mfe_cd_obj$solve()
+sol_min <- mfe_min_obj$solve()
 

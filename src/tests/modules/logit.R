@@ -1,5 +1,7 @@
-library(TraME.R)
 rm(list=ls())
+
+library(TraME.R)
+
 #library(gurobi)
 
 logit_obj <- new(logit_R)
