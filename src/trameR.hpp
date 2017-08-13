@@ -1,6 +1,6 @@
 
-//#ifndef TRAME_RCPP_ARMADILLO
-//#define TRAME_RCPP_ARMADILLO
+//#ifndef USE_RCPP_ARMADILLO
+//#define USE_RCPP_ARMADILLO
 //#endif
 
 #include "trame.hpp"

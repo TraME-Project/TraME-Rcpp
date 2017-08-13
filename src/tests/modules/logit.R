@@ -1,4 +1,4 @@
-library(TraME)
+library(TraME.R)
 rm(list=ls())
 #library(gurobi)
 
@@ -11,10 +11,10 @@ nbX = dim(U)[1]
 nbY = dim(U)[2]
 n = c(apply(mu,1,sum))
 
-logit_obj$build(nbX,nbY)
+logit_obj$build(nbX,nbY,1.0,TRUE)
 logit_obj$U = U
 
-sim_obj = logit_obj$simul(10000)
+sim_obj = logit_obj$simul(1000,777)
 
 logit_obj$G(n)
 

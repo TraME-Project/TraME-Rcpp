@@ -28,8 +28,6 @@
  * 09/06/2016
  */
 
-//#define TRAME_RCPP_ARMADILLO
-
 #include "inv_pwa_R.hpp"
 using namespace Rcpp;
 
