@@ -62,7 +62,7 @@ RCPP_MODULE(transfers_module)
 
         .field( "nbX", &trame::transfers::nbX )
         .field( "nbY", &trame::transfers::nbY )
-        .field( "nbParams", &trame::transfers::nbParams )
+        .field( "dim_params", &trame::transfers::dim_params )
 
         .field( "phi", &trame::transfers::phi )
         

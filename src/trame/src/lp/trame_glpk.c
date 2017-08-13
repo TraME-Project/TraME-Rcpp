@@ -28,7 +28,7 @@
  * 02/24/2017
  *
  * This version:
- * 02/26/2017
+ * 07/25/2017
  */
 
 #include "lp/trame_glpk.h"
@@ -43,8 +43,8 @@ int trame_glpk(int n_constr, int n_vars, double* obj, double* A, int model_opt_s
 {
     int success = 0;
     //
-    int has_lb = (lb) ? 1 : 0;
-    int has_ub = (ub) ? 1 : 0;
+    const int has_lb = (lb) ? 1 : 0;
+    const int has_ub = (ub) ? 1 : 0;
 
     int i,j;
     //
@@ -64,7 +64,7 @@ int trame_glpk(int n_constr, int n_vars, double* obj, double* A, int model_opt_s
     } else if (model_opt_sense==1) { // maximize
         glp_set_obj_dir(lp, GLP_MAX);
     } else {
-        printf("unrecognized input for model_opt_sense; should be 0 or 1.\n");
+        printf("unrecognized input for model_opt_sense; should be 0 (minimize) or 1 (maximize).\n");
         goto QUIT;
     }
 
@@ -74,7 +74,7 @@ int trame_glpk(int n_constr, int n_vars, double* obj, double* A, int model_opt_s
     for (j=0; j < n_constr; j++) {
         if (constr_sense[j]=='<') {
             glp_set_row_bnds(lp, j+1, GLP_UP, 0.0, rhs[j]);
-        } else if (constr_sense[i]=='>') {
+        } else if (constr_sense[j]=='>') {
             glp_set_row_bnds(lp, j+1, GLP_LO, rhs[j], 0.0);
         } else {
             glp_set_row_bnds(lp, j+1, GLP_FX, rhs[j], rhs[j]);
@@ -85,19 +85,34 @@ int trame_glpk(int n_constr, int n_vars, double* obj, double* A, int model_opt_s
         // c'x
         glp_set_obj_coef(lp, i+1, obj[i]);
 
-        // set bounds on x
+        // set bounds on x; note 'isinf' cannot distinguish between +inf and -inf
         if (has_lb && has_ub) {
-            if (lb[i] == ub[i]) {
+            if (isinf(lb[i]) && isinf(ub[i])) {
+                glp_set_col_bnds(lp, i+1, GLP_FR, 0.0, 0.0);
+            } else if (isinf(lb[i]) && !isinf(ub[i])) {
+                glp_set_col_bnds(lp, i+1, GLP_UP, 0.0, ub[i]);
+            } else if (!isinf(lb[i]) && isinf(ub[i])) {
+                glp_set_col_bnds(lp, i+1, GLP_LO, lb[i], 0.0);
+            } else if (lb[i] == ub[i]) {
                 glp_set_col_bnds(lp, i+1, GLP_FX, lb[i], ub[i]);
             } else {
                 glp_set_col_bnds(lp, i+1, GLP_DB, lb[i], ub[i]);
             }
         } else if (has_lb && !has_ub) {
-            glp_set_col_bnds(lp, i+1, GLP_LO, lb[i], 0.0);
+            if (isinf(lb[i])) {
+                glp_set_col_bnds(lp, i+1, GLP_FR, 0.0, 0.0);
+            } else {
+                glp_set_col_bnds(lp, i+1, GLP_LO, lb[i], 0.0);
+            }
         } else if (!has_lb && has_ub) {
-            glp_set_col_bnds(lp, i+1, GLP_UP, 0.0, ub[i]);
+            if (isinf(ub[i])) {
+                glp_set_col_bnds(lp, i+1, GLP_FR, 0.0, 0.0);
+            } else {
+                glp_set_col_bnds(lp, i+1, GLP_UP, 0.0, ub[i]);
+            }
         } else if (!has_lb && !has_ub) {
-            glp_set_col_bnds(lp, i+1, GLP_FR, 0.0, 0.0);
+            // glp_set_col_bnds(lp, i+1, GLP_FR, 0.0, 0.0);
+            glp_set_col_bnds(lp, i+1, GLP_LO, 0.0, 0.0); // default: 0 <= x < infty
         }
         
         // input constraint matrix elements
@@ -106,15 +121,23 @@ int trame_glpk(int n_constr, int n_vars, double* obj, double* A, int model_opt_s
     //
     glp_smcp lp_control;
     glp_init_smcp(&lp_control);
+    
     lp_control.presolve = GLP_ON;
-    lp_control.meth = GLP_DUAL;
+
+    if (n_constr < n_vars) {
+        lp_control.meth = GLP_PRIMAL;
+        lp_control.r_test = GLP_RT_HAR;
+    } else {
+        lp_control.meth = GLP_DUAL;
+        lp_control.r_test = GLP_RT_FLIP;
+    }
 
     glp_simplex(lp, &lp_control);
 
     int glpk_status = glp_get_status(lp);
 
     if (glpk_status==GLP_OPT) {
-        printf("GLPK: optimal solution found\n");
+        // printf("GLPK: optimal solution found\n");
         success = 1;
     } else { // need to recompute without presolve
         if (glpk_status==GLP_FEAS) {
@@ -130,6 +153,7 @@ int trame_glpk(int n_constr, int n_vars, double* obj, double* A, int model_opt_s
         }
 
         lp_control.presolve = GLP_OFF;
+        lp_control.meth = GLP_DUALP;
         glp_simplex(lp, &lp_control);
     }
 
@@ -164,8 +188,8 @@ int trame_glpk_sparse(int n_constr, int n_vars, double* obj, int numnz, int* vbe
 
     int success = 0;
     //
-    int has_lb = (lb) ? 1 : 0;
-    int has_ub = (ub) ? 1 : 0;
+    const int has_lb = (lb) ? 1 : 0;
+    const int has_ub = (ub) ? 1 : 0;
 
     int i,j;
     //
@@ -183,7 +207,7 @@ int trame_glpk_sparse(int n_constr, int n_vars, double* obj, int numnz, int* vbe
     } else if (model_opt_sense==1) { // maximize
         glp_set_obj_dir(lp, GLP_MAX);
     } else {
-        printf("unrecognized input for model_opt_sense; should be 0 or 1.\n");
+        printf("unrecognized input for model_opt_sense; should be 0 (minimize) or 1 (maximize).\n");
         goto QUIT;
     }
 
@@ -218,33 +242,56 @@ int trame_glpk_sparse(int n_constr, int n_vars, double* obj, int numnz, int* vbe
         // c'x
         glp_set_obj_coef(lp, i+1, obj[i]);
 
-        // set bounds on x
+        // set bounds on x; note 'isinf' cannot distinguish between +inf and -inf
         if (has_lb && has_ub) {
-            if (lb[i] == ub[i]) {
+            if (isinf(lb[i]) && isinf(ub[i])) {
+                glp_set_col_bnds(lp, i+1, GLP_FR, 0.0, 0.0);
+            } else if (isinf(lb[i]) && !isinf(ub[i])) {
+                glp_set_col_bnds(lp, i+1, GLP_UP, 0.0, ub[i]);
+            } else if (!isinf(lb[i]) && isinf(ub[i])) {
+                glp_set_col_bnds(lp, i+1, GLP_LO, lb[i], 0.0);
+            } else if (lb[i] == ub[i]) {
                 glp_set_col_bnds(lp, i+1, GLP_FX, lb[i], ub[i]);
             } else {
                 glp_set_col_bnds(lp, i+1, GLP_DB, lb[i], ub[i]);
             }
         } else if (has_lb && !has_ub) {
-            glp_set_col_bnds(lp, i+1, GLP_LO, lb[i], 0.0);
+            if (isinf(lb[i])) {
+                glp_set_col_bnds(lp, i+1, GLP_FR, 0.0, 0.0);
+            } else {
+                glp_set_col_bnds(lp, i+1, GLP_LO, lb[i], 0.0);
+            }
         } else if (!has_lb && has_ub) {
-            glp_set_col_bnds(lp, i+1, GLP_UP, 0.0, ub[i]);
+            if (isinf(ub[i])) {
+                glp_set_col_bnds(lp, i+1, GLP_FR, 0.0, 0.0);
+            } else {
+                glp_set_col_bnds(lp, i+1, GLP_UP, 0.0, ub[i]);
+            }
         } else if (!has_lb && !has_ub) {
-            glp_set_col_bnds(lp, i+1, GLP_FR, 0.0, 0.0);
+            // glp_set_col_bnds(lp, i+1, GLP_FR, 0.0, 0.0);
+            glp_set_col_bnds(lp, i+1, GLP_LO, 0.0, 0.0); // default: 0 <= x < infty
         }
     }
     //
     glp_smcp lp_control;
     glp_init_smcp(&lp_control);
+
     lp_control.presolve = GLP_ON;
-    lp_control.meth = GLP_DUAL;
+
+    if (n_constr < n_vars) {
+        lp_control.meth = GLP_PRIMAL;
+        lp_control.r_test = GLP_RT_HAR;
+    } else {
+        lp_control.meth = GLP_DUAL;
+        lp_control.r_test = GLP_RT_FLIP;
+    }
 
     glp_simplex(lp, &lp_control);
 
     int glpk_status = glp_get_status(lp);
 
     if (glpk_status==GLP_OPT) {
-        printf("GLPK: optimal solution found\n");
+        // printf("GLPK: optimal solution found\n");
         success = 1;
     } else { // need to recompute without presolve
         if (glpk_status==GLP_FEAS) {
@@ -260,6 +307,7 @@ int trame_glpk_sparse(int n_constr, int n_vars, double* obj, int numnz, int* vbe
         }
 
         lp_control.presolve = GLP_OFF;
+        lp_control.meth = GLP_DUALP;
         glp_simplex(lp, &lp_control);
     }
 

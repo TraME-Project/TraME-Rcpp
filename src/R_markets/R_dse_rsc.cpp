@@ -61,7 +61,7 @@ RCPP_MODULE(dse_rsc_module)
         .field( "TU", &trame::dse<trame::rsc>::TU )
 
         .field( "need_norm", &trame::dse<trame::rsc>::need_norm )
-        .field( "outsideOption", &trame::dse<trame::rsc>::outsideOption )
+        .field( "outside_option", &trame::dse<trame::rsc>::outside_option )
 
         .field( "nbX", &trame::dse<trame::rsc>::nbX )
         .field( "nbY", &trame::dse<trame::rsc>::nbY )

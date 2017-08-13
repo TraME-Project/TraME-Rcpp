@@ -53,7 +53,7 @@ RCPP_MODULE(mmfs_min_module)
 
         .field( "nbX", &trame::mmfs::min::nbX )
         .field( "nbY", &trame::mmfs::min::nbY )
-        .field( "nbParams", &trame::mmfs::min::nbParams )
+        .field( "dim_params", &trame::mmfs::min::dim_params )
 
         .field( "alpha", &trame::mmfs::min::alpha )
         .field( "gamma", &trame::mmfs::min::gamma )

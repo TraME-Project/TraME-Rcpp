@@ -22,7 +22,7 @@
   ################################################################################*/
 
 /*
- * dse<logit,logit,> class module
+ * dse<logit,logit,.> class module
  *
  * Keith O'Hara
  * 10/23/2016
@@ -81,7 +81,7 @@ RCPP_MODULE(dse_logit_module)
         .field( "TU", &trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>::TU )
 
         .field( "need_norm", &trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>::need_norm )
-        .field( "outsideOption", &trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>::outsideOption )
+        .field( "outside_option", &trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>::outside_option )
 
         .field( "nbX", &trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>::nbX )
         .field( "nbY", &trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>::nbY )

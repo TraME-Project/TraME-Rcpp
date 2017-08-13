@@ -47,7 +47,7 @@ class logit_R : public trame::arums::logit
         SEXP Gstar_R(arma::vec n, arma::mat mu_inp);
         SEXP Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n);
 
-        empirical_R simul_R(int nbDraws);
+        empirical_R simul_R(int nb_draws, int seed_val);
 };
 
 class none_R : public trame::arums::none
@@ -61,13 +61,13 @@ class none_R : public trame::arums::none
         SEXP Gstarx_R(arma::mat mu_x_inp, int x);
         SEXP Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n);
 
-        empirical_R simul_R(int nbDraws);
+        empirical_R simul_R(int nb_draws, int seed_val);
 };
 
 class probit_R : public trame::arums::probit
 {
     public:
-        empirical_R simul_R(int nbDraws);
+        empirical_R simul_R(int nb_draws, int seed_val);
 };
 
 class rsc_R : public trame::arums::rsc
@@ -81,7 +81,7 @@ class rsc_R : public trame::arums::rsc
         SEXP Gstarx_R(arma::mat mu_x_inp, int x);
         SEXP Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n);
 
-        empirical_R simul_R(int nbDraws);
+        empirical_R simul_R(int nb_draws, int seed_val);
 };
 
 class rusc_R : public trame::arums::rusc
@@ -95,5 +95,5 @@ class rusc_R : public trame::arums::rusc
         SEXP Gstarx_R(arma::mat mu_x_inp, int x);
         SEXP Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n);
 
-        empirical_R simul_R(int nbDraws);
+        empirical_R simul_R(int nb_draws, int seed_val);
 };

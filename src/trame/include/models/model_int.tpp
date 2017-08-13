@@ -99,11 +99,15 @@ struct trame_model_mfe_mme_opt_data {
     arma::mat v;
     arma::mat Pi_hat;
 
-    arma::mat phi_xy; // should be (nbX*nbY) x (nbParams)
+    arma::mat phi_xy; // should be (nbX*nbY) x (dim_params)
 };
 
 //
 // functions with specializations
+//
+
+//
+// build function
 
 template<typename Tg, typename Th>
 arma::mat
@@ -111,14 +115,8 @@ model_build_int(const dse<Tg,Th,transfers::etu>& market_obj, const arma::mat& X_
 {
     int nbX = X_inp.n_rows;
     int nbY = Y_inp.n_rows;
-
-    // int dX = X_inp.n_cols;
-    // int dY = Y_inp.n_cols;
-
-    arma::mat eX = arma::ones(nbX,1);
-    arma::mat eY = arma::ones(nbY,1);
-    //
-    arma::mat model_data = arma::abs(arma::kron(eY,X_inp) - arma::kron(Y_inp,eX));
+    
+    arma::mat model_data = arma::abs(arma::kron(arma::ones(nbY,1),X_inp) - arma::kron(Y_inp,arma::ones(nbX,1)));
 
     return model_data;
 }
@@ -164,6 +162,7 @@ model_build_int(const mfe<mmfs::geo>& market_obj, const arma::mat& X_inp, const 
     return model_data;
 }
 
+//
 // model |-> market
 
 template<typename Tg, typename Th>
@@ -225,6 +224,7 @@ model_to_market_int(mfe<mmfs::geo>& market_obj, const arma::mat& model_data, con
     market_obj.build(n,m,phi);
 }
 
+//
 // gradient
 
 template<typename Tg, typename Th, typename Tt>
@@ -232,7 +232,7 @@ void
 model_dmu(dse<Tg,Th,Tt>& market_obj, const arma::mat& dtheta_Psi, arma::mat& mu_out, arma::vec& mu_x0_out, arma::vec& mu_0y_out, arma::mat& dmu_out)
 {
     arma::mat mu, U, V;
-    market_obj.solve(mu,U,V,NULL);
+    market_obj.solve(mu,U,V,nullptr);
 
     arma::vec mu_x0 = market_obj.n - arma::sum(mu,1);
     arma::vec mu_0y = market_obj.m - arma::trans(arma::sum(mu,0));

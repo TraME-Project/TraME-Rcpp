@@ -1,10 +1,10 @@
-Package: TraME
+Package: TraME.R
 Type: Package
 Title: Transportation Methods for Econometrics
-Version: 0.9.2
-Date: 2017-05-13
-Author: Alfred Galichon [aut, cre],
-    Keith O'Hara [aut],
+Version: 0.1.0
+Date: 2017-08-12
+Author: Alfred Galichon [aut],
+    Keith O'Hara [aut, cre],
     Simon Weber [ctb],
     Yifei Sun [ctb]
 Maintainer: Alfred Galichon <ag133@nyu.edu>

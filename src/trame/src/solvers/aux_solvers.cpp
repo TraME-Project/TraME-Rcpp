@@ -28,7 +28,7 @@
  * 08/23/2016
  *
  * This version:
- * 11/02/2016
+ * 07/26/2016
  */
 
 #include "trame.hpp"
@@ -41,11 +41,11 @@
 int 
 trame::build_disaggregate_epsilon(arma::vec n, const trame::arums::empirical& arums_emp_inp, arma::mat& epsilon_iy, arma::mat& epsilon0_i, arma::mat& I_ix)
 {
-    int nbX = arums_emp_inp.nbX;
-    int nbY = arums_emp_inp.nbY;
+    const int nbX = arums_emp_inp.nbX;
+    const int nbY = arums_emp_inp.nbY;
 
-    int nbDraws = arums_emp_inp.aux_nbDraws;
-    int nbI = nbX * nbDraws;
+    const int nb_draws = arums_emp_inp.aux_nb_draws;
+    const int nbI = nbX * nb_draws;
 
     arma::vec I_01(nbX);
     arma::mat epsilon;
@@ -53,22 +53,22 @@ trame::build_disaggregate_epsilon(arma::vec n, const trame::arums::empirical& ar
     I_ix.zeros(nbI,nbX);
     //
     for (int x=0; x < nbX; x++) {
-        if (arums_emp_inp.xHomogenous) {
-            epsilon = arums_emp_inp.atoms;
+        if (arums_emp_inp.x_homogeneous) {
+            epsilon = arums_emp_inp.atoms.slice(0);
         } else {
             epsilon = arums_emp_inp.atoms.slice(x);
         }
         //
-        epsilons.rows(x*nbDraws,(x+1)*nbDraws-1) = epsilon;
+        epsilons.rows(x*nb_draws,(x+1)*nb_draws-1) = epsilon;
         //
         I_01.zeros();
         I_01(x) = 1;
         
-        I_ix.rows(x*nbDraws,(x+1)*nbDraws-1) = arma::repmat(I_01.t(),nbDraws,1);
+        I_ix.rows(x*nb_draws,(x+1)*nb_draws-1) = arma::repmat(I_01.t(),nb_draws,1);
     }
     //
     epsilon_iy = epsilons.cols(0,nbY-1);
     epsilon0_i = epsilons.col(nbY);
     //
-    return nbDraws;
+    return nb_draws;
 }

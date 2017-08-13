@@ -12,8 +12,4 @@ src/trame/Makefile
 *.o
 *.so
 *.test
-<<<<<<< HEAD
 *.vscode
-=======
-*.vscode
->>>>>>> trans-to-cpp

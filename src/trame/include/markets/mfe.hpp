@@ -28,7 +28,7 @@
  * 08/16/2016
  *
  * This version:
- * 05/16/2017
+ * 07/26/2017
  */
 
 #ifndef _trame_mfe_market_HPP
@@ -40,7 +40,7 @@ class mfe
     public:
         // build objects
         bool need_norm = false;
-        bool outsideOption = true;
+        bool outside_option = true;
 
         int nbX;
         int nbY;
@@ -56,12 +56,12 @@ class mfe
         ~mfe(){};
          mfe(){};
         explicit mfe(const arma::vec& n_inp, const arma::vec& m_inp);
-        explicit mfe(double sigma_inp, bool need_norm_inp);
-        explicit mfe(const arma::vec& n_inp, const arma::vec& m_inp, double sigma_inp, bool need_norm_inp);
+        explicit mfe(const double sigma_inp, const bool need_norm_inp);
+        explicit mfe(const arma::vec& n_inp, const arma::vec& m_inp, const double sigma_inp, const bool need_norm_inp);
 
         void build(const arma::vec& n_inp, const arma::vec& m_inp);
-        void build(double sigma_inp, bool need_norm_inp);
-        void build(const arma::vec& n_inp, const arma::vec& m_inp, double sigma_inp, bool need_norm_inp);
+        void build(const double sigma_inp, const bool need_norm_inp);
+        void build(const arma::vec& n_inp, const arma::vec& m_inp, const double sigma_inp, const bool need_norm_inp);
 
         void build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& mmfs_params_inp_1);
         void build(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& mmfs_params_inp_1, const arma::mat& mmfs_params_inp_2);
@@ -79,8 +79,8 @@ class mfe
         bool solve(arma::mat& mu_sol, arma::mat& U, arma::mat& V, const char* solver);
 
     private:
-        static double marg_x_inv_fn(double z, void* opt_data);
-        static double marg_y_inv_fn(double z, void* opt_data);
+        static double marg_x_inv_fn(const double z, void* opt_data);
+        static double marg_y_inv_fn(const double z, void* opt_data);
 };
 
 template<class Tt>

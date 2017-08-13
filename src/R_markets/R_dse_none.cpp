@@ -61,7 +61,7 @@ RCPP_MODULE(dse_none_module)
         .field( "TU", &trame::dse<trame::none>::TU )
 
         .field( "need_norm", &trame::dse<trame::none>::need_norm )
-        .field( "outsideOption", &trame::dse<trame::none>::outsideOption )
+        .field( "outside_option", &trame::dse<trame::none>::outside_option )
 
         .field( "nbX", &trame::dse<trame::none>::nbX )
         .field( "nbY", &trame::dse<trame::none>::nbY )

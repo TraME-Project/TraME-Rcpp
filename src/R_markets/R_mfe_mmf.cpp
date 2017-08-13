@@ -94,7 +94,7 @@ RCPP_MODULE(mfe_mmf_module)
 
         // basic objects
         .field( "need_norm", &trame::mfe<trame::mmfs::cd>::need_norm )
-        .field( "outsideOption", &trame::mfe<trame::mmfs::cd>::outsideOption )
+        .field( "outside_option", &trame::mfe<trame::mmfs::cd>::outside_option )
 
         .field( "nbX", &trame::mfe<trame::mmfs::cd>::nbX )
         .field( "nbY", &trame::mfe<trame::mmfs::cd>::nbY )
@@ -122,7 +122,7 @@ RCPP_MODULE(mfe_mmf_module)
 
         // basic objects
         .field( "need_norm", &trame::mfe<trame::mmfs::ces>::need_norm )
-        .field( "outsideOption", &trame::mfe<trame::mmfs::ces>::outsideOption )
+        .field( "outside_option", &trame::mfe<trame::mmfs::ces>::outside_option )
 
         .field( "nbX", &trame::mfe<trame::mmfs::ces>::nbX )
         .field( "nbY", &trame::mfe<trame::mmfs::ces>::nbY )
@@ -150,7 +150,7 @@ RCPP_MODULE(mfe_mmf_module)
 
         // basic objects
         .field( "need_norm", &trame::mfe<trame::mmfs::geo>::need_norm )
-        .field( "outsideOption", &trame::mfe<trame::mmfs::geo>::outsideOption )
+        .field( "outside_option", &trame::mfe<trame::mmfs::geo>::outside_option )
 
         .field( "nbX", &trame::mfe<trame::mmfs::geo>::nbX )
         .field( "nbY", &trame::mfe<trame::mmfs::geo>::nbY )
@@ -178,7 +178,7 @@ RCPP_MODULE(mfe_mmf_module)
 
         // basic objects
         .field( "need_norm", &trame::mfe<trame::mmfs::min>::need_norm )
-        .field( "outsideOption", &trame::mfe<trame::mmfs::min>::outsideOption )
+        .field( "outside_option", &trame::mfe<trame::mmfs::min>::outside_option )
 
         .field( "nbX", &trame::mfe<trame::mmfs::min>::nbX )
         .field( "nbY", &trame::mfe<trame::mmfs::min>::nbY )

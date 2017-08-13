@@ -53,7 +53,7 @@ RCPP_MODULE(mmfs_cd_module)
 
         .field( "nbX", &trame::mmfs::cd::nbX )
         .field( "nbY", &trame::mmfs::cd::nbY )
-        .field( "nbParams", &trame::mmfs::cd::nbParams )
+        .field( "dim_params", &trame::mmfs::cd::dim_params )
 
         .field( "lambda", &trame::mmfs::cd::lambda )
         .field( "phi", &trame::mmfs::cd::phi )

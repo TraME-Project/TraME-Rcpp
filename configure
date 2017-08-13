@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/bash
 ## TraME R config script
 
 R_INCLUDE_PATH="-I${R_HOME}/include"
@@ -11,7 +11,7 @@ export TRAME_LAPACK_LIBS="${LAPACK_LIBS}"
 
 #if [[ !(-e src/trame/libtrame.so) ]] ; then
     cd src/trame
-    sh configure
+    ./configure -l glpk
     make
     mkdir ../../inst
     mkdir ../../inst/libs

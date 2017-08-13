@@ -61,7 +61,7 @@ RCPP_MODULE(dse_logit_module)
         .field( "TU", &trame::dse<trame::logit>::TU )
 
         .field( "need_norm", &trame::dse<trame::logit>::need_norm )
-        .field( "outsideOption", &trame::dse<trame::logit>::outsideOption )
+        .field( "outside_option", &trame::dse<trame::logit>::outside_option )
 
         .field( "nbX", &trame::dse<trame::logit>::nbX )
         .field( "nbY", &trame::dse<trame::logit>::nbY )

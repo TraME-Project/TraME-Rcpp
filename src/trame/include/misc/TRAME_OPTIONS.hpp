@@ -23,9 +23,16 @@
 
 #pragma once
 
+#ifdef TRAME_OMP
+    #include "omp.h" //  OpenMP
+#endif
+
 #ifdef TRAME_RCPP_ARMADILLO
     #include <RcppArmadillo.h>
 #else
+    #ifndef ARMA_DONT_USE_WRAPPER
+        #define ARMA_DONT_USE_WRAPPER
+    #endif
     #include "armadillo"
 #endif
 

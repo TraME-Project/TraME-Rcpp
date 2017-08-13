@@ -37,39 +37,36 @@ SOURCES_LPXX= $(TRAME_SRC_DIR)/lp/generic_lp.cpp
 OBJECTS_LPXX= $(TRAME_SRC_DIR)/lp/generic_lp.o
 
 # general flags
-CFLAGS = -Wall $(OPT_FLAGS) $(LP_CFLAGS) -I$(TRAME_HEADER_DIR)
-CXXFLAGS = $(CXX_STD) -Wall $(OPT_FLAGS) $(ARMA_INCLUDE_PATH) $(LP_CXXFLAGS) -I$(TRAME_HEADER_DIR)
+CFLAGS = $(OPT_FLAGS) $(LP_CFLAGS) -I$(TRAME_HEADER_DIR)
+CXXFLAGS = $(CXX_STD) $(OPT_FLAGS) -I$(ARMA_INCLUDE_PATH) $(LP_CXXFLAGS) -I$(TRAME_HEADER_DIR)
 FFLAGS = $(OPT_FLAGS)
 LIBS= -lgfortran @TRAME_BLAS_LAPACK@
 
 # core TraME files
 OBJECTS_TRAME_F90= $(TRAME_SRC_DIR)/prob/prob.o $(TRAME_SRC_DIR)/math/quadpack_double.o $(TRAME_SRC_DIR)/prob/trame_F90_aux.o
 
-SOURCES_TRAME_ANC= $(TRAME_SRC_DIR)/ancillary/inv_pwa.cpp $(TRAME_SRC_DIR)/ancillary/logit_transform.cpp $(TRAME_SRC_DIR)/ancillary/trame_stats.cpp $(TRAME_SRC_DIR)/ancillary/zeroin.cpp
+SOURCES_TRAME_ANC= $(TRAME_SRC_DIR)/ancillary/inv_pwa.cpp $(TRAME_SRC_DIR)/ancillary/trame_stats.cpp $(TRAME_SRC_DIR)/ancillary/zeroin.cpp
 OBJECTS_TRAME_ANC= $(SOURCES_TRAME_ANC:.cpp=.o)
 
 SOURCES_TRAME_ARUMS= $(TRAME_SRC_DIR)/arums/arums_empirical.cpp $(TRAME_SRC_DIR)/arums/arums_logit.cpp $(TRAME_SRC_DIR)/arums/arums_none.cpp $(TRAME_SRC_DIR)/arums/arums_probit.cpp $(TRAME_SRC_DIR)/arums/arums_rsc.cpp $(TRAME_SRC_DIR)/arums/arums_rusc.cpp
 OBJECTS_TRAME_ARUMS= $(SOURCES_TRAME_ARUMS:.cpp=.o)
 
-SOURCES_TRAME_MKTS= $(TRAME_SRC_DIR)/markets/dse.cpp $(TRAME_SRC_DIR)/markets/mfe.cpp
-OBJECTS_TRAME_MKTS= $(SOURCES_TRAME_MKTS:.cpp=.o)
-
 SOURCES_TRAME_MMFS= $(TRAME_SRC_DIR)/mmfs/mmfs_ces.cpp $(TRAME_SRC_DIR)/mmfs/mmfs_cd.cpp $(TRAME_SRC_DIR)/mmfs/mmfs_min.cpp $(TRAME_SRC_DIR)/mmfs/mmfs_geo.cpp
 OBJECTS_TRAME_MMFS= $(SOURCES_TRAME_MMFS:.cpp=.o)
 
-SOURCES_TRAME_MDLS= $(TRAME_SRC_DIR)/models/affinity.cpp $(TRAME_SRC_DIR)/models/model.cpp
+SOURCES_TRAME_MDLS= $(TRAME_SRC_DIR)/models/affinity.cpp
 OBJECTS_TRAME_MDLS= $(SOURCES_TRAME_MDLS:.cpp=.o)
 
-SOURCES_TRAME_OPTIM= $(TRAME_SRC_DIR)/optim/bfgs.cpp $(TRAME_SRC_DIR)/optim/broyden.cpp $(TRAME_SRC_DIR)/optim/line_search.cpp $(TRAME_SRC_DIR)/optim/sumt.cpp $(TRAME_SRC_DIR)/optim/generic_optim.cpp $(TRAME_SRC_DIR)/optim/generic_constr_optim.cpp
+SOURCES_TRAME_OPTIM= $(TRAME_SRC_DIR)/optim/unconstrained/bfgs.cpp $(TRAME_SRC_DIR)/optim/zeros/broyden.cpp $(TRAME_SRC_DIR)/optim/line_search/more_thuente.cpp $(TRAME_SRC_DIR)/optim/misc/logit_transform.cpp $(TRAME_SRC_DIR)/optim/constrained/sumt.cpp $(TRAME_SRC_DIR)/optim/generic/generic_optim.cpp $(TRAME_SRC_DIR)/optim/generic/generic_constr_optim.cpp
 OBJECTS_TRAME_OPTIM= $(SOURCES_TRAME_OPTIM:.cpp=.o)
 
-SOURCES_TRAME_SLVRS= $(TRAME_SRC_DIR)/solvers/arc_newton.cpp $(TRAME_SRC_DIR)/solvers/aux_solvers.cpp $(TRAME_SRC_DIR)/solvers/max_welfare.cpp $(TRAME_SRC_DIR)/solvers/nodal_newton.cpp
+SOURCES_TRAME_SLVRS= $(TRAME_SRC_DIR)/solvers/aux_solvers.cpp
 OBJECTS_TRAME_SLVRS= $(SOURCES_TRAME_SLVRS:.cpp=.o)
 
 SOURCES_TRAME_TRANS= $(TRAME_SRC_DIR)/transfers/transfers_etu.cpp $(TRAME_SRC_DIR)/transfers/transfers_ltu.cpp $(TRAME_SRC_DIR)/transfers/transfers_ntu.cpp $(TRAME_SRC_DIR)/transfers/transfers_tu.cpp
 OBJECTS_TRAME_TRANS= $(SOURCES_TRAME_TRANS:.cpp=.o)
 
-OBJECTS_TRAME= $(OBJECTS_LP) $(OBJECTS_LPXX) $(OBJECTS_TRAME_F90) $(OBJECTS_TRAME_ANC) $(OBJECTS_TRAME_ARUMS) $(OBJECTS_TRAME_MKTS) $(OBJECTS_TRAME_MMFS) $(OBJECTS_TRAME_MDLS) $(OBJECTS_TRAME_OPTIM) $(OBJECTS_TRAME_SLVRS) $(OBJECTS_TRAME_TRANS)
+OBJECTS_TRAME= $(OBJECTS_LP) $(OBJECTS_LPXX) $(OBJECTS_TRAME_F90) $(OBJECTS_TRAME_ANC) $(OBJECTS_TRAME_OPTIM) $(OBJECTS_TRAME_ARUMS) $(OBJECTS_TRAME_MMFS) $(OBJECTS_TRAME_TRANS) $(OBJECTS_TRAME_SLVRS) $(OBJECTS_TRAME_MDLS)
 
 all: $(TRAME_DIR)/$(SHLIB) $(OBJECTS_TRAME)
 
@@ -93,8 +90,28 @@ $(TRAME_SRC_DIR)/prob/trame_F90_aux.o: $(TRAME_SRC_DIR)/prob/trame_F90_aux.f90
 $(TRAME_SRC_DIR)/ancillary/%.o: $(TRAME_SRC_DIR)/ancillary/%.cpp
 	$(CXX) $(CXXFLAGS) $< -c -o $@
 
-$(TRAME_SRC_DIR)/optim/%.o: $(TRAME_SRC_DIR)/optim/%.cpp
-	$(CXX) $(CXXFLAGS) $< -c -o $@
+# optim
+
+$(TRAME_SRC_DIR)/optim/constrained/sumt.o: $(TRAME_SRC_DIR)/optim/constrained/sumt.cpp
+	$(CXX) $(CXXFLAGS) -I$(SDIR)/include/optim $^ -c -o $@
+
+$(TRAME_SRC_DIR)/optim/generic/generic_optim.o: $(TRAME_SRC_DIR)/optim/generic/generic_optim.cpp
+	$(CXX) $(CXXFLAGS) -I$(SDIR)/include/optim $^ -c -o $@
+
+$(TRAME_SRC_DIR)/optim/generic/generic_constr_optim.o: $(TRAME_SRC_DIR)/optim/generic/generic_constr_optim.cpp
+	$(CXX) $(CXXFLAGS) -I$(SDIR)/include/optim $^ -c -o $@
+
+$(TRAME_SRC_DIR)/optim/line_search/more_thuente.o: $(TRAME_SRC_DIR)/optim/line_search/more_thuente.cpp
+	$(CXX) $(CXXFLAGS) -I$(SDIR)/include/optim $^ -c -o $@
+
+$(TRAME_SRC_DIR)/optim/misc/logit_transform.o: $(TRAME_SRC_DIR)/optim/misc/logit_transform.cpp
+	$(CXX) $(CXXFLAGS) -I$(SDIR)/include/optim $^ -c -o $@
+
+$(TRAME_SRC_DIR)/optim/unconstrained/bfgs.o: $(TRAME_SRC_DIR)/optim/unconstrained/bfgs.cpp
+	$(CXX) $(CXXFLAGS) -I$(SDIR)/include/optim $^ -c -o $@
+
+$(TRAME_SRC_DIR)/optim/zeros/broyden.o: $(TRAME_SRC_DIR)/optim/zeros/broyden.cpp
+	$(CXX) $(CXXFLAGS) -I$(SDIR)/include/optim $^ -c -o $@
 
 # core TraME files
 $(TRAME_SRC_DIR)/arums/%.o: $(TRAME_SRC_DIR)/arums/%.cpp
@@ -117,13 +134,22 @@ $(TRAME_SRC_DIR)/transfers/%.o: $(TRAME_SRC_DIR)/transfers/%.cpp
 
 # shared library
 $(TRAME_DIR)/$(SHLIB): $(OBJECTS_TRAME)
-	$(CXX) $(SHLIB_FLAGS) -o $@ $^ $(LP_LIBS) $(LIBS)
+	$(CXX) $(SHLIB_FLAGS) -o $@ $^ $(LIBS) $(LP_LIBS)
 #    ar -rvs ../../inst/libs/libtrame.a $^
 
 # cleanup and install
 .PHONY: clean
 clean:
-	@rm -f *.so ./tests/*/*.test ./tests/*/*.o $(TRAME_SRC_DIR)/*/*.o
+	@rm -f *.so $(TRAME_SRC_DIR)/*/*.o $(TRAME_SRC_DIR)/*/*.gcov $(TRAME_SRC_DIR)/*/*.gcno $(TRAME_SRC_DIR)/*/*.gcda $(TRAME_SRC_DIR)/*/*.dSYM $(TRAME_SRC_DIR)/*/*/*.o $(TRAME_SRC_DIR)/*/*/*.gcov $(TRAME_SRC_DIR)/*/*/*.gcno $(TRAME_SRC_DIR)/*/*/*.gcda $(TRAME_SRC_DIR)/*/*/*.dSYM
+
+.PHONY: vclean
+vclean:
+	@rm -f *.so $(TRAME_SRC_DIR)/*/*.o $(TRAME_SRC_DIR)/*/*.gcov $(TRAME_SRC_DIR)/*/*.gcno $(TRAME_SRC_DIR)/*/*.gcda $(TRAME_SRC_DIR)/*/*.dSYM $(TRAME_SRC_DIR)/*/*/*.o $(TRAME_SRC_DIR)/*/*/*.gcov $(TRAME_SRC_DIR)/*/*/*.gcno $(TRAME_SRC_DIR)/*/*/*.gcda $(TRAME_SRC_DIR)/*/*/*.dSYM
+	@rm -rf ./include/armadillo* ./glpk_tmp
+
+.PHONY: tclean
+tclean:
+	@rm -rf *.so ./tests/*/*.test ./tests/*/*.o ./tests/*/*.gcda ./tests/*/*.gcno ./tests/*/*.gcov ./tests/*/*.dSYM
 
 .PHONY: install
 install: $(SHLIB)

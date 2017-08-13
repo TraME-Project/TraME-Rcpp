@@ -28,7 +28,7 @@
  * 08/08/2016
  *
  * This version:
- * 02/21/2017
+ * 07/25/2017
  */
 
 #ifndef _trame_arums_empirical_HPP
@@ -41,12 +41,12 @@ class empirical
         int nbX;
         int nbY;
 
-        int nbParams;
-        int aux_nbDraws;
-        int nbOptions;
+        int dim_params;
+        int aux_nb_draws;
+        int nb_options;
 
-        bool xHomogenous;
-        bool outsideOption;
+        bool x_homogeneous;
+        bool outside_option;
 
         arma::cube atoms;
 
@@ -61,22 +61,22 @@ class empirical
         // member functions
         ~empirical(){};
          empirical(){};
-        explicit empirical(int nbX_inp, int nbY_inp);
-        explicit empirical(int nbX_inp, int nbY_inp, const arma::cube& atoms_inp, bool xHomogenous_inp, bool outsideOption_inp);
+        explicit empirical(const int nbX_inp, const int nbY_inp);
+        explicit empirical(const int nbX_inp, const int nbY_inp, const arma::cube& atoms_inp, const bool x_homogeneous_inp, const bool outside_option_inp);
 
-        void build(int nbX_inp, int nbY_inp);
-        void build(int nbX_inp, int nbY_inp, const arma::cube& atoms_inp, bool xHomogenous_inp, bool outsideOption_inp);
+        void build(const int nbX_inp, const int nbY_inp);
+        void build(const int nbX_inp, const int nbY_inp, const arma::cube& atoms_inp, const bool x_homogeneous_inp, const bool outside_option_inp);
 
         double G(const arma::vec& n);
-        double G(const arma::vec& n, const arma::mat& U_inp, arma::mat& mu_out);
-        double Gx(const arma::mat& U_x_inp, arma::mat& mu_x_out, int x);
+        double G(const arma::vec& n, const arma::mat& U_inp, arma::mat& mu_out) const;
+        double Gx(const arma::mat& U_x_inp, arma::mat& mu_x_out, const int x) const;
 
         double Gstar(const arma::vec& n);
-        double Gstar(const arma::vec& n, const arma::mat& mu_inp, arma::mat& U_out);
-        double Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out, int x);
+        double Gstar(const arma::vec& n, const arma::mat& mu_inp, arma::mat& U_out) const;
+        double Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out, const int x) const;
 
-        double Gbar(const arma::mat& Ubar, const arma::mat& mubar, const arma::vec& n, arma::mat& U_out, arma::mat& mu_out);
-        double Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arma::mat& U_x_out, arma::mat& mu_x_out, int x);
+        double Gbar(const arma::mat& Ubar, const arma::mat& mubar, const arma::vec& n, arma::mat& U_out, arma::mat& mu_out) const;
+        double Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arma::mat& U_x_out, arma::mat& mu_x_out, const int x) const;
 
     private:
         /*
@@ -85,7 +85,7 @@ class empirical
         void presolve_LP_Gstar();
         void presolve_LP_Gbar();
 
-        bool TRAME_PRESOLVED_GSTAR = false; // initialization requires C++11
+        bool TRAME_PRESOLVED_GSTAR = false;
         bool TRAME_PRESOLVED_GBAR  = false;
 
         int k_Gstar;

@@ -28,40 +28,43 @@
  * 08/08/2016
  *
  * This version:
- * 02/22/2017
+ * 07/25/2017
  */
 
 #include "trame.hpp"
 
-trame::arums::rusc::rusc(int nbX_inp, int nbY_inp)
+//
+// build functions
+
+trame::arums::rusc::rusc(const int nbX_inp, const int nbY_inp)
 {
     this->build(nbX_inp, nbY_inp);
 }
 
-trame::arums::rusc::rusc(arma::mat zeta_inp, bool outsideOption_inp)
+trame::arums::rusc::rusc(const arma::mat& zeta_inp, const bool outside_option_inp)
 {
-    this->build(zeta_inp, outsideOption_inp);
+    this->build(zeta_inp, outside_option_inp);
 }
 
-void 
-trame::arums::rusc::build(int nbX_inp, int nbY_inp)
+void
+trame::arums::rusc::build(const int nbX_inp, const int nbY_inp)
 {
     nbX = nbX_inp;
     nbY = nbY_inp;
 }
 
-void 
-trame::arums::rusc::build(arma::mat zeta_inp, bool outsideOption_inp)
+void
+trame::arums::rusc::build(const arma::mat& zeta_inp, const bool outside_option_inp)
 {
-    if (!outsideOption_inp) {
-        printf("outsideOption=F not implemented yet on RUSC arums\n");
+    if (!outside_option_inp) {
+        printf("outside_option=F not implemented yet on RUSC arums\n");
         return;
     }
     //
-    outsideOption = true;
+    outside_option = true;
     nbX = zeta_inp.n_rows;
     nbY = zeta_inp.n_cols - 1;
-    nbParams = zeta_inp.n_elem;
+    dim_params = zeta_inp.n_elem;
     
     zeta = zeta_inp;
     aux_ord = arma::zeros(nbX,nbY+1);
@@ -72,34 +75,34 @@ trame::arums::rusc::build(arma::mat zeta_inp, bool outsideOption_inp)
     aux_b = arma::zeros(nbX,nbY);
     aux_c = arma::zeros(nbY,1);
     //
-    double z_0;
-    arma::mat A_x, z_0_mat(nbY,1), max_z, max_z0_mat;
-    arma::vec z_x, max_z0;
-    arma::uvec ordx_temp;
+    arma::mat z_0_mat(nbY,1);
 
-    for (int i=0; i<nbX; i++) {
-        z_x = zeta_inp.row(i).t();
+    for (int i=0; i < nbX; i++) {
+        arma::vec z_x = zeta_inp.row(i).t();
         z_x.shed_rows(nbY,zeta_inp.n_cols-1);
 
-        z_0 = zeta(i,nbY);
+        double z_0 = zeta(i,nbY);
         z_0_mat.fill(z_0);
 
-        max_z  = arma::max(z_x * arma::ones(1,nbY), arma::ones(nbY,1) * z_x.t());
-        max_z0 = arma::max(z_x,z_0_mat);
-        max_z0_mat = max_z0 * arma::ones(1,nbY);
+        arma::mat max_z  = arma::max(z_x * arma::ones(1,nbY), arma::ones(nbY,1) * z_x.t());
+        arma::vec max_z0 = arma::max(z_x,z_0_mat);
+        arma::mat max_z0_mat = max_z0 * arma::ones(1,nbY);
 
-        A_x = max_z0_mat + max_z0_mat.t() - max_z - z_0;
+        arma::mat A_x = max_z0_mat + max_z0_mat.t() - max_z - z_0;
         //
         aux_A.slice(i) = A_x;
         aux_b.row(i) = z_0 - max_z0.t();
         aux_c(i) = -z_0/2;
         
-        ordx_temp = arma::sort_index(zeta_inp.row(i));
+        arma::uvec ordx_temp = arma::sort_index(zeta_inp.row(i));
         aux_ord.row(i) = arma::conv_to< arma::rowvec >::from(ordx_temp);
     }
 }
 
-double 
+//
+// indirect utility
+
+double
 trame::arums::rusc::G(const arma::vec& n)
 {   
     double val = this->G(n,U,mu_sol);
@@ -107,8 +110,9 @@ trame::arums::rusc::G(const arma::vec& n)
     return val;
 }
 
-double 
+double
 trame::arums::rusc::G(const arma::vec& n, const arma::mat& U_inp, arma::mat& mu_out)
+const
 {   
     double val=0.0, val_x_temp;
     
@@ -126,8 +130,9 @@ trame::arums::rusc::G(const arma::vec& n, const arma::mat& U_inp, arma::mat& mu_
     return val;
 }
 
-double 
-trame::arums::rusc::Gx(const arma::mat& U_x_inp, arma::mat& mu_x_out, int x)
+double
+trame::arums::rusc::Gx(const arma::mat& U_x_inp, arma::mat& mu_x_out, const int x)
+const
 {
     int nbAlt = nbY + 1;
     int j,y,z;
@@ -181,7 +186,10 @@ trame::arums::rusc::Gx(const arma::mat& U_x_inp, arma::mat& mu_x_out, int x)
     return val_x;
 }
 
-double 
+//
+// Fenchel transform of G
+
+double
 trame::arums::rusc::Gstar(const arma::vec& n)
 {
     double val = this->Gstar(n,mu_sol,U_sol);
@@ -189,8 +197,9 @@ trame::arums::rusc::Gstar(const arma::vec& n)
     return val;
 }
 
-double 
+double
 trame::arums::rusc::Gstar(const arma::vec& n, const arma::mat& mu_inp, arma::mat& U_out)
+const
 {   ;
     double val=0.0, val_x_temp;
     
@@ -208,8 +217,9 @@ trame::arums::rusc::Gstar(const arma::vec& n, const arma::mat& mu_inp, arma::mat
     return val;
 }
 
-double 
-trame::arums::rusc::Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out, int x)
+double
+trame::arums::rusc::Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out, const int x)
+const
 {
     double val_x = 0;
     
@@ -221,8 +231,12 @@ trame::arums::rusc::Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out, int x)
     return val_x;
 }
 
-double 
+//
+// Gbar is used by DARUM
+
+double
 trame::arums::rusc::Gbar(const arma::mat& Ubar, const arma::mat& mubar, const arma::vec& n, arma::mat& U_out, arma::mat& mu_out)
+const
 {   
     double val=0.0, val_temp;
     
@@ -242,8 +256,9 @@ trame::arums::rusc::Gbar(const arma::mat& Ubar, const arma::mat& mubar, const ar
     return val;
 }
 
-double 
-trame::arums::rusc::Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arma::mat& U_x_out, arma::mat& mu_x_out, int x)
+double
+trame::arums::rusc::Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arma::mat& U_x_out, arma::mat& mu_x_out, const int x)
+const
 {
     int nbAlt = nbY + 1;
     double val_x = 0.0;
@@ -269,7 +284,7 @@ trame::arums::rusc::Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arm
     arma::mat dual_mat(1,2);
     
     try {
-        LP_optimal = generic_LP((int) A_grbi.n_rows, (int) A_grbi.n_cols, obj_grbi.memptr(), A_grbi.memptr(), modelSense, rhs_grbi.memptr(), sense_grbi, Q_grbi.memptr(), lb_grbi.memptr(), ub_grbi.memptr(), NULL, objval, sol_mat.colptr(0), sol_mat.colptr(1), dual_mat.colptr(0), dual_mat.colptr(1));
+        LP_optimal = generic_LP((int) A_grbi.n_rows, (int) A_grbi.n_cols, obj_grbi.memptr(), A_grbi.memptr(), modelSense, rhs_grbi.memptr(), sense_grbi, Q_grbi.memptr(), lb_grbi.memptr(), ub_grbi.memptr(), nullptr, objval, sol_mat.colptr(0), sol_mat.colptr(1), dual_mat.colptr(0), dual_mat.colptr(1));
         //
         if (LP_optimal) {
             mu_x_out = sol_mat(arma::span(0,nbAlt-2),0);
@@ -289,36 +304,53 @@ trame::arums::rusc::Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arm
     return val_x;
 }
 
-trame::arums::empirical 
+//
+// simulation
+
+trame::arums::empirical
 trame::arums::rusc::simul()
+const
 {
     empirical emp_obj;
-    this->simul(emp_obj,NULL,NULL);
+    
+    this->simul_int(emp_obj,nullptr,nullptr);
     //
     return emp_obj;
 }
 
-trame::arums::empirical 
-trame::arums::rusc::simul(int* nbDraws, int* seed)
+trame::arums::empirical
+trame::arums::rusc::simul(const int nb_draws, const int seed)
+const
 {
     empirical emp_obj;
-    this->simul(emp_obj,nbDraws,seed);
+    
+    this->simul_int(emp_obj,&nb_draws,&seed);
     //
     return emp_obj;
 }
 
-void 
+void
 trame::arums::rusc::simul(empirical& obj_out)
+const
 {
-    this->simul(obj_out,NULL,NULL);
+    this->simul_int(obj_out,nullptr,nullptr);
 }
 
-void 
-trame::arums::rusc::simul(empirical& obj_out, int* nbDraws, int* seed_val)
+void
+trame::arums::rusc::simul(empirical& obj_out, const int nb_draws, const int seed)
+const
+{
+    this->simul_int(obj_out,&nb_draws,&seed);
+}
+
+void
+trame::arums::rusc::simul_int(empirical& obj_out, const int* nb_draws, const int* seed_val)
+const
 {
     int n_draws = 0;
-    if (nbDraws) {
-        n_draws = *nbDraws;
+
+    if (nb_draws) {
+        n_draws = *nb_draws;
     } else {
 #ifdef TRAME_DEFAULT_SIM_DRAWS
         n_draws = TRAME_DEFAULT_SIM_DRAWS;
@@ -337,19 +369,9 @@ trame::arums::rusc::simul(empirical& obj_out, int* nbDraws, int* seed_val)
         atoms.slice(i) = arma::randu(n_draws,1) * zeta.row(i);
     }
     //
-    obj_out.nbX = nbX;
-    obj_out.nbY = nbY;
-    obj_out.nbParams = atoms.n_elem;
-    obj_out.atoms = atoms;
-    obj_out.aux_nbDraws = n_draws;
-    obj_out.xHomogenous = false;
-    obj_out.outsideOption = outsideOption;
-    
-    if (outsideOption) {
-        obj_out.nbOptions = nbY + 1;
-    } else {
-        obj_out.nbOptions = nbY;
-    }
+    obj_out.build(nbX,nbY,atoms,false,outside_option);
     //
-    arma::arma_rng::set_seed_random(); // need to reset the seed
+    if (seed_val) {
+        arma::arma_rng::set_seed_random(); // need to reset the seed
+    }
 }

@@ -69,7 +69,7 @@ RCPP_MODULE(dse_empirical_module)
         .field( "TU", &trame::dse<trame::empirical>::TU )
 
         .field( "need_norm", &trame::dse<trame::empirical>::need_norm )
-        .field( "outsideOption", &trame::dse<trame::empirical>::outsideOption )
+        .field( "outside_option", &trame::dse<trame::empirical>::outside_option )
 
         .field( "nbX", &trame::dse<trame::empirical>::nbX )
         .field( "nbY", &trame::dse<trame::empirical>::nbY )

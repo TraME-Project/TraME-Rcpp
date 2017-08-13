@@ -28,21 +28,22 @@
  * 08/08/2016
  *
  * This version:
- * 04/01/2017
+ * 07/17/2017
  */
 
+//
 // Find indices that correspond to maximum values 
-inline 
-arma::uvec 
-which_max(const arma::mat& X, int which_dim)
-{    
-    int n = X.n_rows;
-    int k = X.n_cols;
 
-    arma::uvec max_vec;
-     
+inline
+arma::uvec
+which_max(const arma::mat& X, const int which_dim)
+{    
+    const int n = X.n_rows;
+    const int k = X.n_cols;
+    //
     int max_ind = 0;
     double max_val = 0;
+    arma::uvec max_vec;
      
     if (which_dim==0) { // each column
         max_vec.set_size(k);
@@ -79,10 +80,12 @@ which_max(const arma::mat& X, int which_dim)
     return max_vec;
 }
 
+//
 // unit vector
-inline 
-arma::vec 
-unit_vec(int j, int n)
+
+inline
+arma::vec
+unit_vec(const int j, const int n)
 {
     arma::vec ret = arma::zeros(n,1);
     ret(j) = 1;
@@ -90,12 +93,14 @@ unit_vec(int j, int n)
     return ret;
 }
 
+//
 // Generate an equi-spaced grid of integers
-inline 
-arma::uvec 
-uvec_linspace (int a, int b)
+
+inline
+arma::uvec
+uvec_linspace (const int a, const int b)
 {
-    int n_points = b - a + 1;
+    const int n_points = b - a + 1;
     
     arma::uvec ret(n_points);
     //
@@ -106,26 +111,22 @@ uvec_linspace (int a, int b)
     return ret;
 }
 
-/*
- * element-by-element addition;
- * written to mimic R's approach to element-by-element addition in vector-matrix cases
- *
- * Keith O'Hara
- * 08/18/2016
- */
+//
+// element-by-element addition;
+// written to mimic R's approach to element-by-element addition in vector-matrix cases
 
-inline 
-arma::mat 
+inline
+arma::mat
 elem_add(const arma::mat& mat_1, const arma::mat& mat_2)
 {
-    int rows_1 = mat_1.n_rows;
-    int rows_2 = mat_2.n_rows;
+    const int rows_1 = mat_1.n_rows;
+    const int rows_2 = mat_2.n_rows;
 
-    int cols_1 = mat_1.n_cols;
-    int cols_2 = mat_2.n_cols; 
+    const int cols_1 = mat_1.n_cols;
+    const int cols_2 = mat_2.n_cols; 
 
-    bool same_rows = (rows_1==rows_2) ? true : false;
-    bool same_cols = (cols_1==cols_2) ? true : false;
+    const bool same_rows = (rows_1==rows_2) ? true : false;
+    const bool same_cols = (cols_1==cols_2) ? true : false;
     //
     arma::mat ret;
 
@@ -133,21 +134,21 @@ elem_add(const arma::mat& mat_1, const arma::mat& mat_2)
         printf("elem_sub: need matrices to agree on at least one dimension\n");
         return ret;
     }
+
     //
     // instead of loops we could also use arma::repmat, not sure which is quicker...
-    int i;
 
     if (same_rows && same_cols) {
         ret = mat_1 + mat_2;
     } else if (same_rows && !same_cols) {
         if (cols_1==1) {
             ret.set_size(rows_1,cols_2);
-            for (i=0; i<cols_2; i++) {
+            for (int i=0; i < cols_2; i++) {
                 ret.col(i) = mat_1 + mat_2.col(i);
             }
         } else if (cols_2==1) {
             ret.set_size(rows_1,cols_1);
-            for (i=0; i<cols_1; i++) {
+            for (int i=0; i < cols_1; i++) {
                 ret.col(i) = mat_1.col(i) + mat_2;
             }
         } else {
@@ -157,12 +158,12 @@ elem_add(const arma::mat& mat_1, const arma::mat& mat_2)
     } else if (!same_rows && same_cols) {
         if (rows_1==1) {
             ret.set_size(rows_2,cols_1);
-            for (i=0; i<rows_2; i++) {
+            for (int i=0; i < rows_2; i++) {
                 ret.row(i) = mat_1 + mat_2.row(i);
             }
         } else if (rows_2==1) {
             ret.set_size(rows_1,cols_1);
-            for (i=0; i<rows_1; i++) {
+            for (int i=0; i < rows_1; i++) {
                 ret.row(i) = mat_1.row(i) + mat_2;
             }
         } else {
@@ -177,26 +178,22 @@ elem_add(const arma::mat& mat_1, const arma::mat& mat_2)
     return ret;
 }
 
-/*
- * element-by-element subtraction;
- * written to mimic R's approach to element-by-element subtraction in vector-matrix cases
- *
- * Keith O'Hara
- * 08/18/2016
- */
+//
+// element-by-element subtraction;
+// written to mimic R's approach to element-by-element subtraction in vector-matrix cases
 
-inline 
-arma::mat 
+inline
+arma::mat
 elem_sub(const arma::mat& mat_1, const arma::mat& mat_2)
 {
-    int rows_1 = mat_1.n_rows;
-    int rows_2 = mat_2.n_rows;
+    const int rows_1 = mat_1.n_rows;
+    const int rows_2 = mat_2.n_rows;
 
-    int cols_1 = mat_1.n_cols;
-    int cols_2 = mat_2.n_cols; 
+    const int cols_1 = mat_1.n_cols;
+    const int cols_2 = mat_2.n_cols; 
     
-    bool same_rows = (rows_1==rows_2) ? true : false;
-    bool same_cols = (cols_1==cols_2) ? true : false;
+    const bool same_rows = (rows_1==rows_2) ? true : false;
+    const bool same_cols = (cols_1==cols_2) ? true : false;
     //
     arma::mat ret;
 
@@ -204,21 +201,21 @@ elem_sub(const arma::mat& mat_1, const arma::mat& mat_2)
         printf("elem_sub: need matrices to agree on at least one dimension\n");
         return ret;
     }
+
     //
     // instead of loops we could also use arma::repmat, not sure which is quicker...
-    int i;
 
     if (same_rows && same_cols) {
         ret = mat_1 - mat_2;
     } else if (same_rows && !same_cols) {
         if (cols_1==1) {
             ret.set_size(rows_1,cols_2);
-            for (i=0; i<cols_2; i++) {
+            for (int i=0; i < cols_2; i++) {
                 ret.col(i) = mat_1 - mat_2.col(i);
             }
         } else if (cols_2==1) {
             ret.set_size(rows_1,cols_1);
-            for (i=0; i<cols_1; i++) {
+            for (int i=0; i < cols_1; i++) {
                 ret.col(i) = mat_1.col(i) - mat_2;
             }
         } else {
@@ -228,12 +225,12 @@ elem_sub(const arma::mat& mat_1, const arma::mat& mat_2)
     } else if (!same_rows && same_cols) {
         if (rows_1==1) {
             ret.set_size(rows_2,cols_1);
-            for (i=0; i<rows_2; i++) {
+            for (int i=0; i < rows_2; i++) {
                 ret.row(i) = mat_1 - mat_2.row(i);
             }
         } else if (rows_2==1) {
             ret.set_size(rows_1,cols_1);
-            for (i=0; i<rows_1; i++) {
+            for (int i=0; i < rows_1; i++) {
                 ret.row(i) = mat_1.row(i) - mat_2;
             }
         } else {
@@ -248,26 +245,22 @@ elem_sub(const arma::mat& mat_1, const arma::mat& mat_2)
     return ret;
 }
 
-/*
- * Hadamard product;
- * written to mimic R's approach to element-by-element multiplication in vector-matrix cases
- *
- * Keith O'Hara
- * 08/18/2016
- */
+//
+// Hadamard product;
+// written to mimic R's approach to element-by-element multiplication in vector-matrix cases
 
-inline 
-arma::mat 
+inline
+arma::mat
 elem_prod(const arma::mat& mat_1, const arma::mat& mat_2)
 {
-    int rows_1 = mat_1.n_rows;
-    int rows_2 = mat_2.n_rows;
+    const int rows_1 = mat_1.n_rows;
+    const int rows_2 = mat_2.n_rows;
 
-    int cols_1 = mat_1.n_cols;
-    int cols_2 = mat_2.n_cols; 
+    const int cols_1 = mat_1.n_cols;
+    const int cols_2 = mat_2.n_cols; 
     
-    bool same_rows = (rows_1==rows_2) ? true : false;
-    bool same_cols = (cols_1==cols_2) ? true : false;
+    const bool same_rows = (rows_1==rows_2) ? true : false;
+    const bool same_cols = (cols_1==cols_2) ? true : false;
     //
     arma::mat ret;
 
@@ -275,21 +268,21 @@ elem_prod(const arma::mat& mat_1, const arma::mat& mat_2)
         printf("elem_prod: need matrices to agree on at least one dimension\n");
         return ret;
     }
+
     //
     // instead of loops we could also use arma::repmat, not sure which is quicker...
-    int i;
 
     if (same_rows && same_cols) {
         ret = mat_1 % mat_2;
     } else if (same_rows && !same_cols) {
         if (cols_1==1) {
             ret.set_size(rows_1,cols_2);
-            for (i=0; i<cols_2; i++) {
+            for (int i=0; i < cols_2; i++) {
                 ret.col(i) = mat_1 % mat_2.col(i);
             }
         } else if (cols_2==1) {
             ret.set_size(rows_1,cols_1);
-            for (i=0; i<cols_1; i++) {
+            for (int i=0; i < cols_1; i++) {
                 ret.col(i) = mat_1.col(i) % mat_2;
             }
         } else {
@@ -299,12 +292,12 @@ elem_prod(const arma::mat& mat_1, const arma::mat& mat_2)
     } else if (!same_rows && same_cols) {
         if (rows_1==1) {
             ret.set_size(rows_2,cols_1);
-            for (i=0; i<rows_2; i++) {
+            for (int i=0; i < rows_2; i++) {
                 ret.row(i) = mat_1 % mat_2.row(i);
             }
         } else if (rows_2==1) {
             ret.set_size(rows_1,cols_1);
-            for (i=0; i<rows_1; i++) {
+            for (int i=0; i < rows_1; i++) {
                 ret.row(i) = mat_1.row(i) % mat_2;
             }
         } else {
@@ -319,26 +312,22 @@ elem_prod(const arma::mat& mat_1, const arma::mat& mat_2)
     return ret;
 }
 
-/*
- * element-by-element division;
- * written to mimic R's approach to element-by-element division in vector-matrix cases
- *
- * Keith O'Hara
- * 08/18/2016
- */
+//
+// element-by-element division;
+// written to mimic R's approach to element-by-element division in vector-matrix cases
 
-inline 
-arma::mat 
+inline
+arma::mat
 elem_div(const arma::mat& mat_1, const arma::mat& mat_2)
 {
-    int rows_1 = mat_1.n_rows;
-    int rows_2 = mat_2.n_rows;
+    const int rows_1 = mat_1.n_rows;
+    const int rows_2 = mat_2.n_rows;
 
-    int cols_1 = mat_1.n_cols;
-    int cols_2 = mat_2.n_cols; 
+    const int cols_1 = mat_1.n_cols;
+    const int cols_2 = mat_2.n_cols; 
     
-    bool same_rows = (rows_1==rows_2) ? true : false;
-    bool same_cols = (cols_1==cols_2) ? true : false;
+    const bool same_rows = (rows_1==rows_2) ? true : false;
+    const bool same_cols = (cols_1==cols_2) ? true : false;
     //
     arma::mat ret;
 
@@ -346,21 +335,21 @@ elem_div(const arma::mat& mat_1, const arma::mat& mat_2)
         printf("elem_div: need matrices to agree on at least one dimension\n");
         return ret;
     }
+    
     //
     // instead of loops we could also use arma::repmat, not sure which is quicker...
-    int i;
 
     if (same_rows && same_cols) {
         ret = mat_1 / mat_2;
     } else if (same_rows && !same_cols) {
         if (cols_1==1) {
             ret.set_size(rows_1,cols_2);
-            for (i=0; i<cols_2; i++) {
+            for (int i=0; i < cols_2; i++) {
                 ret.col(i) = mat_1 / mat_2.col(i);
             }
         } else if (cols_2==1) {
             ret.set_size(rows_1,cols_1);
-            for (i=0; i<cols_1; i++) {
+            for (int i=0; i < cols_1; i++) {
                 ret.col(i) = mat_1.col(i) / mat_2;
             }
         } else {
@@ -370,12 +359,12 @@ elem_div(const arma::mat& mat_1, const arma::mat& mat_2)
     } else if (!same_rows && same_cols) {
         if (rows_1==1) {
             ret.set_size(rows_2,cols_1);
-            for (i=0; i<rows_2; i++) {
+            for (int i=0; i < rows_2; i++) {
                 ret.row(i) = mat_1 / mat_2.row(i);
             }
         } else if (rows_2==1) {
             ret.set_size(rows_1,cols_1);
-            for (i=0; i<rows_1; i++) {
+            for (int i=0; i < rows_1; i++) {
                 ret.row(i) = mat_1.row(i) / mat_2;
             }
         } else {
@@ -390,131 +379,126 @@ elem_div(const arma::mat& mat_1, const arma::mat& mat_2)
     return ret;
 }
 
-inline 
-double 
+//
+// return the minimal-value in the matrix
+
+inline
+double
 elem_min(const arma::mat& mat_1)
 {
-    double ret = mat_1.min();
-    //
-    return ret;
+    return mat_1.min();
 }
 
-inline 
-arma::mat 
+//
+// pointwise minimum between two matrices
+
+inline
+arma::mat
 elem_min(const arma::mat& mat_1, const arma::mat& mat_2)
 {
-    arma::mat ret = arma::min(mat_1,mat_2);
-    //
-    return ret;
+    return arma::min(mat_1,mat_2);
 }
 
-inline 
-arma::mat 
-elem_min(const arma::mat& mat_1, const double& comp_val)
+//
+// pointwise minimum between a matrix and a single value
+
+inline
+arma::mat
+elem_min(const arma::mat& mat_1, const double comp_val)
 {
-    int rows_1 = mat_1.n_rows;
-    int cols_1 = mat_1.n_cols;
+    const int rows_1 = mat_1.n_rows;
+    const int cols_1 = mat_1.n_cols;
     //
     arma::mat comp_mat(rows_1,cols_1);
     comp_mat.fill(comp_val);
     
-    arma::mat ret = arma::min(mat_1,comp_mat);
-    //
-    return ret;
+    return arma::min(mat_1,comp_mat);
 }
 
-inline 
-arma::mat 
-elem_min(const double& comp_val, const arma::mat& mat_1)
+inline
+arma::mat
+elem_min(const double comp_val, const arma::mat& mat_1)
 {
-    int rows_1 = mat_1.n_rows;
-    int cols_1 = mat_1.n_cols;
-    //
-    arma::mat comp_mat(rows_1,cols_1);
-    comp_mat.fill(comp_val);
-    
-    arma::mat ret = arma::min(mat_1,comp_mat);
-    //
-    return ret;
+    return elem_min(mat_1,comp_val);
 }
 
-inline 
-double 
-elem_min(const double& comp_val_1, const double& comp_val_2)
+//
+// minimum between two values
+
+inline
+double
+elem_min(const double comp_val_1, const double comp_val_2)
 {
-    double ret = std::min(comp_val_1,comp_val_2);
-    //
-    return ret;
+    return std::min(comp_val_1,comp_val_2);
 }
 
-inline 
-double 
+//
+// return the maximal-value in the matrix
+
+inline
+double
 elem_max(const arma::mat& mat_1)
 {
-    double ret = mat_1.max();
-    //
-    return ret;
+    return mat_1.max();
 }
 
-inline 
-arma::mat 
+//
+// pointwise maximum between two matrices
+
+inline
+arma::mat
 elem_max(const arma::mat& mat_1, const arma::mat& mat_2)
 {
-    arma::mat ret = arma::max(mat_1,mat_2);
-    //
-    return ret;
+    return arma::max(mat_1,mat_2);
 }
 
-inline 
-arma::mat 
-elem_max(const arma::mat& mat_1, const double& comp_val)
+//
+// pointwise maximum between a matrix and a single value
+
+inline
+arma::mat
+elem_max(const arma::mat& mat_1, const double comp_val)
 {
-    int rows_1 = mat_1.n_rows;
-    int cols_1 = mat_1.n_cols;
+    const int rows_1 = mat_1.n_rows;
+    const int cols_1 = mat_1.n_cols;
     //
     arma::mat comp_mat(rows_1,cols_1);
     comp_mat.fill(comp_val);
     
-    arma::mat ret = arma::max(mat_1,comp_mat);
-    //
-    return ret;
+    return arma::max(mat_1,comp_mat);
 }
 
-inline 
-arma::mat 
-elem_max(const double& comp_val, const arma::mat& mat_1)
+inline
+arma::mat
+elem_max(const double comp_val, const arma::mat& mat_1)
 {
-    int rows_1 = mat_1.n_rows;
-    int cols_1 = mat_1.n_cols;
-    //
-    arma::mat comp_mat(rows_1,cols_1);
-    comp_mat.fill(comp_val);
-    
-    arma::mat ret = arma::max(mat_1,comp_mat);
-    //
-    return ret;
+    return elem_max(mat_1,comp_val);
 }
 
-inline 
-double 
-elem_max(const double& comp_val_1, const double& comp_val_2)
+//
+// maximum between two values
+
+inline
+double
+elem_max(const double comp_val_1, const double comp_val_2)
 {
-    double ret = std::max(comp_val_1,comp_val_2);
-    //
-    return ret;
+    return std::max(comp_val_1,comp_val_2);
 }
 
-inline 
-arma::mat 
-cube_sum(const arma::cube& cube_inp, int which_dim)
+//
+// sum over a dimension of a cube
+
+inline
+arma::mat
+cube_sum(const arma::cube& cube_inp, const int which_dim)
 {
     if (which_dim > 1 || which_dim < 0) {
         printf("unrecognized dim value; should be in (0,1)\n");
     }
     //
-    int dim_0 = cube_inp.n_rows;
-    int dim_1 = cube_inp.n_cols;
-    int dim_2 = cube_inp.n_slices;
+    const int dim_0 = cube_inp.n_rows;
+    const int dim_1 = cube_inp.n_cols;
+    const int dim_2 = cube_inp.n_slices;
 
     arma::mat ret;
 
@@ -536,15 +520,16 @@ cube_sum(const arma::cube& cube_inp, int which_dim)
 }
 
 //
-// mirror R's approach to creating a matrix from an array; take each slice and vectorise that matrix
+// mirror R's approach to creating a matrix from an array: 
+// take each slice and vectorise that matrix
 
 inline
-arma::mat 
+arma::mat
 cube_to_mat(const arma::cube& cube_inp)
 {
-    int dim_0 = cube_inp.n_rows;
-    int dim_1 = cube_inp.n_cols;
-    int dim_2 = cube_inp.n_slices;
+    const int dim_0 = cube_inp.n_rows;
+    const int dim_1 = cube_inp.n_cols;
+    const int dim_2 = cube_inp.n_slices;
 
     arma::mat mat_out(dim_0*dim_1,dim_2);
 

@@ -60,7 +60,7 @@ RCPP_MODULE(transfers_ltu_module)
         // basic objects
         .field( "nbX", &trame::transfers::ltu::nbX )
         .field( "nbY", &trame::transfers::ltu::nbY )
-        .field( "nbParams", &trame::transfers::ltu::nbParams )
+        .field( "dim_params", &trame::transfers::ltu::dim_params )
         
         .field( "lambda", &trame::transfers::ltu::lambda )
         .field( "phi", &trame::transfers::ltu::phi )

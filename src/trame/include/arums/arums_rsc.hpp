@@ -28,7 +28,7 @@
  * 08/08/2016
  * 
  * This version:
- * 02/21/2017
+ * 07/31/2017
  */
 
 #ifndef _trame_arums_rsc_HPP
@@ -40,8 +40,8 @@ class rsc
         // build objects
         int nbX;
         int nbY;
-        int nbParams;
-        bool outsideOption;
+        int dim_params;
+        bool outside_option;
         
         double* dist_pars;
         
@@ -77,60 +77,62 @@ class rsc
         // member functions
         ~rsc(){};
          rsc(){};
-        explicit rsc(int nbX_inp, int nbY_inp);
-        explicit rsc(arma::mat zeta_inp, bool outsideOption_inp);
-        explicit rsc(arma::mat zeta_inp, double alpha, double beta);
+        explicit rsc(const int nbX_inp, const int nbY_inp);
+        explicit rsc(const arma::mat& zeta_inp, const bool outside_option_inp);
+        explicit rsc(const arma::mat& zeta_inp, const double alpha, const double beta);
 
-        void build(int nbX_inp, int nbY_inp);
-        void build(arma::mat zeta_inp, bool outsideOption_inp);
+        void build(const int nbX_inp, const int nbY_inp);
+        void build(const arma::mat& zeta_inp, const bool outside_option_inp);
 
-        void build_beta(arma::mat zeta_inp, double alpha, double beta);
+        void build_beta(const arma::mat& zeta_inp, const double alpha, const double beta);
         
         double G(const arma::vec& n);
-        double G(const arma::vec& n, const arma::mat& U_inp, arma::mat& mu_out);
-        double Gx(const arma::mat& U_x_inp, arma::mat& mu_x_out, int x);
+        double G(const arma::vec& n, const arma::mat& U_inp, arma::mat& mu_out) const;
+        double Gx(const arma::mat& U_x_inp, arma::mat& mu_x_out, const int x) const;
         
         double Gstar(const arma::vec& n);
-        double Gstar(const arma::vec& n, const arma::mat& mu_inp, arma::mat& U_out);
-        double Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out, int x);
+        double Gstar(const arma::vec& n, const arma::mat& mu_inp, arma::mat& U_out) const;
+        double Gstarx(const arma::mat& mu_x_inp, arma::mat &U_x_out, const int x) const;
 
-        double Gbar(const arma::mat& Ubar, const arma::mat& mubar, const arma::vec& n, arma::mat& U_out, arma::mat& mu_out);
-        double Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arma::mat& U_x_out, arma::mat& mu_x_out, int x);
+        double Gbar(const arma::mat& Ubar, const arma::mat& mubar, const arma::vec& n, arma::mat& U_out, arma::mat& mu_out) const;
+        double Gbarx(const arma::vec& Ubar_x, const arma::vec& mubar_x, arma::mat& U_x_out, arma::mat& mu_x_out, int x) const;
         
-        arma::mat D2Gstar(const arma::vec& n, bool x_first);
-        void D2Gstar(arma::mat &ret, const arma::vec& n, bool x_first);
-        arma::mat D2Gstar(const arma::vec& n, const arma::mat& mu_inp, bool x_first);
-        void D2Gstar(arma::mat &hess, const arma::vec& n, const arma::mat& mu_inp, bool x_first);
+        arma::mat D2Gstar(const arma::vec& n, const bool x_first) const;
+        void D2Gstar(arma::mat &ret, const arma::vec& n, const bool x_first) const;
+        arma::mat D2Gstar(const arma::vec& n, const arma::mat& mu_inp, const bool x_first) const;
+        void D2Gstar(arma::mat &hess, const arma::vec& n, const arma::mat& mu_inp, const bool x_first) const;
 
-        arma::mat dparams_NablaGstar(const arma::vec& n, arma::mat* dparams_inp, bool x_first);
-        void dparams_NablaGstar(arma::mat &ret, const arma::vec& n, arma::mat* dparams_inp, bool x_first);
-        arma::mat dparams_NablaGstar(const arma::vec& n, const arma::mat& mu_inp, arma::mat* dparams_inp, bool x_first);
-        void dparams_NablaGstar(arma::mat &ret, const arma::vec& n, const arma::mat& mu_inp, arma::mat* dparams_inp, bool x_first);
+        arma::mat dparams_NablaGstar(const arma::vec& n, const arma::mat* dparams_inp, const bool x_first) const;
+        void dparams_NablaGstar(arma::mat &ret, const arma::vec& n, const arma::mat* dparams_inp, const bool x_first) const;
+        arma::mat dparams_NablaGstar(const arma::vec& n, const arma::mat& mu_inp, const arma::mat* dparams_inp, const bool x_first) const;
+        void dparams_NablaGstar(arma::mat &ret, const arma::vec& n, const arma::mat& mu_inp, const arma::mat* dparams_inp, const bool x_first) const;
         
-        empirical simul();
-        empirical simul(int* nbDraws, int* seed);
-        void simul(empirical& obj_out);
-        void simul(empirical& obj_out, int* nbDraws, int* seed);
+        empirical simul() const;
+        empirical simul(const int nb_draws, const int seed) const;
+        void simul(empirical& obj_out) const;
+        void simul(empirical& obj_out, const int nb_draws, const int seed) const;
         
     private:
-        double cdf (double x);
-        arma::vec cdf (arma::vec x);
-        double pdf (double x);
-        arma::vec pdf (arma::vec x);
-        double quantile (double x);
-        arma::vec quantile (arma::vec x);
-        double pot (double x);
-        arma::vec pot (arma::vec x);
+        void simul_int(empirical& obj_out, const int* nb_draws, const int* seed) const;
+
+        double cdf (double x) const;
+        arma::vec cdf (arma::vec x) const;
+        double pdf (double x) const;
+        arma::vec pdf (arma::vec x) const;
+        double quantile (double x) const;
+        arma::vec quantile (arma::vec x) const;
+        double pot (double x) const;
+        arma::vec pot (arma::vec x) const;
 
         static double Gbar_opt_objfn(const arma::vec& vals_inp, arma::vec* grad, void* opt_data);
-        static double Gbar_opt_constr(const arma::vec& vals_inp, arma::vec* grad, void* constr_data);
+        static arma::vec Gbar_opt_constr(const arma::vec& vals_inp, arma::mat* jacob_out, void* constr_data);
 
         static double Gstarx(arma::vec& U_x, const arma::vec& mu_x_inp, const arma::mat& zeta,
                              const arma::mat& aux_DinvPsigma, const arma::mat& aux_Psigma,
                              const arma::mat& aux_Influence_lhs, const arma::mat& aux_Influence_rhs,
                              arma::vec (*pot_eps_vec)(arma::vec pot_inp, double* dist_pars),
                              arma::vec (*quantile_eps_vec)(arma::vec quant_inp, double* dist_pars),
-                             double* dist_pars, int nbY, int x);
+                             double* dist_pars, int nbY, int x); // Keith: this is really ugly, fix it
 };
 
 struct trame_rsc_gbar_opt_data {
@@ -144,9 +146,9 @@ struct trame_rsc_gbar_opt_data {
     arma::mat aux_Influence_lhs;
     arma::mat aux_Influence_rhs;
 
+    double* dist_pars;
     arma::vec (*pot_eps_vec)(arma::vec x, double* dist_pars);
     arma::vec (*quantile_eps_vec)(arma::vec x, double* dist_pars);
-    double* dist_pars;
 };
 
 #endif

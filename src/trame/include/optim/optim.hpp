@@ -1,44 +1,56 @@
 /*################################################################################
   ##
-  ##   Copyright (C) 2015 - 2017 the TraME Team:
-  ##      Alfred Galichon
-  ##      Keith O'Hara
+  ##   Copyright (C) 2016-2017 Keith O'Hara
   ##
-  ##   This file is part of TraME.
+  ##   This file is part of the OptimLib C++ library.
   ##
-  ##   TraME is free software: you can redistribute it and/or modify
+  ##   OptimLib is free software: you can redistribute it and/or modify
   ##   it under the terms of the GNU General Public License as published by
   ##   the Free Software Foundation, either version 2 of the License, or
   ##   (at your option) any later version.
   ##
-  ##   TraME is distributed in the hope that it will be useful,
+  ##   OptimLib is distributed in the hope that it will be useful,
   ##   but WITHOUT ANY WARRANTY; without even the implied warranty of
   ##   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   ##   GNU General Public License for more details.
   ##
-  ##   You should have received a copy of the GNU General Public License
-  ##   along with TraME. If not, see <http://www.gnu.org/licenses/>.
-  ##
   ################################################################################*/
 
-/*
- * Optimization-related functions
- *
- * Keith O'Hara
- * 01/11/2017
- *
- * This version:
- * 01/11/2017
- */
+#ifndef OPTIMLIB_INCLUDES
+#define OPTIMLIB_INCLUDES
 
-#ifndef _optim_HPP
-#define _optim_HPP
 
-#include "bfgs.hpp"
-#include "broyden.hpp"
-#include "line_search.hpp"
-#include "sumt.hpp"
-#include "generic_optim.hpp"
-#include "generic_constr_optim.hpp"
+#include "armadillo"
+
+#include "misc/OPTIM_OPTIONS.hpp"
+
+namespace optim
+{
+    // structs
+    #include "misc/optim_structs.hpp"
+
+    // misc files
+    #include "misc/misc.hpp"
+
+    // line search
+    #include "line_search/more_thuente.hpp"
+    #include "line_search/wolfe.hpp"
+
+    // unconstrained optimization
+    #include "unconstrained/bfgs.hpp"
+    #include "unconstrained/cg.hpp"
+    #include "unconstrained/de.hpp"
+    #include "unconstrained/nm.hpp"
+
+    // constrained optimization
+    #include "constrained/sumt.hpp"
+
+    // generic wrappers
+    #include "generic/generic_optim.hpp"
+    #include "generic/generic_constr_optim.hpp"
+
+    // solving systems of nonlinear equations
+    #include "zeros/broyden.hpp"
+}
 
 #endif

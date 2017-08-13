@@ -1,4 +1,4 @@
-useDynLib(TraME)
+useDynLib(TraME.R)
 
 importFrom(Rcpp, evalCpp)
 

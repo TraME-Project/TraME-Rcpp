@@ -54,8 +54,8 @@ RCPP_MODULE(rsc_module)
         .field( "nbX", &trame::arums::rsc::nbX )
         .field( "nbY", &trame::arums::rsc::nbY )
 
-        .field( "nbParams", &trame::arums::rsc::nbParams )
-        .field( "outsideOption", &trame::arums::rsc::outsideOption )
+        .field( "dim_params", &trame::arums::rsc::dim_params )
+        .field( "outside_option", &trame::arums::rsc::outside_option )
 
         .field( "zeta", &trame::arums::rsc::zeta )
 
@@ -198,9 +198,9 @@ SEXP rsc_R::Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n)
     return R_NilValue;
 }
 
-empirical_R rsc_R::simul_R(int nbDraws)
+empirical_R rsc_R::simul_R(int nb_draws, int seed_val)
 {
-    trame::arums::empirical emp_obj = this->simul(&nbDraws,NULL);
+    trame::arums::empirical emp_obj = this->simul(nb_draws,seed_val);
 
     empirical_R emp_R_obj = static_cast<empirical_R&>(emp_obj);
 

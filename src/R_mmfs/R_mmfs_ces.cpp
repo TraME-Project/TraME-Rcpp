@@ -53,7 +53,7 @@ RCPP_MODULE(mmfs_ces_module)
 
         .field( "nbX", &trame::mmfs::ces::nbX )
         .field( "nbY", &trame::mmfs::ces::nbY )
-        .field( "nbParams", &trame::mmfs::ces::nbParams )
+        .field( "dim_params", &trame::mmfs::ces::dim_params )
 
         .field( "alpha", &trame::mmfs::ces::alpha )
         .field( "gamma", &trame::mmfs::ces::gamma )

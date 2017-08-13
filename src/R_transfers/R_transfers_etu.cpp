@@ -60,7 +60,7 @@ RCPP_MODULE(transfers_etu_module)
         // basic objects
         .field( "nbX", &trame::transfers::etu::nbX )
         .field( "nbY", &trame::transfers::etu::nbY )
-        .field( "nbParams", &trame::transfers::etu::nbParams )
+        .field( "dim_params", &trame::transfers::etu::dim_params )
         
         .field( "alpha", &trame::transfers::etu::alpha )
         .field( "gamma", &trame::transfers::etu::gamma )

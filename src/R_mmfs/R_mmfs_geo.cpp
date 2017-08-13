@@ -53,7 +53,7 @@ RCPP_MODULE(mmfs_geo_module)
 
         .field( "nbX", &trame::mmfs::geo::nbX )
         .field( "nbY", &trame::mmfs::geo::nbY )
-        .field( "nbParams", &trame::mmfs::geo::nbParams )
+        .field( "dim_params", &trame::mmfs::geo::dim_params )
 
         .field( "phi", &trame::mmfs::geo::phi )
 

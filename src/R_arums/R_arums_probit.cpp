@@ -51,9 +51,9 @@ RCPP_MODULE(probit_module)
         .field( "nbX", &trame::arums::probit::nbX )
         .field( "nbY", &trame::arums::probit::nbY )
 
-        .field( "nbParams", &trame::arums::probit::nbParams )
-        .field( "aux_nbOptions", &trame::arums::probit::aux_nbOptions )
-        .field( "outsideOption", &trame::arums::probit::outsideOption )
+        .field( "dim_params", &trame::arums::probit::dim_params )
+        .field( "aux_nb_options", &trame::arums::probit::aux_nb_options )
+        .field( "outside_option", &trame::arums::probit::outside_option )
 
         .field( "rho", &trame::arums::probit::rho )
 
@@ -78,9 +78,9 @@ RCPP_MODULE(probit_module)
 }
 
 // wrapper functions to catch errors and handle memory pointers
-empirical_R probit_R::simul_R(int nbDraws)
+empirical_R probit_R::simul_R(int nb_draws, int seed_val)
 {
-    trame::arums::empirical emp_obj = this->simul(&nbDraws,NULL);
+    trame::arums::empirical emp_obj = this->simul(nb_draws,seed_val);
 
     empirical_R emp_R_obj = static_cast<empirical_R&>(emp_obj);
 
