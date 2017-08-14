@@ -36,5 +36,4 @@ Suggests: \tab gurobi, Rglpk\cr}
 TraME is licensed under the GNU General Public License (GPL) version 2, or (at your option) any later version.
 }
 
-\author{Alfred Galichon}
-\author{Keith O'Hara}
+\author{Alfred Galichon and Keith O'Hara}
