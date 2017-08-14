@@ -28,23 +28,23 @@
  * 11/10/2016
  *
  * This version:
- * 11/13/2016
+ * 08/13/2017
  */
 
 // these functions take SEXP input arguements instead of exposed class templates ('Ta') because
-// Rcpp modules cannot distinguish between methods with the same number of arguments with different types
+// Rcpp modules cannot distinguish between methods with the same number of arguments but different types
 
 template<typename Ta>
-void dse_empirical_R::build_LTU_R_int(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
+void dse_empirical_etu_R::build_ETU_R_int(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
 {
     try {
         Ta* arums_obj_1 = Rcpp::as<Ta*>(arums_G_inp);
         Ta* arums_obj_2 = Rcpp::as<Ta*>(arums_H_inp);
 
-        trame::empirical empirical_1 = arums_obj_1->simul();
-        trame::empirical empirical_2 = arums_obj_2->simul();
+        trame::arums::empirical empirical_1 = arums_obj_1->simul();
+        trame::arums::empirical empirical_2 = arums_obj_2->simul();
 
-        this->build_LTU(n_inp,m_inp,lambda_inp,phi_inp,empirical_1,empirical_2,need_norm_inp);
+        this->build(n_inp,m_inp,alpha_inp,gamma_inp,tau_inp,empirical_1,empirical_2,need_norm_inp);
     } catch( std::exception &ex ) {
         forward_exception_to_r( ex );
     } catch(...) {
@@ -53,16 +53,16 @@ void dse_empirical_R::build_LTU_R_int(const arma::vec& n_inp, const arma::vec& m
 }
 
 template<typename Ta>
-void dse_empirical_R::build_NTU_R_int(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
+void dse_empirical_ltu_R::build_LTU_R_int(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
 {
     try {
         Ta* arums_obj_1 = Rcpp::as<Ta*>(arums_G_inp);
         Ta* arums_obj_2 = Rcpp::as<Ta*>(arums_H_inp);
 
-        trame::empirical empirical_1 = arums_obj_1->simul();
-        trame::empirical empirical_2 = arums_obj_2->simul();
+        trame::arums::empirical empirical_1 = arums_obj_1->simul();
+        trame::arums::empirical empirical_2 = arums_obj_2->simul();
 
-        this->build_NTU(n_inp,m_inp,alpha_inp,gamma_inp,empirical_1,empirical_2,need_norm_inp);
+        this->build(n_inp,m_inp,lambda_inp,phi_inp,empirical_1,empirical_2,need_norm_inp);
     } catch( std::exception &ex ) {
         forward_exception_to_r( ex );
     } catch(...) {
@@ -71,16 +71,34 @@ void dse_empirical_R::build_NTU_R_int(const arma::vec& n_inp, const arma::vec& m
 }
 
 template<typename Ta>
-void dse_empirical_R::build_TU_R_int(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
+void dse_empirical_ntu_R::build_NTU_R_int(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
 {
     try {
         Ta* arums_obj_1 = Rcpp::as<Ta*>(arums_G_inp);
         Ta* arums_obj_2 = Rcpp::as<Ta*>(arums_H_inp);
 
-        trame::empirical empirical_1 = arums_obj_1->simul();
-        trame::empirical empirical_2 = arums_obj_2->simul();
+        trame::arums::empirical empirical_1 = arums_obj_1->simul();
+        trame::arums::empirical empirical_2 = arums_obj_2->simul();
 
-        this->build_TU(n_inp,m_inp,phi_inp,empirical_1,empirical_2,need_norm_inp);
+        this->build(n_inp,m_inp,alpha_inp,gamma_inp,empirical_1,empirical_2,need_norm_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
+
+template<typename Ta>
+void dse_empirical_tu_R::build_TU_R_int(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
+{
+    try {
+        Ta* arums_obj_1 = Rcpp::as<Ta*>(arums_G_inp);
+        Ta* arums_obj_2 = Rcpp::as<Ta*>(arums_H_inp);
+
+        trame::arums::empirical empirical_1 = arums_obj_1->simul();
+        trame::arums::empirical empirical_2 = arums_obj_2->simul();
+
+        this->build(n_inp,m_inp,phi_inp,empirical_1,empirical_2,need_norm_inp);
     } catch( std::exception &ex ) {
         forward_exception_to_r( ex );
     } catch(...) {

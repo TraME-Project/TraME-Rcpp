@@ -21,7 +21,7 @@ OBJECTS_TRANS= $(SOURCES_TRANS:.cpp=.o)
 SOURCES_MFES= ./modules/markets/R_mfe_mmf.cpp
 OBJECTS_MFES= $(SOURCES_MFES:.cpp=.o)
 
-SOURCES_DSES= ./modules/markets/R_dse_logit.cpp ./modules/markets/R_dse_none.cpp ./modules/markets/R_dse_rsc.cpp ./modules/markets/R_dse_rusc.cpp
+SOURCES_DSES= ./modules/markets/R_dse_empirical.cpp ./modules/markets/R_dse_logit.cpp ./modules/markets/R_dse_none.cpp ./modules/markets/R_dse_rsc.cpp ./modules/markets/R_dse_rusc.cpp
 OBJECTS_DSES= $(SOURCES_DSES:.cpp=.o)
 
 OBJECTS=$(OBJECTS_ARUMS) $(OBJECTS_ANC) $(OBJECTS_MMFS) $(OBJECTS_TRANS) $(OBJECTS_MFES) $(OBJECTS_DSES)

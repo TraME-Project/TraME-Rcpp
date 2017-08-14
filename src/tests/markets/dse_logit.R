@@ -3,7 +3,7 @@ rm(list=ls())
 library(TraME.R)
 
 #library(gurobi)
-#
+
 alpha = matrix(c(1.6, 3.2, 1.1, 2.9, 1.0, 3.1),nrow=2,byrow=T)
 gamma = matrix(c(1.6, 3.2, 1.1, 2.9, 1.0, 3.1),nrow=2,byrow=T)
 muhat = matrix(c(1, 3, 1, 2, 1, 3), nrow=2, byrow=T)
@@ -32,7 +32,7 @@ dse_logit_obj_NTU <- new(dse_logit_ntu_R)
 dse_logit_obj_NTU$build(n,m,alpha,gamma,FALSE)
 #
 dse_logit_obj_TU$solve("jacobi")
-#dse_logit_obj_LTU$solve()
+dse_logit_obj_LTU$solve("jacobi")
 dse_logit_obj_NTU$solve("darum")
 #
 arums_G = dse_logit_obj_NTU$get_arums_G()
@@ -43,12 +43,16 @@ dse_logit_obj_NTU$set_arums_G(arums_G)
 
 arums_G2 = dse_logit_obj_NTU$get_arums_G()
 arums_G2$U
+
 #
 # get transfers object
+
 trans_obj = dse_logit_obj_TU$get_transfers()
 trans_obj$Psi(phi,phi)
+
 #
 # test empirical object
-dse_emp_obj_TU <- new(dse_empirical_R)
-dse_emp_obj_TU$build_TU(n,m,phi,arums_G,arums_H,FALSE)
+
+dse_emp_obj_TU <- new(dse_empirical_tu_R)
+dse_emp_obj_TU$build(n,m,phi,arums_G,arums_H,FALSE)
 dse_emp_obj_TU$solve("cupidsLP")
