@@ -39,10 +39,12 @@ RCPP_EXPOSED_CLASS(none_R)
 RCPP_EXPOSED_CLASS(probit_R)
 RCPP_EXPOSED_CLASS(rsc_R)
 RCPP_EXPOSED_CLASS(rusc_R)
+
 RCPP_EXPOSED_CLASS(transfers_etu_R)
 RCPP_EXPOSED_CLASS(transfers_ltu_R)
 RCPP_EXPOSED_CLASS(transfers_ntu_R)
 RCPP_EXPOSED_CLASS(transfers_tu_R)
+
 RCPP_EXPOSED_CLASS(dse_empirical_etu_R)
 RCPP_EXPOSED_CLASS(dse_empirical_ltu_R)
 RCPP_EXPOSED_CLASS(dse_empirical_ntu_R)
