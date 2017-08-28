@@ -32,7 +32,8 @@
  * 07/24/2017
  */
 
-#include "trame.hpp"
+#include "ancillary/ancillary.hpp"
+#include "mmfs/mmfs.hpp"
 
 void
 trame::mmfs::min::build(const arma::mat& alpha_inp, const arma::mat& gamma_inp, const bool need_norm_inp)
@@ -92,7 +93,7 @@ const
 }
 
 arma::mat 
-trame::mmfs::min::M(const double& a_xs, const arma::mat& b_ys, const arma::uvec* xs, const arma::uvec* ys)
+trame::mmfs::min::M(const double a_xs, const arma::mat& b_ys, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     const arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, (int) nbX-1); 
@@ -105,7 +106,7 @@ const
 }
 
 arma::mat 
-trame::mmfs::min::M(const arma::mat& a_xs, const double& b_ys, const arma::uvec* xs, const arma::uvec* ys)
+trame::mmfs::min::M(const arma::mat& a_xs, const double b_ys, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     const arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, (int) nbX-1); 
@@ -162,8 +163,8 @@ const
     arma::mat check_mat = arma::zeros(term_1.n_rows,term_1.n_cols);
     check_mat.elem(arma::find(term_1 <= term_2)).ones();
 
-    const arma::mat der_1 = a_xs % check_mat;
-    const arma::mat der_2 = arma::trans(a_xs % arma::trans(1 - check_mat));
+    const arma::mat der_1 = elem_prod(a_xs, check_mat);
+    const arma::mat der_2 = arma::trans(elem_prod(b_ys, arma::trans(1 - check_mat)));
 
     arma::mat ret;
 

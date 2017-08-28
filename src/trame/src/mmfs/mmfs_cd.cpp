@@ -29,10 +29,11 @@
  * 08/15/2016
  *
  * This version:
- * 07/24/2017
+ * 08/18/2017
  */
 
-#include "trame.hpp"
+#include "ancillary/ancillary.hpp"
+#include "mmfs/mmfs.hpp"
 
 void
 trame::mmfs::cd::build(const arma::mat& lambda_inp, const arma::mat& phi_inp, const bool need_norm_inp)

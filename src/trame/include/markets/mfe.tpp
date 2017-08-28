@@ -168,7 +168,6 @@ mfe<Tt>::trans()
 // ipfp
 
 template<typename Tt>
-inline
 arma::vec
 mfe<Tt>::marg_x_inv(const arma::mat& B_ys)
 const
@@ -177,7 +176,6 @@ const
 }
 
 template<typename Tt>
-inline
 arma::vec
 mfe<Tt>::marg_x_inv(const arma::mat& B_ys, const arma::uvec* xs)
 const
@@ -210,7 +208,6 @@ const
 }
 
 template<typename Tt>
-inline
 arma::vec
 mfe<Tt>::marg_y_inv(const arma::mat& A_xs)
 const
@@ -219,7 +216,6 @@ const
 }
 
 template<typename Tt>
-inline
 arma::vec
 mfe<Tt>::marg_y_inv(const arma::mat& A_xs, const arma::uvec* ys)
 const
@@ -280,7 +276,7 @@ const
     const arma::mat sqrt_B_ys = arma::sqrt(B_ys);
 
     if (!need_norm) {
-        const arma::mat b = (mmfs_obj.aux_phi_exp.rows(index_vec) * sqrt_B_ys) / 2;
+        const arma::mat b = (mmfs_obj.aux_phi_exp.rows(index_vec) * sqrt_B_ys) / 2.0;
         sqrt_A_xs = arma::sqrt(n.rows(index_vec) + b%b) - b;
     } else{
         sqrt_A_xs = n.elem(index_vec) / arma::vectorise(mmfs_obj.aux_phi_exp.rows(index_vec) * sqrt_B_ys);
@@ -318,7 +314,7 @@ const
     const arma::mat sqrt_A_xs = arma::sqrt(A_xs);
 
     if (!need_norm) {
-        const arma::mat b = arma::trans(sqrt_A_xs.t() * mmfs_obj.aux_phi_exp.cols(index_vec)) / 2; // not sure about this
+        const arma::mat b = arma::trans(sqrt_A_xs.t() * mmfs_obj.aux_phi_exp.cols(index_vec)) / 2.0; // not sure about this
         sqrt_B_ys = arma::sqrt(m.rows(index_vec) + b%b) - b;
     } else {
         sqrt_B_ys = m.elem(index_vec) / arma::vectorise(arma::trans(sqrt_A_xs.t() * mmfs_obj.aux_phi_exp.cols(index_vec))); // not sure about this
@@ -383,7 +379,6 @@ mfe<Tt>::solve(arma::mat& mu_sol, arma::mat& U_out, arma::mat& V_out, const char
 // root finding functions
 
 template<typename Tt>
-inline
 double
 mfe<Tt>::marg_x_inv_fn(const double z, void* opt_data)
 {
@@ -400,7 +395,6 @@ mfe<Tt>::marg_x_inv_fn(const double z, void* opt_data)
 }
 
 template<typename Tt>
-inline
 double
 mfe<Tt>::marg_y_inv_fn(const double z, void* opt_data)
 {

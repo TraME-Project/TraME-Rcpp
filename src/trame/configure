@@ -2,7 +2,7 @@
 ## TraME config script
 
 # inputs
-while getopts :b:cl:m:o:p option; do
+while getopts :b:cl:m:o:pv option; do
     case "${option}" in
         b) TRAME_BUILD=${OPTARG};;
         c) TRAME_COVERAGE="y";;
@@ -10,6 +10,7 @@ while getopts :b:cl:m:o:p option; do
         m) TRAME_MATRIX_OPS=${OPTARG};;
         o) TRAME_OPT=${OPTARG};;
         p) TRAME_PARALLEL="y";;
+        v) TRAME_BUILD_VERBOSE="y";;
     esac
 done
 
@@ -159,21 +160,32 @@ if [[ $OSTYPE == darwin* ]] ; then
             LP_LIB_PATH="-L/opt/local/lib"
         else
             echo ""
-            echo "TraME: cannot find a LP solver files. Downloading GLPK"
+            echo "TraME: cannot find a linear programming solver. Downloading and building GLPK."
             echo ""
 
             mkdir ${WDIR}/glpk_tmp
             cd glpk_tmp
-            curl -O http://ftp.gnu.org/gnu/glpk/glpk-4.62.tar.gz
-            tar -xzf glpk-4.62.tar.gz
-            cd glpk-4.62
-            ./configure --prefix=${WDIR}/glpk_tmp
-            make
-            make PREFIX=${WDIR}/glpk_tmp install
+
+            if [[ "${TRAME_BUILD_VERBOSE}" == "y" ]]; then 
+                curl -O http://ftp.gnu.org/gnu/glpk/glpk-4.63.tar.gz
+                tar -xzf glpk-4.63.tar.gz
+                cd glpk-4.63
+                ./configure --prefix=${WDIR}/glpk_tmp
+                make
+                make PREFIX=${WDIR}/glpk_tmp install
+            else
+                curl -O http://ftp.gnu.org/gnu/glpk/glpk-4.63.tar.gz > /dev/null 2>&1
+                tar -xzf glpk-4.63.tar.gz > /dev/null 2>&1
+                cd glpk-4.63
+                ./configure --prefix=${WDIR}/glpk_tmp > /dev/null 2>&1
+                make > /dev/null 2>&1
+                make PREFIX=${WDIR}/glpk_tmp install > /dev/null 2>&1
+            fi
+
             cd ${WDIR}
 
-            rm -f ${WDIR}/glpk_tmp/glpk-4.62.tar.gz
-            rm -rf ${WDIR}/glpk_tmp/glpk-4.62
+            rm -f ${WDIR}/glpk_tmp/glpk-4.63.tar.gz
+            rm -rf ${WDIR}/glpk_tmp/glpk-4.63
             echo ""
 
             LP_INCLUDE_PATH="-DTRAME_USE_GLPK -I${WDIR}/glpk_tmp/include"
@@ -236,21 +248,32 @@ elif [[ $OSTYPE == *linux* ]] ; then
             LP_LIB_PATH="-L/opt/local/lib"
         else
             echo ""
-            echo "TraME: cannot find a LP solver files. Downloading GLPK"
+            echo "TraME: cannot find a linear programming solver. Downloading and building GLPK."
             echo ""
 
             mkdir ${WDIR}/glpk_tmp
             cd glpk_tmp
-            curl -O http://ftp.gnu.org/gnu/glpk/glpk-4.62.tar.gz
-            tar -xzf glpk-4.62.tar.gz
-            cd glpk-4.62
-            ./configure --prefix=${WDIR}/glpk_tmp
-            make
-            make PREFIX=${WDIR}/glpk_tmp install
+
+            if [[ "${TRAME_BUILD_VERBOSE}" == "y" ]]; then 
+                curl -O http://ftp.gnu.org/gnu/glpk/glpk-4.63.tar.gz
+                tar -xzf glpk-4.63.tar.gz
+                cd glpk-4.63
+                ./configure --prefix=${WDIR}/glpk_tmp
+                make
+                make PREFIX=${WDIR}/glpk_tmp install
+            else
+                curl -O http://ftp.gnu.org/gnu/glpk/glpk-4.63.tar.gz > /dev/null 2>&1
+                tar -xzf glpk-4.63.tar.gz > /dev/null 2>&1
+                cd glpk-4.63
+                ./configure --prefix=${WDIR}/glpk_tmp > /dev/null 2>&1
+                make > /dev/null 2>&1
+                make PREFIX=${WDIR}/glpk_tmp install > /dev/null 2>&1
+            fi
+
             cd ${WDIR}
 
-            rm -f ${WDIR}/glpk_tmp/glpk-4.62.tar.gz
-            rm -rf ${WDIR}/glpk_tmp/glpk-4.62
+            rm -f ${WDIR}/glpk_tmp/glpk-4.63.tar.gz
+            rm -rf ${WDIR}/glpk_tmp/glpk-4.63
             echo ""
 
             LP_INCLUDE_PATH="-DTRAME_USE_GLPK -I${WDIR}/glpk_tmp/include"
@@ -316,21 +339,32 @@ elif [[ $OSTYPE == *cygwin* ]] ; then
             LP_LIB_PATH="-L/opt/local/lib"
         else
             echo ""
-            echo "TraME: cannot find a LP solver files. Downloading GLPK"
+            echo "TraME: cannot find a linear programming solver. Downloading and building GLPK."
             echo ""
 
             mkdir ${WDIR}/glpk_tmp
             cd glpk_tmp
-            curl -O http://ftp.gnu.org/gnu/glpk/glpk-4.62.tar.gz
-            tar -xzf glpk-4.62.tar.gz
-            cd glpk-4.62
-            ./configure --prefix=${WDIR}/glpk_tmp
-            make
-            make PREFIX=${WDIR}/glpk_tmp install
+
+            if [[ "${TRAME_BUILD_VERBOSE}" == "y" ]]; then 
+                curl -O http://ftp.gnu.org/gnu/glpk/glpk-4.63.tar.gz
+                tar -xzf glpk-4.63.tar.gz
+                cd glpk-4.63
+                ./configure --prefix=${WDIR}/glpk_tmp
+                make
+                make PREFIX=${WDIR}/glpk_tmp install
+            else
+                curl -O http://ftp.gnu.org/gnu/glpk/glpk-4.63.tar.gz > /dev/null 2>&1
+                tar -xzf glpk-4.63.tar.gz > /dev/null 2>&1
+                cd glpk-4.63
+                ./configure --prefix=${WDIR}/glpk_tmp > /dev/null 2>&1
+                make > /dev/null 2>&1
+                make PREFIX=${WDIR}/glpk_tmp install > /dev/null 2>&1
+            fi
+
             cd ${WDIR}
 
-            rm -f ${WDIR}/glpk_tmp/glpk-4.62.tar.gz
-            rm -rf ${WDIR}/glpk_tmp/glpk-4.62
+            rm -f ${WDIR}/glpk_tmp/glpk-4.63.tar.gz
+            rm -rf ${WDIR}/glpk_tmp/glpk-4.63
             echo ""
 
             LP_INCLUDE_PATH="-DTRAME_USE_GLPK -I${WDIR}/glpk_tmp/include"
@@ -365,11 +399,7 @@ fi
 if [[ "${TRAME_COVERAGE}" == "y" ]]; then 
     TRAME_SHLIB_FLAGS="--coverage ${TRAME_SHLIB_FLAGS}"
 else
-    TRAME_SHLIB_FLAGS="-O3 ${TRAME_SHLIB_FLAGS}"
-fi
-
-if [[ "${TRAME_PARALLEL}" == "y" ]]; then 
-    TRAME_SHLIB_FLAGS="-fopenmp ${TRAME_SHLIB_FLAGS}"
+    TRAME_SHLIB_FLAGS="${TRAME_OPT_FLAGS} ${TRAME_SHLIB_FLAGS}"
 fi
 
 # create Makefile

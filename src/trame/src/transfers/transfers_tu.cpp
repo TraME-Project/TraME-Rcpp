@@ -31,7 +31,9 @@
  * 07/25/2017
  */
 
-#include "trame.hpp"
+#include "ancillary/ancillary.hpp"
+#include "mmfs/mmfs.hpp"
+#include "transfers/transfers.hpp"
 
 void 
 trame::transfers::tu::build(const arma::mat& phi_inp, const bool need_norm_inp)
@@ -74,6 +76,10 @@ const
 
 //
 // DSE-related functions
+//
+
+//
+// Implicit Parameterization
 
 arma::mat 
 trame::transfers::tu::Psi(const arma::mat& U, const arma::mat& V)
@@ -82,7 +88,6 @@ const
     return this->Psi(U,V,nullptr,nullptr);
 }
 
-// Implicit Parameterization
 arma::mat 
 trame::transfers::tu::Psi(const arma::mat& U, const arma::mat& V, const arma::uvec* xs, const arma::uvec* ys)
 const
@@ -121,6 +126,7 @@ const
 }
 
 // Derivative of Psi wrt u
+
 arma::mat 
 trame::transfers::tu::du_Psi(const arma::mat& U, const arma::mat& V)
 const
@@ -167,18 +173,20 @@ const
     return ret;
 }
 
+// dparams
+
 arma::mat 
-trame::transfers::tu::dparams_Psi(const arma::mat& U, const arma::mat& V, const arma::mat& dparams)
+trame::transfers::tu::dparams_Psi(const arma::mat& U, const arma::mat& V)
 const
 {
-    return this->dparams_Psi(U,V,&dparams);
+    return this->dparams_Psi(U,V,nullptr);
 }
 
 arma::mat 
 trame::transfers::tu::dparams_Psi(const arma::mat& U, const arma::mat& V, const arma::mat* dparams)
 const
 {
-    arma::mat ret(nbX,nbY);
+    arma::mat ret;
     //
     if (!dparams) {
         ret = - 0.5*arma::eye(nbX*nbY,nbX*nbY);
@@ -189,7 +197,11 @@ const
     return ret;
 }
 
+//
 // Explicit Parameterization
+
+// Ucal and Vcal
+
 arma::mat 
 trame::transfers::tu::Ucal(const arma::mat& vs)
 const
@@ -204,7 +216,7 @@ const
     const arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
     const arma::uvec y_ind = (ys) ? *ys : uvec_linspace(0, nbY-1);
     //
-    return phi(x_ind,y_ind) - vs;
+    return phi(x_ind,y_ind) - byrow(vs,x_ind.n_elem,y_ind.n_elem);
 }
 
 double 
@@ -237,6 +249,8 @@ const
 {
     return phi(xs,ys) - us;
 }
+
+// UW and VW
 
 arma::mat 
 trame::transfers::tu::UW(const arma::mat& Ws)
@@ -286,6 +300,8 @@ const
     return - Psi(Ws,(double) 0.0,x_ind,y_ind);
 }
 
+// dw
+
 arma::mat 
 trame::transfers::tu::dw_UW(const arma::mat& Ws)
 const
@@ -319,6 +335,8 @@ const
     //
     return - du_Psi(Ws,0.0,&x_ind,&y_ind);
 }
+
+// WU and WV
 
 arma::mat 
 trame::transfers::tu::WU(const arma::mat& Us)

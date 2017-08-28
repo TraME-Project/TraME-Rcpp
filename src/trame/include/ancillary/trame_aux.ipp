@@ -32,19 +32,19 @@
  */
 
 //
-// Find indices that correspond to maximum values 
+// Find indices that correspond to maximum values
 
 inline
 arma::uvec
 which_max(const arma::mat& X, const int which_dim)
-{    
+{
     const int n = X.n_rows;
     const int k = X.n_cols;
     //
     int max_ind = 0;
     double max_val = 0;
     arma::uvec max_vec;
-     
+
     if (which_dim==0) { // each column
         max_vec.set_size(k);
         for (int j=0; j < k; j++) {
@@ -98,16 +98,55 @@ unit_vec(const int j, const int n)
 
 inline
 arma::uvec
-uvec_linspace (const int a, const int b)
+uvec_linspace(const int a, const int b)
 {
     const int n_points = b - a + 1;
-    
+
     arma::uvec ret(n_points);
     //
     for (int i=0; i < n_points; i++) {
         ret(i) = a + i;
     }
     //
+    return ret;
+}
+
+// by-row reconstruction of a matrix (mimics R's 'byrow=TRUE')
+
+inline
+arma::mat
+byrow(const arma::mat& mat_inp, const int n_rows, const int n_cols)
+{
+    arma::vec vec_tmp = arma::vectorise(mat_inp);
+    const int n_vals = vec_tmp.n_elem;
+
+    arma::mat ret(n_rows,n_cols);
+
+    if (n_vals != n_rows*n_cols) { // use repmat in this case
+        if (n_vals == n_rows) {
+            ret = arma::repmat(vec_tmp,1,n_cols);
+        } else if (n_vals == n_cols) {
+            ret = arma::repmat(vec_tmp.t(),n_rows,1);
+        } else {
+            printf("error in byrow\n");
+            return ret;
+        }
+    } else { // otherwise rebuild the input matrix using byrow
+
+        int kr = 0, kc = 0;
+
+        for (int i=0; i < n_rows*n_cols; i++) {
+            ret(kr,kc) = vec_tmp(i);
+
+            kc++;
+
+            if (kc >= n_cols) {
+                kc = 0;
+                kr++;
+            }
+        }
+    }
+
     return ret;
 }
 
@@ -123,7 +162,7 @@ elem_add(const arma::mat& mat_1, const arma::mat& mat_2)
     const int rows_2 = mat_2.n_rows;
 
     const int cols_1 = mat_1.n_cols;
-    const int cols_2 = mat_2.n_cols; 
+    const int cols_2 = mat_2.n_cols;
 
     const bool same_rows = (rows_1==rows_2) ? true : false;
     const bool same_cols = (cols_1==cols_2) ? true : false;
@@ -131,7 +170,7 @@ elem_add(const arma::mat& mat_1, const arma::mat& mat_2)
     arma::mat ret;
 
     if (!same_rows && !same_cols) {
-        printf("elem_sub: need matrices to agree on at least one dimension\n");
+        printf("elem_add: need matrices to agree on at least one dimension\n");
         return ret;
     }
 
@@ -152,7 +191,7 @@ elem_add(const arma::mat& mat_1, const arma::mat& mat_2)
                 ret.col(i) = mat_1.col(i) + mat_2;
             }
         } else {
-            printf("elem_sub: need one of the matrices to be a column vector\n");
+            printf("elem_add: need one of the matrices to be a column vector\n");
             return ret;
         }
     } else if (!same_rows && same_cols) {
@@ -167,11 +206,11 @@ elem_add(const arma::mat& mat_1, const arma::mat& mat_2)
                 ret.row(i) = mat_1.row(i) + mat_2;
             }
         } else {
-            printf("elem_sub: need one of the matrices to be a row vector\n");
+            printf("elem_add: need one of the matrices to be a row vector\n");
             return ret;
         }
     } else {
-        printf("elem_sub: unknown error\n");
+        printf("elem_add: unknown error\n");
         return ret;
     }
     //
@@ -190,8 +229,8 @@ elem_sub(const arma::mat& mat_1, const arma::mat& mat_2)
     const int rows_2 = mat_2.n_rows;
 
     const int cols_1 = mat_1.n_cols;
-    const int cols_2 = mat_2.n_cols; 
-    
+    const int cols_2 = mat_2.n_cols;
+
     const bool same_rows = (rows_1==rows_2) ? true : false;
     const bool same_cols = (cols_1==cols_2) ? true : false;
     //
@@ -257,8 +296,8 @@ elem_prod(const arma::mat& mat_1, const arma::mat& mat_2)
     const int rows_2 = mat_2.n_rows;
 
     const int cols_1 = mat_1.n_cols;
-    const int cols_2 = mat_2.n_cols; 
-    
+    const int cols_2 = mat_2.n_cols;
+
     const bool same_rows = (rows_1==rows_2) ? true : false;
     const bool same_cols = (cols_1==cols_2) ? true : false;
     //
@@ -324,8 +363,8 @@ elem_div(const arma::mat& mat_1, const arma::mat& mat_2)
     const int rows_2 = mat_2.n_rows;
 
     const int cols_1 = mat_1.n_cols;
-    const int cols_2 = mat_2.n_cols; 
-    
+    const int cols_2 = mat_2.n_cols;
+
     const bool same_rows = (rows_1==rows_2) ? true : false;
     const bool same_cols = (cols_1==cols_2) ? true : false;
     //
@@ -335,7 +374,7 @@ elem_div(const arma::mat& mat_1, const arma::mat& mat_2)
         printf("elem_div: need matrices to agree on at least one dimension\n");
         return ret;
     }
-    
+
     //
     // instead of loops we could also use arma::repmat, not sure which is quicker...
 
@@ -411,7 +450,7 @@ elem_min(const arma::mat& mat_1, const double comp_val)
     //
     arma::mat comp_mat(rows_1,cols_1);
     comp_mat.fill(comp_val);
-    
+
     return arma::min(mat_1,comp_mat);
 }
 
@@ -464,7 +503,7 @@ elem_max(const arma::mat& mat_1, const double comp_val)
     //
     arma::mat comp_mat(rows_1,cols_1);
     comp_mat.fill(comp_val);
-    
+
     return arma::max(mat_1,comp_mat);
 }
 
@@ -493,7 +532,7 @@ arma::mat
 cube_sum(const arma::cube& cube_inp, const int which_dim)
 {
     if (which_dim > 1 || which_dim < 0) {
-        printf("unrecognized dim value; should be in (0,1)\n");
+        printf("error: cube_sum: unrecognized dim value; should be in (0,1)\n");
     }
     //
     const int dim_0 = cube_inp.n_rows;
@@ -502,7 +541,7 @@ cube_sum(const arma::cube& cube_inp, const int which_dim)
 
     arma::mat ret;
 
-    if (which_dim == 0) {
+    if (which_dim == 0) { // over rows
         ret.set_size(dim_0,dim_2);
         for (int i=0; i < dim_2; i++) {
             arma::mat mat_s = cube_inp.slice(i);
@@ -510,7 +549,7 @@ cube_sum(const arma::cube& cube_inp, const int which_dim)
         }
     } else { // dim == 1
         ret.set_size(dim_1,dim_2);
-        for (int i=0; i < dim_1; i++) {
+        for (int i=0; i < dim_2; i++) {
             arma::mat mat_s = cube_inp.slice(i);
             ret.col(i) = arma::trans(arma::sum(mat_s,0));
         }
@@ -520,7 +559,7 @@ cube_sum(const arma::cube& cube_inp, const int which_dim)
 }
 
 //
-// mirror R's approach to creating a matrix from an array: 
+// mirror R's approach to creating a matrix from an array:
 // take each slice and vectorise that matrix
 
 inline

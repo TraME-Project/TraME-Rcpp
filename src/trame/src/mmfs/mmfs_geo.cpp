@@ -32,7 +32,8 @@
  * 07/24/2017
  */
 
-#include "trame.hpp"
+#include "ancillary/ancillary.hpp"
+#include "mmfs/mmfs.hpp"
 
 void 
 trame::mmfs::geo::build(const arma::mat& phi_inp, const bool need_norm_inp)
@@ -84,7 +85,7 @@ const
 }
 
 arma::mat 
-trame::mmfs::geo::M(const double& a_xs, const arma::mat& b_ys, const arma::uvec* xs, const arma::uvec* ys)
+trame::mmfs::geo::M(const double a_xs, const arma::mat& b_ys, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     const arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);
@@ -97,7 +98,7 @@ const
 }
 
 arma::mat 
-trame::mmfs::geo::M(const arma::mat& a_xs, const double& b_ys, const arma::uvec* xs, const arma::uvec* ys)
+trame::mmfs::geo::M(const arma::mat& a_xs, const double b_ys, const arma::uvec* xs, const arma::uvec* ys)
 const
 {
     const arma::uvec x_ind = (xs) ? *xs : uvec_linspace(0, nbX-1);

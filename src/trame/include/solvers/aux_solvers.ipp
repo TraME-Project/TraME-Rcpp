@@ -31,15 +31,14 @@
  * 07/26/2016
  */
 
-#include "trame.hpp"
-
 /*
  * build disaggregate epsilon function; used in cupids_lp
  * takes U_xy and arums as input; returns U_iy as output.
  */
 
+inline
 int 
-trame::build_disaggregate_epsilon(arma::vec n, const trame::arums::empirical& arums_emp_inp, arma::mat& epsilon_iy, arma::mat& epsilon0_i, arma::mat& I_ix)
+build_disaggregate_epsilon(arma::vec n, const trame::arums::empirical& arums_emp_inp, arma::mat& epsilon_iy, arma::mat& epsilon0_i, arma::mat& I_ix)
 {
     const int nbX = arums_emp_inp.nbX;
     const int nbY = arums_emp_inp.nbY;
@@ -64,7 +63,7 @@ trame::build_disaggregate_epsilon(arma::vec n, const trame::arums::empirical& ar
         I_01.zeros();
         I_01(x) = 1;
         
-        I_ix.rows(x*nb_draws,(x+1)*nb_draws-1) = arma::repmat(I_01.t(),nb_draws,1);
+        I_ix.rows(x*nb_draws,(x+1)*nb_draws-1) = arma::repmat(I_01.t(),nb_draws,1); // Keith: check use of byrow here
     }
     //
     epsilon_iy = epsilons.cols(0,nbY-1);
