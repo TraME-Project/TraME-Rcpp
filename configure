@@ -2,7 +2,8 @@
 ## TraME R config script
 
 R_INCLUDE_PATH="${R_HOME}/include"
-if [[ "${TRAVIS}" == "true"]]; then
+
+if [[ "${TRAVIS}" == "true" ]]; then
     RCPP_ARMADILLO_INCLUDE_PATH="-I/usr/local/lib/R/site-library/Rcpp/include -I/usr/local/lib/R/site-library/RcppArmadillo/include"
 else 
     RCPP_ARMADILLO_INCLUDE_PATH="-I${R_HOME}/library/Rcpp/include -I${R_HOME}/library/RcppArmadillo/include"
