@@ -66,7 +66,7 @@ darum_int(const dse<Tg,Th,transfers::ntu>& market, arma::mat* mu_out, arma::vec*
     //
     int iter = 0;
     double err = 2*tol;
-    
+
     arma::mat U_P, U_D, mu_P, mu_D, mu_diff;
 
     while (err > tol && iter < max_iter) {
@@ -80,7 +80,7 @@ darum_int(const dse<Tg,Th,transfers::ntu>& market, arma::mat* mu_out, arma::vec*
         //
         err = elem_max(arma::abs(mu_diff));
     }
-    
+
     if (err <= tol && iter < max_iter) {
         success = true;
     }
@@ -107,7 +107,7 @@ darum_int(const dse<Tg,Th,transfers::ntu>& market, arma::mat* mu_out, arma::vec*
     return success;
 }
 
-// wrappers 
+// wrappers
 
 template<typename Tg, typename Th, typename Tt>
 bool

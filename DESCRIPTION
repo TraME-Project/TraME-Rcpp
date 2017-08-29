@@ -17,4 +17,4 @@ RcppModules: empirical_module, logit_module, none_module, probit_module, rsc_mod
     mmfs_cd_module, mmfs_ces_module, mmfs_geo_module, mmfs_min_module,
     transfers_etu_module, transfers_ltu_module, transfers_ntu_module, transfers_tu_module,
     mfe_mmf_module, dse_empirical_module, dse_logit_module, dse_none_module, dse_rsc_module, dse_rusc_module,
-    model_dse_logit_module
+    model_mfe_module, model_dse_logit_module
