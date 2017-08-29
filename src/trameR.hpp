@@ -6,3 +6,4 @@
 #include "modules/transfers/R_transfers.hpp"
 #include "modules/markets/R_dse.hpp"
 #include "modules/markets/R_mfe.hpp"
+#include "modules/models/R_models.hpp"

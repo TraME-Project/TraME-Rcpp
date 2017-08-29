@@ -33,6 +33,14 @@
 
 // internal darum
 
+template<typename Tg, typename Th, typename Tt>
+bool
+darum_int(const dse<Tg,Th,Tt>& market, arma::mat* mu_out, arma::vec* mu_x0_out, arma::vec* mu_0y_out, arma::mat* U_out, arma::mat* V_out, const double* tol_inp, const int* max_iter_inp)
+{
+    printf("darum only works for NTU transfers.\n");
+    return false;
+}
+
 template<typename Tg, typename Th>
 bool
 darum_int(const dse<Tg,Th,transfers::ntu>& market, arma::mat* mu_out, arma::vec* mu_x0_out, arma::vec* mu_0y_out, arma::mat* U_out, arma::mat* V_out, const double* tol_inp, const int* max_iter_inp)

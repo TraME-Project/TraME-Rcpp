@@ -107,7 +107,7 @@ equil_solve(const dse<Tg,Th,Tt>& market_obj, arma::mat& mu_sol, arma::mat& U_out
             res = max_welfare(market_obj,mu_sol,U_out,V_out);
         }
         if (sig=='o') {
-            res = oap_lp(market_obj,mu_sol,U_out,V_out);
+            // res = oap_lp(market_obj,mu_sol,U_out,V_out);
         }
     } else { // default
         if (market_obj.NTU) {

@@ -33,6 +33,14 @@
 
 // internal max_welfare
 
+template<typename Tg, typename Th, typename Tt>
+bool
+max_welfare_int(const dse<Tg,Th,Tt>& market, arma::mat* mu_out, arma::vec* mu_x0_out, arma::vec* mu_0y_out, arma::mat* U_out, arma::mat* V_out, double* val_out, const double* err_tol_inp, const int* max_iter_inp)
+{
+    printf("max_welfare only works for TU transfers.\n");
+    return false;
+}
+
 template<typename Tg, typename Th>
 bool
 max_welfare_int(const dse<Tg,Th,transfers::tu>& market, arma::mat* mu_out, arma::vec* mu_x0_out, arma::vec* mu_0y_out, arma::mat* U_out, arma::mat* V_out, double* val_out, const double* err_tol_inp, const int* max_iter_inp)
