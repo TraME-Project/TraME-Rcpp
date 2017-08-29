@@ -2,10 +2,11 @@
 ## TraME R config script
 
 R_INCLUDE_PATH="${R_HOME}/include"
-RCPP_ARMADILLO_INCLUDE_PATH="-I${R_HOME}/library/Rcpp/include -I${R_HOME}/library/RcppArmadillo/include"
-
-echo "R libs at ${R_LD_LIBRARY_PATH}"
-echo "R Mac libs at ${DYLD_FALLBACK_LIBRARY_PATH}"
+if [[ "${TRAVIS}" == "true"]]; then
+    RCPP_ARMADILLO_INCLUDE_PATH="-I/usr/local/lib/R/site-library/Rcpp/include -I/usr/local/lib/R/site-library/RcppArmadillo/include"
+else 
+    RCPP_ARMADILLO_INCLUDE_PATH="-I${R_HOME}/library/Rcpp/include -I${R_HOME}/library/RcppArmadillo/include"
+fi
 
 export ARMA_INCLUDE_PATH="${R_INCLUDE_PATH} ${RCPP_ARMADILLO_INCLUDE_PATH} -DUSE_RCPP_ARMADILLO"
 export TRAME_R_VERSION="yes"
