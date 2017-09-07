@@ -1,1 +1,79 @@
-PKG_LIBS = $(shell $(R_HOME)/bin${R_ARCH_BIN}/Rscript.exe -e "Rcpp:::LdFlags()") $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
+
+SDIR = $(PWD)
+TRAME_DIR = $(SDIR)/trame
+TRAME_SRC_DIR = $(SDIR)/trame/src
+TRAME_HEADER_DIR = $(SDIR)/trame/include
+
+#
+
+CXX_STD = CXX11
+
+PKG_CXXFLAGS= -std=c++11 -Wall -O2 -fopenmp -DTRAME_OMP -DUSE_RCPP_ARMADILLO -I$(SDIR) -I$(TRAME_HEADER_DIR) -I$(TRAME_HEADER_DIR)/optim
+PKG_LIBS= -fopenmp $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
+PKG_CFLAGS= -Wall -O2 -fopenmp -DTRAME_OMP -DUSE_RCPP_ARMADILLO -I$(TRAME_HEADER_DIR)
+
+#
+# sources and objects
+
+SOURCES_LP= $(TRAME_SRC_DIR)/lp/generic_lp_c.c
+OBJECTS_LP= $(TRAME_SRC_DIR)/lp/generic_lp_c.o
+
+SOURCES_LPXX= $(TRAME_SRC_DIR)/lp/generic_lp.cpp
+OBJECTS_LPXX= $(TRAME_SRC_DIR)/lp/generic_lp.o
+
+# general flags
+CFLAGS = $(OPT_FLAGS) $(LP_CFLAGS) -I$(TRAME_HEADER_DIR)
+CXXFLAGS = $(CXX_STD) $(OPT_FLAGS) -I$(ARMA_INCLUDE_PATH) $(LP_CXXFLAGS) -I$(TRAME_HEADER_DIR)
+FFLAGS = $(OPT_FLAGS)
+LIBS= -lgfortran @TRAME_BLAS_LAPACK@
+
+# core TraME files
+OBJECTS_TRAME_F90= $(TRAME_SRC_DIR)/prob/prob.o $(TRAME_SRC_DIR)/math/quadpack_double.o $(TRAME_SRC_DIR)/prob/trame_F90_aux.o
+
+SOURCES_TRAME_ANC= $(TRAME_SRC_DIR)/ancillary/inv_pwa.cpp $(TRAME_SRC_DIR)/ancillary/trame_stats.cpp $(TRAME_SRC_DIR)/ancillary/zeroin.cpp
+OBJECTS_TRAME_ANC= $(SOURCES_TRAME_ANC:.cpp=.o)
+
+SOURCES_TRAME_ARUMS= $(TRAME_SRC_DIR)/arums/arums_empirical.cpp $(TRAME_SRC_DIR)/arums/arums_evd.cpp $(TRAME_SRC_DIR)/arums/arums_none.cpp $(TRAME_SRC_DIR)/arums/arums_probit.cpp $(TRAME_SRC_DIR)/arums/arums_rsc.cpp $(TRAME_SRC_DIR)/arums/arums_rusc.cpp
+OBJECTS_TRAME_ARUMS= $(SOURCES_TRAME_ARUMS:.cpp=.o)
+
+SOURCES_TRAME_MMFS= $(TRAME_SRC_DIR)/mmfs/mmfs_ces.cpp $(TRAME_SRC_DIR)/mmfs/mmfs_cd.cpp $(TRAME_SRC_DIR)/mmfs/mmfs_min.cpp $(TRAME_SRC_DIR)/mmfs/mmfs_geo.cpp
+OBJECTS_TRAME_MMFS= $(SOURCES_TRAME_MMFS:.cpp=.o)
+
+SOURCES_TRAME_OPTIM= $(TRAME_SRC_DIR)/optim/unconstrained/bfgs.cpp $(TRAME_SRC_DIR)/optim/unconstrained/lbfgs.cpp $(TRAME_SRC_DIR)/optim/zeros/broyden.cpp $(TRAME_SRC_DIR)/optim/line_search/more_thuente.cpp $(TRAME_SRC_DIR)/optim/constrained/sumt.cpp
+OBJECTS_TRAME_OPTIM= $(SOURCES_TRAME_OPTIM:.cpp=.o)
+
+SOURCES_TRAME_TRANS= $(TRAME_SRC_DIR)/transfers/transfers_etu.cpp $(TRAME_SRC_DIR)/transfers/transfers_ltu.cpp $(TRAME_SRC_DIR)/transfers/transfers_ntu.cpp $(TRAME_SRC_DIR)/transfers/transfers_tu.cpp
+OBJECTS_TRAME_TRANS= $(SOURCES_TRAME_TRANS:.cpp=.o)
+
+OBJECTS_TRAME= $(OBJECTS_LP) $(OBJECTS_LPXX) $(OBJECTS_TRAME_F90) $(OBJECTS_TRAME_ANC) $(OBJECTS_TRAME_OPTIM) $(OBJECTS_TRAME_ARUMS) $(OBJECTS_TRAME_MMFS) $(OBJECTS_TRAME_TRANS)
+
+# modules
+
+SOURCES_ARUMS= ./modules/arums/R_arums_empirical.cpp ./modules/arums/R_arums_evd.cpp ./modules/arums/R_arums_none.cpp ./modules/arums/R_arums_probit.cpp ./modules/arums/R_arums_rsc.cpp ./modules/arums/R_arums_rusc.cpp
+OBJECTS_ARUMS= $(SOURCES_ARUMS:.cpp=.o)
+
+SOURCES_MMFS= ./modules/mmfs/R_mmfs_cd.cpp ./modules/mmfs/R_mmfs_ces.cpp ./modules/mmfs/R_mmfs_geo.cpp ./modules/mmfs/R_mmfs_min.cpp
+OBJECTS_MMFS= $(SOURCES_MMFS:.cpp=.o)
+
+SOURCES_ANC= ./modules/anc/inv_pwa_R.cpp
+OBJECTS_ANC= $(SOURCES_ANC:.cpp=.o)
+
+SOURCES_TRANS= ./modules/transfers/R_transfers_etu.cpp ./modules/transfers/R_transfers_ltu.cpp ./modules/transfers/R_transfers_ntu.cpp ./modules/transfers/R_transfers_tu.cpp
+OBJECTS_TRANS= $(SOURCES_TRANS:.cpp=.o)
+
+SOURCES_MFES= ./modules/markets/R_mfe_mmf.cpp
+OBJECTS_MFES= $(SOURCES_MFES:.cpp=.o)
+
+SOURCES_DSES= ./modules/markets/R_dse_empirical.cpp ./modules/markets/R_dse_evd.cpp ./modules/markets/R_dse_none.cpp ./modules/markets/R_dse_rsc.cpp ./modules/markets/R_dse_rusc.cpp
+OBJECTS_DSES= $(SOURCES_DSES:.cpp=.o)
+
+SOURCES_MDLS= ./modules/models/R_model_dse_evd.cpp ./modules/models/R_model_mfe.cpp
+OBJECTS_MDLS= $(SOURCES_MDLS:.cpp=.o)
+
+#
+
+OBJECTS=$(OBJECTS_TRAME) $(OBJECTS_ARUMS) $(OBJECTS_ANC) $(OBJECTS_MMFS) $(OBJECTS_TRANS) $(OBJECTS_MFES) $(OBJECTS_DSES) $(OBJECTS_MDLS)
+
+all: $(SHLIB)
+
+$(SHLIB): $(OBJECTS)
