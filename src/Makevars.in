@@ -49,7 +49,7 @@ OBJECTS_TRAME= $(OBJECTS_LP) $(OBJECTS_LPXX) $(OBJECTS_TRAME_F90) $(OBJECTS_TRAM
 
 # modules
 
-SOURCES_ARUMS= ./modules/arums/R_arums_empirical.cpp ./modules/arums/R_arums_logit.cpp ./modules/arums/R_arums_none.cpp ./modules/arums/R_arums_probit.cpp ./modules/arums/R_arums_rsc.cpp ./modules/arums/R_arums_rusc.cpp
+SOURCES_ARUMS= ./modules/arums/R_arums_empirical.cpp ./modules/arums/R_arums_evd.cpp ./modules/arums/R_arums_none.cpp ./modules/arums/R_arums_probit.cpp ./modules/arums/R_arums_rsc.cpp ./modules/arums/R_arums_rusc.cpp
 OBJECTS_ARUMS= $(SOURCES_ARUMS:.cpp=.o)
 
 SOURCES_MMFS= ./modules/mmfs/R_mmfs_cd.cpp ./modules/mmfs/R_mmfs_ces.cpp ./modules/mmfs/R_mmfs_geo.cpp ./modules/mmfs/R_mmfs_min.cpp
