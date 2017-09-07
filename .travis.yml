@@ -2,6 +2,8 @@ language: r
 sudo: required
 warnings_are_errors: true
 
+install: travis_wait 30 mvn install
+
 env:
   global:
     - R_BUILD_ARGS="--no-manual"
