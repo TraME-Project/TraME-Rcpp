@@ -1,5 +1,5 @@
 
-SDIR = $(PWD)
+SDIR = $(CURDIR)
 TRAME_DIR = $(SDIR)/trame
 TRAME_SRC_DIR = $(SDIR)/trame/src
 TRAME_HEADER_DIR = $(SDIR)/trame/include
