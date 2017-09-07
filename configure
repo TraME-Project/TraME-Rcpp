@@ -14,6 +14,8 @@ if [[ !($OSTYPE == darwin*) ]] ; then
     TRAME_OPT_FLAGS="${TRAME_OPT_FLAGS} -fopenmp -DTRAME_OMP"
 fi
 
+ls src/trame/include/arums
+
 # switch between OSX and Linux
 if [[ $OSTYPE == darwin* ]] ; then
 
