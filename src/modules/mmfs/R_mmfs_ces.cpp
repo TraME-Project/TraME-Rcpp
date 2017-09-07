@@ -31,7 +31,10 @@
  * 05/13/2017
  */
 
-#include "trameR.hpp"
+ #include "ancillary/ancillary.hpp"
+ #include "mmfs/mmfs.hpp"
+
+ #include "R_mmfs.hpp"
 
 RCPP_MODULE(mmfs_ces_module)
 {

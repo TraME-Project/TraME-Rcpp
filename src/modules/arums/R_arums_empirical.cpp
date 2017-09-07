@@ -28,7 +28,12 @@
  * 09/06/2016
  */
 
-#include "trameR.hpp"
+// #include "trameR.hpp"
+
+#include "ancillary/ancillary.hpp"
+#include "arums/arums.hpp"
+
+#include "R_arums.hpp"
 
 RCPP_MODULE(empirical_module)
 {

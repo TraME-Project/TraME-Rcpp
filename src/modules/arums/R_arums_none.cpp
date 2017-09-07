@@ -28,7 +28,10 @@
  * 08/08/2016
  */
 
-#include "trameR.hpp"
+ #include "ancillary/ancillary.hpp"
+ #include "arums/arums.hpp"
+ 
+ #include "R_arums.hpp"
 
 RCPP_EXPOSED_CLASS(empirical_R)
 RCPP_EXPOSED_CLASS(none_R)

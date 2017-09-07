@@ -31,7 +31,11 @@
  * 05/16/2017
  */
 
-#include "trameR.hpp"
+ #include "ancillary/ancillary.hpp"
+ #include "mmfs/mmfs.hpp"
+ #include "transfers/transfers.hpp"
+
+ #include "R_transfers.hpp"
 
 RCPP_MODULE(transfers_ntu_module)
 {
