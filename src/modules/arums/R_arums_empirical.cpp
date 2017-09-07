@@ -57,7 +57,7 @@ RCPP_MODULE(empirical_module)
         .field( "nbY", &trame::arums::empirical::nbY )
 
         .field( "dim_params", &trame::arums::empirical::dim_params )
-        .field( "aux_nb_draws", &trame::arums::empirical::aux_nb_draws )
+        .field( "aux_n_draws", &trame::arums::empirical::aux_n_draws )
         .field( "nb_options", &trame::arums::empirical::nb_options )
 
         .field( "x_homogeneous", &trame::arums::empirical::x_homogeneous )

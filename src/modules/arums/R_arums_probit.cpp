@@ -81,9 +81,9 @@ RCPP_MODULE(probit_module)
 }
 
 // wrapper functions to catch errors and handle memory pointers
-empirical_R probit_R::simul_R(int nb_draws, int seed_val)
+empirical_R probit_R::simul_R(int n_draws, int seed_val)
 {
-    trame::arums::empirical emp_obj = this->simul(nb_draws,seed_val);
+    trame::arums::empirical emp_obj = this->simul(n_draws,seed_val);
 
     empirical_R emp_R_obj = static_cast<empirical_R&>(emp_obj);
 
