@@ -28,8 +28,7 @@ namespace trame
 {
     namespace arums {
         #include "arums_empirical.hpp"
-        // #include "arums_logit.hpp"
-        #include "altest.hpp"
+        #include "arums_logit_.hpp"
         #include "arums_none.hpp"
         #include "arums_probit.hpp"
         #include "arums_rsc.hpp"
