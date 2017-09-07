@@ -38,7 +38,7 @@
 // build functions
 
 trame::arums::logit::logit(const int nbX_inp, const int nbY_inp)
-{   
+{
     this->build(nbX_inp,nbY_inp);
 }
 
