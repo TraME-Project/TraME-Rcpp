@@ -18,6 +18,9 @@ notifications:
     on_success: change
     on_failure: change
 
+before_install:
+  - sudo apt-get install glpk-utils libglpk-dev
+
 script: 
   - |
     travis_wait 30 R CMD build . --no-manual
