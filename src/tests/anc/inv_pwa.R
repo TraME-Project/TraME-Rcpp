@@ -7,4 +7,4 @@ k=1
 
 inversePWA(a,B,C,k)
 
-.Call("inv_pwa_R", a,B,C,k, PACKAGE = "TraME")$vals
+.Call("inv_pwa_R", a,B,C,k, PACKAGE = "TraME.Rcpp")$vals

@@ -42,13 +42,13 @@ test_ipfp_new <- function(seed=777, nbX=18, nbY=5)
     lambda_LTU = lambda/(lambda + zeta)
     phi_LTU = (lambda*alpha + zeta*gamma) / (lambda + zeta)
     #
-    m1 <- new(mfe_mmf_R)
+    m1 <- new(mfe_mmf)
     m1$build_TU(n,m,phi,sigma,FALSE)
 
-    m3 <- new(mfe_mmf_R)
+    m3 <- new(mfe_mmf)
     m3$build_LTU(n,m,lambda_LTU,phi_LTU,sigma,FALSE)
 
-    m2 <- new(mfe_mmf_R)
+    m2 <- new(mfe_mmf)
     m2$build_NTU(n,m,alpha,gamma,sigma,FALSE)
     #
     r1 = m1$solve()
@@ -166,10 +166,10 @@ test_maxWelfare = function(seed=777, nbX=5, nbY=3, nbDraws=1e3)
     
     phi =  matrix(runif(nbX*nbY),nrow=nbX)
     #
-    m1_1 <- new(mfe_mmf_R)
+    m1_1 <- new(mfe_mmf)
     m1_1$build_TU(n,m,phi,sigma,FALSE)
     
-    m1_2 <- new(dse_logit_R)
+    m1_2 <- new(dse_logit)
     m1_2$build_TU(n,m,phi,FALSE)
     
     r1 = m1_1$solve()

@@ -22,13 +22,13 @@ phi = alpha + gamma
 lambda_LTU = lambda/(lambda + zeta)
 phi_LTU = (lambda*alpha + zeta*gamma) / (lambda + zeta)
 #
-dse_logit_obj_TU <- new(dse_logit_tu_R)
+dse_logit_obj_TU <- new(dse_logit_tu)
 dse_logit_obj_TU$build(n,m,phi,FALSE)
 
-dse_logit_obj_LTU <- new(dse_logit_ltu_R)
+dse_logit_obj_LTU <- new(dse_logit_ltu)
 dse_logit_obj_LTU$build(n,m,lambda_LTU,phi_LTU,FALSE)
 
-dse_logit_obj_NTU <- new(dse_logit_ntu_R)
+dse_logit_obj_NTU <- new(dse_logit_ntu)
 dse_logit_obj_NTU$build(n,m,alpha,gamma,FALSE)
 #
 dse_logit_obj_TU$solve("jacobi")
@@ -53,6 +53,6 @@ trans_obj$Psi(phi,phi)
 #
 # test empirical object
 
-dse_emp_obj_TU <- new(dse_empirical_tu_R)
+dse_emp_obj_TU <- new(dse_empirical_tu)
 dse_emp_obj_TU$build(n,m,phi,arums_G,arums_H,FALSE)
 dse_emp_obj_TU$solve("cupidsLP")

@@ -2,7 +2,7 @@ library(TraME)
 rm(list=ls())
 #library(gurobi)
 
-probit_obj <- new(probit_R)
+probit_obj <- new(probit)
 
 U = matrix(c(1.6, 3.2, 1.1, 2.9, 1.0, 3.1),nrow=2,byrow=TRUE)
 mu = matrix(c(1, 3, 1, 2, 1, 3), nrow=2, byrow=TRUE)

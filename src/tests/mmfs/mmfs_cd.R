@@ -2,7 +2,7 @@ library(TraME)
 rm(list=ls())
 #library(gurobi)
 
-mmf_cd_obj <- new(mmfs_cd_R)
+mmf_cd_obj <- new(mmfs_cd)
 
 U = matrix(c(1.6, 3.2, 1.1, 2.9, 1.0, 3.1),nrow=2,byrow=TRUE)
 mu = matrix(c(1, 3, 1, 2, 1, 3), nrow=2, byrow=TRUE)
