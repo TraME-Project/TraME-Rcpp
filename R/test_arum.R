@@ -26,20 +26,26 @@ test_Logit <- function(nbDraws=1E4, seed=777, outsideOption=TRUE)
     #
     message('*===================   Start of testLogit   ===================*\n')
     #
+    logit_obj <- new(logit_R)
+
     U = matrix(c(1.6, 3.2, 1.1, 2.9, 1.0, 3.1),nrow=2,byrow=TRUE)
     mu = matrix(c(1, 3, 1, 2, 1, 3), nrow=2, byrow=TRUE)
-    
+
     nbX = dim(U)[1]
     nbY = dim(U)[2]
     n = c(apply(mu,1,sum))
-    #
-    logits = build_logit(nbX,nbY,outsideOption=outsideOption)
-    logitsSim = simul(logits,nbDraws,seed)
-    #
-    resG = G(logits,U,n)
-    resGstar = Gstar(logits,resG$mu,n)
-    resGSim = G(logitsSim,U,n)
-    resGstarSim = Gstar(logitsSim,resGSim$mu,n)
+
+    logit_obj$build(nbX,nbY,1.0,TRUE)
+    logit_obj$U = U
+
+    sim_obj = logit_obj$simul(1000)
+
+    resG = logit_obj$G(n,U)
+    resGSim = sim_obj$G(n,U)
+    
+    resGstar = logit_obj$Gstar(n,resG$mu)
+    resGstarSim = sim_obj$Gstar(n,resGSim$mu)
+
     #
     message("(i) U and \\nabla G*(\\nabla G(U)) in (ii) cf and (iii) simulated logit:")
     print(c(U))
@@ -56,12 +62,13 @@ test_Logit <- function(nbDraws=1E4, seed=777, outsideOption=TRUE)
     #
     if(outsideOption){
         mubar = matrix(2,2,3)
-        resGbar = Gbar(logits,U,n,mubar)
-        resGbarS = Gbar(logitsSim,U,n,mubar)
+
+        resGbar = logit_obj$Gbar(U,mubar,n)
+        resGbarSim = sim_obj$Gbar(U,mubar,n)
         
         message("\nGbar(mu) in (i) cf and (ii) simulated logit:")
         print(resGbar$val)
-        print(resGbarS$val)
+        print(resGbarSim$val)
     }
     #
     time = proc.time() - ptm

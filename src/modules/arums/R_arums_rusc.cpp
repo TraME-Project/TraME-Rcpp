@@ -194,11 +194,10 @@ SEXP rusc_R::Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n)
     return R_NilValue;
 }
 
-empirical_R rusc_R::simul_R(int n_draws, int seed_val)
+empirical_R rusc_R::simul_R(int n_draws)
 {
-    trame::arums::empirical emp_obj = this->simul(n_draws,seed_val);
+    trame::arums::empirical emp_obj;
+    this->simul_int(emp_obj,&n_draws,nullptr);
 
-    empirical_R emp_R_obj = static_cast<empirical_R&>(emp_obj);
-
-    return emp_R_obj;
+    return static_cast<empirical_R&>(emp_obj);
 }
