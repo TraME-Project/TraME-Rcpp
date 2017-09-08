@@ -41,7 +41,8 @@ RCPP_MODULE(rusc_module)
     using namespace Rcpp ;
 
     // function overloading requires some trickery
-    void (trame::arums::rusc::*build_1)(int, int) = &trame::arums::rusc::build ;
+    // void (trame::arums::rusc::*build_1)(int, int) = &trame::arums::rusc::build ;
+    void (trame::arums::rusc::*build_2)(const arma::mat&, bool) = &trame::arums::rusc::build ;
 
     SEXP (rusc_R::*G_1)(arma::vec) = &rusc_R::G_R ;
     SEXP (rusc_R::*G_2)(arma::vec, arma::mat) = &rusc_R::G_R ;
@@ -72,7 +73,8 @@ RCPP_MODULE(rusc_module)
         .field_readonly( "aux_ord", &trame::arums::rusc::aux_ord )
 
         // member functions
-        .method( "build", build_1 )
+        // .method( "build", build_1 )
+        .method( "build", build_2 )
     ;
 
     class_<rusc_R>( "rusc" )

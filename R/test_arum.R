@@ -127,68 +127,89 @@ test_RUSC <- function(nbDraws=1E4,seed=777)
     #
     message('*===================   Start of test_RUSC   ===================*\n')
     #
-    U = matrix(c(1.6, 3.2, 1.1, 2.9, 1.0, 3.1),nrow=2,byrow=T)
-    mu = matrix(c(1, 3, 1, 2, 1, 3), nrow=2, byrow=T)
     
+    rusc_obj <- new(rusc)
+
+    U = matrix(c(1.6, 3.2, 1.1, 2.9, 1.0, 3.1),nrow=2,byrow=TRUE)
+    mu = matrix(c(1, 3, 1, 2, 1, 3), nrow=2, byrow=TRUE)
+
     nbX = dim(U)[1]
     nbY = dim(U)[2]
-    n = c(apply(mu,1,sum)) + c(1,1)
-    
+    n = c(apply(mu,1,sum)) + 1
+
     zeta = matrix(1,nbX,1) %*% matrix(c(0.1, 0.2, 0.3, 0),1,nbY+1)
+
+    rusc_obj$build(zeta,TRUE)
+    rusc_obj$U = U
+
+    sim_obj = rusc_obj$simul(nbDraws)
+
+    resG = rusc_obj$G(n,U)
+    resGSim = sim_obj$G(n,U)
+
+    resGstar = rusc_obj$Gstar(n,resG$mu)
+    resGstarSim = sim_obj$Gstar(n,resGSim$mu)
+
+    mubar = matrix(2,2,3)
+
+    resGbar = rusc_obj$Gbar(U,mubar,n)
+    resGbarSim = sim_obj$Gbar(U,mubar,n)
+
     #
-    RUSCs = build_RUSC(zeta)
-    RUSCsSim = simul(RUSCs,nbDraws,seed)  
-    #
-    r1 = G(RUSCs,U,n)
-    r1Sim = G(RUSCsSim,U,n)
-    r2 = Gstar(RUSCs,r1$mu,n)
-    r2Sim = Gstar(RUSCsSim,r1Sim$mu,n)
-    #
+    # print
+
     message("G(U) in (i) cf and (ii) simulated RUSC:")
-    print(c(r1$val))
-    print(c(r1Sim$val))  
-    #
+    print(c(resG$val))
+    print(c(resGSim$val))
+    
     message("\n\\nabla G(U) in (i) cf and (ii) simulated RUSC:")
-    print(c(r1$mu))
-    print(c(r1Sim$mu))  
+    print(c(resG$mu))
+    print(c(resGSim$mu))  
+    
     #
+
     message("\n(i) U and \\nabla G*(\\nabla G(U)) in (ii) cf and (iii) simulated RUSC:")
     message("(Note: in RUSC, (ii) should be approx equal to (iii) but not to (i).)")
     print(c(U))
-    print(c(r2$U))
-    print(c(r2Sim$U))
-    #
-    r3 = Gstar(RUSCs,mu,n)
-    r3Sim = Gstar(RUSCsSim,mu,n)
-    #
+    print(c(resGstar$U))
+    print(c(resGstarSim$U))
+    
+    resGstar2 = rusc_obj$Gstar(n,mu)
+    resGstarSim2 = sim_obj$Gstar(n,mu)
+    
     message("\n\\nabla G*(mu) in (i) closed form and (ii) simulated RUSC:")
-    print(c(r3$U))
-    print(c(r3Sim$U))
+    print(c(resGstar2$U))
+    print(c(resGstarSim2$U))
+
     message("\nG*(mu) in (i) closed form and (ii) simulated RUSC:")
-    print(c(r3$val))
-    print(c(r3Sim$val))
+    print(c(resGstar2$val))
+    print(c(resGstarSim2$val))
+    
     #
-    r4 = G(RUSCs,r3$U, n)
-    r4Sim = G(RUSCsSim,r3Sim$U,n)
+
+    resG2 = rusc_obj$G(n,resGstar$U)
+    resGSim2 = sim_obj$G(n,resGstarSim$U)
+
     message("\n\\nabla G \\nabla G*(mu) in (i) closed form and (ii) simulated RUSC:")
-    print(c(r4$mu))
-    print(c(r4Sim$mu))
+    print(c(resG2$mu))
+    print(c(resGSim2$mu))
+
     #
-    mubar = matrix(2,2,3)
-    r5 = Gbar(RUSCs,U,n,mubar)
-    r5Sim = Gbar(RUSCsSim,U,n,mubar)
-    #
+
     message("\nGbar(U,mubar) in (i) cf and (ii) simulated RUSC:")
-    print(r5$val)
-    print(r5Sim$val)
+    print(resGbar$val)
+    print(resGbarSim$val)
+
     message("\n\\nabla Gbar(U,mubar) in (i) cf and (ii) simulated RUSC:")
-    print(c(r5$mu))
-    print(c(r5Sim$mu))
+    print(c(resGbar$mu))
+    print(c(resGbarSim$mu))
+
+    
     #
     time = proc.time()-ptm
     message(paste0('\nEnd of test_RUSC. Time elapsed = ', time["elapsed"], 's.\n')) 
     #
-    ret <- c(r1$val,r1Sim$val,r1$mu,r1Sim$mu,r2$U,r2Sim$U,r3$U,r3Sim$U,r3$val,r3Sim$val,r4$mu,r4Sim$mu,r5$val,r5Sim$val,r5$mu,r5Sim$mu)
+    ret <- c(resG$val,resGSim$val,resG$mu,resGSim$mu,resGstar$U,resGstarSim$U,resG2$U,resGSim2$U,resG2$val,resGSim2$val,resGstar2$mu,resGstarSim2$mu,resGbar$val,resGbarSim$val,resGbar$mu,resGbarSim$mu)
     return(ret)
 }
 
@@ -199,76 +220,96 @@ test_RSC <- function(nbDraws=1E4,seed=777)
     #
     message('*===================   Start of test_RSC   ===================*\n')
     #
+    
+    rsc_obj <- new(rsc)
+
     U = matrix(c(1.6, 3.2, 1.1, 2.9, 1.0, 3.1),nrow=2,byrow=TRUE)
     mu = matrix(c(1, 3, 1, 2, 1, 3), nrow=2, byrow=TRUE)
-    
+
     nbX = dim(U)[1]
     nbY = dim(U)[2]
-    n = c(apply(mu,1,sum)) + c(1,1)
-    
+    n = c(apply(mu,1,sum)) + 1
+
     zeta = matrix(1,nbX,1) %*% matrix(c(0.1, 0.2, 0.3, 0),1,nbY+1)
+
+    rsc_obj$build_beta(zeta,2,2)
+    rsc_obj$U = U
+
+    sim_obj = rsc_obj$simul(nbDraws)
+
+    resG = rsc_obj$G(n,U)
+    resGSim = sim_obj$G(n,U)
+
+    resGstar = rsc_obj$Gstar(n,resG$mu)
+    resGstarSim = sim_obj$Gstar(n,resGSim$mu)
+
+    mubar = matrix(2,2,3)
+
+    resGbar = rsc_obj$Gbar(U,mubar,n)
+    resGbarSim = sim_obj$Gbar(U,mubar,n)
+
     #
-    RSCs = build_RSCbeta(zeta,2,2)
-    #RSCs = build_RSCnorm(zeta)
-    RSCsSim = simul(RSCs,nbDraws,seed)  
-    #
-    r1 = G(RSCs,U,n)
-    r1Sim = G(RSCsSim,U,n)
-    r2 = Gstar(RSCs,r1$mu,n)
-    r2Sim = Gstar(RSCsSim,r1Sim$mu,n)
-    #
+    # print
+
     message("G(U) in (i) cf and (ii) simulated RSC:")
-    print(c(r1$val))
-    print(c(r1Sim$val))  
-    #
+    print(c(resG$val))
+    print(c(resGSim$val))
+    
     message("\n\\nabla G(U) in (i) cf and (ii) simulated RSC:")
-    print(c(r1$mu))
-    print(c(r1Sim$mu))  
+    print(c(resG$mu))
+    print(c(resGSim$mu))  
+    
     #
+
     message("\n(i) U and \\nabla G*(\\nabla G(U)) in (ii) cf and (iii) simulated RSC:")
     message("(Note: in RSC, (ii) should be approx equal to (iii) but not to (i).)")
     print(c(U))
-    print(c(r2$U))
-    print(c(r2Sim$U))
-    #
-    r3 = Gstar (RSCs,mu, n)
-    r3Sim = Gstar (RSCsSim,mu,n)
-    #
+    print(c(resGstar$U))
+    print(c(resGstarSim$U))
+    
+    resGstar2 = rsc_obj$Gstar(n,mu)
+    resGstarSim2 = sim_obj$Gstar(n,mu)
+    
     message("\n\\nabla G*(mu) in (i) closed form and (ii) simulated RSC:")
-    print(c(r3$U))
-    print(c(r3Sim$U))
+    print(c(resGstar2$U))
+    print(c(resGstarSim2$U))
+
     message("\nG*(mu) in (i) closed form and (ii) simulated RSC:")
-    print(c(r3$val))
-    print(c(r3Sim$val))
+    print(c(resGstar2$val))
+    print(c(resGstarSim2$val))
+    
     #
-    r4 = G (RSCs,r3$U, n)
-    r4Sim = G (RSCsSim,r3Sim$U,n)
+
+    resG2 = rsc_obj$G(n,resGstar$U)
+    resGSim2 = sim_obj$G(n,resGstarSim$U)
+
     message("\n\\nabla G \\nabla G*(mu) in (i) closed form and (ii) simulated RSC:")
-    print(c(r4$mu))
-    print(c(r4Sim$mu))
+    print(c(resG2$mu))
+    print(c(resGSim2$mu))
+
     #
-    mubar = matrix(2,2,3)
-    r5 = Gbar(RSCs,U,n,mubar)
-    r5Sim = Gbar(RSCsSim,U,n,mubar)
-    #
+
     message("\nGbar(U,mubar) in (i) cf and (ii) simulated RSC:")
-    print(r5$val)
-    print(r5Sim$val)
+    print(resGbar$val)
+    print(resGbarSim$val)
+
     message("\n\\nabla Gbar(U,mubar) in (i) cf and (ii) simulated RSC:")
-    print(c(r5$mu))
-    print(c(r5Sim$mu))
+    print(c(resGbar$mu))
+    print(c(resGbarSim$mu))
+
     #
-    hess = D2Gstar.RSC(RSCs,mu,n)
-    thef = function(themu) (Gstar(RSCs,themu,n)$val)
-    hessNum = hessian(thef,mu)
-    message("\nD^2G^* (i) in cf and (ii) using numerical hessian:")
-    print(hess)
-    print(round(hessNum,6))
+
+    # hess = rsc_obj$D2Gstar(mu,n)
+    # thef = function(themu) (Gstar(RSCs,themu,n)$val)
+    # hessNum = hessian(thef,mu)
+    # message("\nD^2G^* (i) in cf and (ii) using numerical hessian:")
+    # print(hess)
+    # print(round(hessNum,6))
     #
     time = proc.time()-ptm
     message(paste0('\nEnd of test_RSC. Time elapsed = ', time["elapsed"], 's.\n')) 
     #
-    ret <- c(r1$val,r1Sim$val,r1$mu,r1Sim$mu,r2$U,r2Sim$U,r3$U,r3Sim$U,r3$val,r3Sim$val,r4$mu,r4Sim$mu,r5$val,r5Sim$val,r5$mu,r5Sim$mu)
+    ret <- c(resG$val,resGSim$val,resG$mu,resGSim$mu,resGstar$U,resGstarSim$U,resG2$U,resGSim2$U,resG2$val,resGSim2$val,resGstar2$mu,resGstarSim2$mu,resGbar$val,resGbarSim$val,resGbar$mu,resGbarSim$mu)
     return(ret)
 }
 
