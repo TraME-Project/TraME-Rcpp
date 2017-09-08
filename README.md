@@ -1,4 +1,4 @@
-# TraME
+# TraME-Rcpp
 
 **Tra**nsportation **M**ethods for **E**conometrics
 
