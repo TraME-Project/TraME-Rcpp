@@ -4,6 +4,10 @@
 export SHLIB_LDFLAGS='$(SHLIB_CXXLDFLAGS)' 
 export SHLIB_LD='$(SHLIB_CXXLD)'
 
+if [ -z ${TRAME_LP_INCLUDE+x} ]; then 
+    echo "No LP method selected"
+fi
+
 sed -e "s|@TRAME_LP_INCLUDE@|${TRAME_LP_INCLUDE}|" \
     -e "s|@TRAME_LP_LIBS@|${TRAME_LP_LIBS}|" \
     src/Makevars.win.in > src/Makevars.win
