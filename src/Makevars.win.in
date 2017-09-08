@@ -3,8 +3,11 @@ TRAME_DIR = ./trame
 TRAME_SRC_DIR = ./trame/src
 TRAME_HEADER_DIR = ./trame/include
 
-TRAME_LP_INCLUDE=
-TRAME_LP_LIBS=
+#LP_INCLUDE= -DTRAME_USE_GUROBI -Ic:/gurobi751/win64/include
+#LP_LIBS= -Lc:/gurobi751/win64/bin -lgurobi75
+
+TRAME_LP_INCLUDE= @TRAME_LP_INCLUDE@
+TRAME_LP_LIBS= @TRAME_LP_LIBS@
 
 #
 

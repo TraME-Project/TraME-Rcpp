@@ -1,6 +1,6 @@
 rm(list=ls())
 
-library(TraME.R)
+library(TraME.Rcpp)
 
 #library(gurobi)
 #
