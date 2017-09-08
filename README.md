@@ -4,26 +4,25 @@
 
 ### Overview
 
-TraME (Transportation Methods for Econometrics) is an R package for for 
-solving problems of equilibrium computation and estimation in consumer 
-demand and matching frameworks via the Mass Transportation Approach.
+TraME (Transportation Methods for Econometrics) is a C++ library for solving problems of equilibrium computation and estimation in consumer demand and matching frameworks via the Mass Transportation Approach.
+
+TraME-Rcpp is a package of Rcpp modules that allows seamless integration of the TraME C++ library with R.
 
 ### Status [![Build Status](https://travis-ci.org/TraME-Project/TraME.svg?branch=master)](https://travis-ci.org/TraME-Project/TraME) [![Build status](https://ci.appveyor.com/api/projects/status/github/TraME-Project/TraME-Rcpp?branch=master)](https://ci.appveyor.com/project/kthohr/trame-rcpp/branch/master)
 
-The package is under active development and should be considered as
-`alpha stage' software.
+The package is under active development.
 
 ### Installation and Testing
 
-The quickest way to install TraME is via the devtools package.
+The quickest way to install TraME-Rcpp is via the devtools package.
 ```
 install.packages("devtools")
 library(devtools)
-install_github("TraME-Project/TraME-R")
+install_github("TraME-Project/TraME-Rcpp")
 ```
 The TraME test routines are invoked as follows:
 ```
-library(TraME)
+library(TraME.Rcpp)
 tests_TraME()
 ```
 
@@ -37,7 +36,7 @@ sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C /
 
 ### Authors
 
-Alfred Galichon and the TraME team.
+Alfred Galichon and Keith O'Hara
 
 ### License
 
