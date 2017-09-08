@@ -15,6 +15,11 @@ PKG_CFLAGS= -DUSE_RCPP_ARMADILLO -I$(TRAME_HEADER_DIR)
 
 CXX_STD = CXX11
 
+MAIN_LD= $(CXX)
+DLL= $(CXX)
+
+DLLFLAGS=-s -static-libstdc++ -static-libgcc
+
 #
 # sources and objects
 
@@ -74,3 +79,5 @@ OBJECTS=$(OBJECTS_TRAME) $(OBJECTS_ARUMS) $(OBJECTS_ANC) $(OBJECTS_MMFS) $(OBJEC
 all: $(SHLIB)
 
 $(SHLIB): $(OBJECTS)
+
+
