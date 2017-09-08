@@ -51,7 +51,7 @@ RCPP_MODULE(logit_module)
     SEXP (logit_R::*Gstar_2)(arma::vec, arma::mat) = &logit_R::Gstar_R ;
 
     // now we can declare the class
-    class_<trame::arums::logit>( "logit" )
+    class_<trame::arums::logit>( "logit_cpp" )
         .default_constructor()
 
         // basic objects
@@ -76,8 +76,8 @@ RCPP_MODULE(logit_module)
         .method( "build", build_2 )
     ;
 
-    class_<logit_R>( "logit_R" )
-        .derives<trame::arums::logit>( "logit" )
+    class_<logit_R>( "logit" )
+        .derives<trame::arums::logit>( "logit_cpp" )
         .default_constructor()
 
         .method( "G", G_1 )

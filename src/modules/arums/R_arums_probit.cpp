@@ -47,7 +47,7 @@ RCPP_MODULE(probit_module)
     void (trame::arums::probit::*unifCorrelCovMatrices_2)(double) = &trame::arums::probit::unifCorrelCovMatrices ;
   
     // now we can declare the class
-    class_<trame::arums::probit>( "probit" )
+    class_<trame::arums::probit>( "probit_cpp" )
         .default_constructor()
 
         // basic objects
@@ -72,8 +72,8 @@ RCPP_MODULE(probit_module)
         .method( "unifCorrelCovMatrices", unifCorrelCovMatrices_2 )
     ;
 
-    class_<probit_R>( "probit_R" )
-        .derives<trame::arums::probit>( "probit" )
+    class_<probit_R>( "probit" )
+        .derives<trame::arums::probit>( "probit_cpp" )
         .default_constructor()
 
         .method( "simul", &probit_R::simul_R )

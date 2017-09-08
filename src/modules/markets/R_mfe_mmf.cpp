@@ -85,7 +85,7 @@ RCPP_MODULE(mfe_mmf_module)
     // now we can declare the class
 
     // CD
-    class_<trame::mfe<trame::mmfs::cd>>( "mfe_cd" )
+    class_<trame::mfe<trame::mmfs::cd>>( "mfe_cd_cpp" )
         .default_constructor()
 
         // basic objects
@@ -96,8 +96,8 @@ RCPP_MODULE(mfe_mmf_module)
         .field( "nbY", &trame::mfe<trame::mmfs::cd>::nbY )
     ;
 
-    class_<mfe_cd_R>( "mfe_cd_R" )
-        .derives<trame::mfe<trame::mmfs::cd>>( "mfe_cd" )
+    class_<mfe_cd_R>( "mfe_cd" )
+        .derives<trame::mfe<trame::mmfs::cd>>( "mfe_cd_cpp" )
         .default_constructor()
 
         .method( "build", build_cd_1 )
@@ -112,7 +112,7 @@ RCPP_MODULE(mfe_mmf_module)
     ;
 
     // CES
-    class_<trame::mfe<trame::mmfs::ces>>( "mfe_ces" )
+    class_<trame::mfe<trame::mmfs::ces>>( "mfe_ces_cpp" )
         .default_constructor()
 
         // basic objects
@@ -123,8 +123,8 @@ RCPP_MODULE(mfe_mmf_module)
         .field( "nbY", &trame::mfe<trame::mmfs::ces>::nbY )
     ;
 
-    class_<mfe_ces_R>( "mfe_ces_R" )
-        .derives<trame::mfe<trame::mmfs::ces>>( "mfe_ces" )
+    class_<mfe_ces_R>( "mfe_ces" )
+        .derives<trame::mfe<trame::mmfs::ces>>( "mfe_ces_cpp" )
         .default_constructor()
 
         .method( "build", build_ces_1 )
@@ -139,7 +139,7 @@ RCPP_MODULE(mfe_mmf_module)
     ;
 
     // Geo
-    class_<trame::mfe<trame::mmfs::geo>>( "mfe_geo" )
+    class_<trame::mfe<trame::mmfs::geo>>( "mfe_geo_cpp" )
         .default_constructor()
 
         // basic objects
@@ -150,8 +150,8 @@ RCPP_MODULE(mfe_mmf_module)
         .field( "nbY", &trame::mfe<trame::mmfs::geo>::nbY )
     ;
 
-    class_<mfe_geo_R>( "mfe_geo_R" )
-        .derives<trame::mfe<trame::mmfs::geo>>( "mfe_geo" )
+    class_<mfe_geo_R>( "mfe_geo" )
+        .derives<trame::mfe<trame::mmfs::geo>>( "mfe_geo_cpp" )
         .default_constructor()
 
         .method( "build", build_geo_1 )
@@ -166,7 +166,7 @@ RCPP_MODULE(mfe_mmf_module)
     ;
 
     // Min
-    class_<trame::mfe<trame::mmfs::min>>( "mfe_min" )
+    class_<trame::mfe<trame::mmfs::min>>( "mfe_min_cpp" )
         .default_constructor()
 
         // basic objects
@@ -177,8 +177,8 @@ RCPP_MODULE(mfe_mmf_module)
         .field( "nbY", &trame::mfe<trame::mmfs::min>::nbY )
     ;
 
-    class_<mfe_min_R>( "mfe_min_R" )
-        .derives<trame::mfe<trame::mmfs::min>>( "mfe_min" )
+    class_<mfe_min_R>( "mfe_min" )
+        .derives<trame::mfe<trame::mmfs::min>>( "mfe_min_cpp" )
         .default_constructor()
 
         .method( "build", build_min_1 )

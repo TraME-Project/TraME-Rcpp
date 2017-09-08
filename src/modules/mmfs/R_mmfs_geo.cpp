@@ -48,7 +48,7 @@ RCPP_MODULE(mmfs_geo_module)
     SEXP (mmfs_geo_R::*M_2)(arma::mat, arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &mmfs_geo_R::M_R ;
 
     // now we can declare the class
-    class_<trame::mmfs::geo>( "mmfs_geo" )
+    class_<trame::mmfs::geo>( "mmfs_geo_cpp" )
         .default_constructor()
 
         // basic objects
@@ -66,8 +66,8 @@ RCPP_MODULE(mmfs_geo_module)
         // member functions
     ;
 
-    class_<mmfs_geo_R>( "mmfs_geo_R" )
-        .derives<trame::mmfs::geo>( "mmfs_geo" )
+    class_<mmfs_geo_R>( "mmfs_geo" )
+        .derives<trame::mmfs::geo>( "mmfs_geo_cpp" )
         .default_constructor()
 
         .method( "build", build_1 )

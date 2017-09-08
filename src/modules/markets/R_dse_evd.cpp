@@ -87,14 +87,14 @@ RCPP_MODULE(dse_logit_module)
         .field( "nbY", &trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>::nbY )
     ;
 
-    class_<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>>( "dse_logit_etu" )
+    class_<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>>( "dse_logit_etu_cpp" )
         .derives<trame::dse_base>( "dse_base" )
         .default_constructor()
     ;
 
-    class_<dse_logit_etu_R>( "dse_logit_etu_R" )
+    class_<dse_logit_etu_R>( "dse_logit_etu" )
         // .derives<trame::dse_base>( "dse_base" )
-        .derives<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>>( "dse_logit_etu" )
+        .derives<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>>( "dse_logit_etu_cpp" )
         .default_constructor()
 
         .method( "build", build_ETU_1 )
@@ -113,14 +113,14 @@ RCPP_MODULE(dse_logit_module)
         .method( "set_transfers", &dse_logit_etu_R::set_transfers_R )
     ;
 
-    class_<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::ltu>>( "dse_logit_ltu" )
+    class_<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::ltu>>( "dse_logit_ltu_cpp" )
         .derives<trame::dse_base>( "dse_base" )
         .default_constructor()
     ;
 
-    class_<dse_logit_ltu_R>( "dse_logit_ltu_R" )
+    class_<dse_logit_ltu_R>( "dse_logit_ltu" )
         // .derives<trame::dse_base>( "dse_base" )
-        .derives<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::ltu>>( "dse_logit_ltu" )
+        .derives<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::ltu>>( "dse_logit_ltu_cpp" )
         .default_constructor()
 
         .method( "build", build_LTU_1 )
@@ -139,14 +139,14 @@ RCPP_MODULE(dse_logit_module)
         .method( "set_transfers", &dse_logit_ltu_R::set_transfers_R )
     ;
 
-    class_<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::ntu>>( "dse_logit_ntu" )
+    class_<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::ntu>>( "dse_logit_ntu_cpp" )
         .derives<trame::dse_base>( "dse_base" )
         .default_constructor()
     ;
 
-    class_<dse_logit_ntu_R>( "dse_logit_ntu_R" )
+    class_<dse_logit_ntu_R>( "dse_logit_ntu" )
         // .derives<trame::dse_base>( "dse_base" )
-        .derives<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::ntu>>( "dse_logit_ntu" )
+        .derives<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::ntu>>( "dse_logit_ntu_cpp" )
         .default_constructor()
 
         .method( "build", build_NTU_1 )
@@ -165,14 +165,14 @@ RCPP_MODULE(dse_logit_module)
         .method( "set_transfers", &dse_logit_ntu_R::set_transfers_R )
     ;
 
-    class_<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::tu>>( "dse_logit_tu" )
+    class_<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::tu>>( "dse_logit_tu_cpp" )
         .derives<trame::dse_base>( "dse_base" )
         .default_constructor()
     ;
 
-    class_<dse_logit_tu_R>( "dse_logit_tu_R" )
+    class_<dse_logit_tu_R>( "dse_logit_tu" )
         // .derives<trame::dse_base>( "dse_base" )
-        .derives<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::tu>>( "dse_logit_tu" )
+        .derives<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::tu>>( "dse_logit_tu_cpp" )
         .default_constructor()
 
         .method( "build", build_TU_1 )

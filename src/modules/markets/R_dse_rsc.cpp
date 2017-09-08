@@ -87,14 +87,14 @@
          .field( "nbY", &trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::etu>::nbY )
      ;
  
-     class_<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::etu>>( "dse_rsc_etu" )
+     class_<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::etu>>( "dse_rsc_etu_cpp" )
          .derives<trame::dse_base>( "dse_base" )
          .default_constructor()
      ;
  
-     class_<dse_rsc_etu_R>( "dse_rsc_etu_R" )
+     class_<dse_rsc_etu_R>( "dse_rsc_etu" )
          // .derives<trame::dse_base>( "dse_base" )
-         .derives<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::etu>>( "dse_rsc_etu" )
+         .derives<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::etu>>( "dse_rsc_etu_cpp" )
          .default_constructor()
  
          .method( "build", build_ETU_1 )
@@ -113,14 +113,14 @@
          .method( "set_transfers", &dse_rsc_etu_R::set_transfers_R )
      ;
  
-     class_<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::ltu>>( "dse_rsc_ltu" )
+     class_<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::ltu>>( "dse_rsc_ltu_cpp" )
          .derives<trame::dse_base>( "dse_base" )
          .default_constructor()
      ;
  
-     class_<dse_rsc_ltu_R>( "dse_rsc_ltu_R" )
+     class_<dse_rsc_ltu_R>( "dse_rsc_ltu" )
          // .derives<trame::dse_base>( "dse_base" )
-         .derives<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::ltu>>( "dse_rsc_ltu" )
+         .derives<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::ltu>>( "dse_rsc_ltu_cpp" )
          .default_constructor()
  
          .method( "build", build_LTU_1 )
@@ -139,14 +139,14 @@
          .method( "set_transfers", &dse_rsc_ltu_R::set_transfers_R )
      ;
  
-     class_<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::ntu>>( "dse_rsc_ntu" )
+     class_<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::ntu>>( "dse_rsc_ntu_cpp" )
          .derives<trame::dse_base>( "dse_base" )
          .default_constructor()
      ;
  
-     class_<dse_rsc_ntu_R>( "dse_rsc_ntu_R" )
+     class_<dse_rsc_ntu_R>( "dse_rsc_ntu" )
          // .derives<trame::dse_base>( "dse_base" )
-         .derives<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::ntu>>( "dse_rsc_ntu" )
+         .derives<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::ntu>>( "dse_rsc_ntu_cpp" )
          .default_constructor()
  
          .method( "build", build_NTU_1 )
@@ -165,14 +165,14 @@
          .method( "set_transfers", &dse_rsc_ntu_R::set_transfers_R )
      ;
  
-     class_<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::tu>>( "dse_rsc_tu" )
+     class_<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::tu>>( "dse_rsc_tu_cpp" )
          .derives<trame::dse_base>( "dse_base" )
          .default_constructor()
      ;
  
-     class_<dse_rsc_tu_R>( "dse_rsc_tu_R" )
+     class_<dse_rsc_tu_R>( "dse_rsc_tu" )
          // .derives<trame::dse_base>( "dse_base" )
-         .derives<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::tu>>( "dse_rsc_tu" )
+         .derives<trame::dse<trame::arums::rsc,trame::arums::rsc,trame::transfers::tu>>( "dse_rsc_tu_cpp" )
          .default_constructor()
  
          .method( "build", build_TU_1 )

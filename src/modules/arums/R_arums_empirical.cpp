@@ -49,7 +49,7 @@ RCPP_MODULE(empirical_module)
     SEXP (empirical_R::*Gstar_2)(arma::vec, arma::mat) = &empirical_R::Gstar_R ;
     
     // now we can declare the class
-    class_<trame::arums::empirical>( "empirical" )
+    class_<trame::arums::empirical>( "empirical_cpp" )
         .default_constructor()
 
         // basic objects
@@ -77,8 +77,8 @@ RCPP_MODULE(empirical_module)
         // member functions
     ;
 
-    class_<empirical_R>( "empirical_R" )
-        .derives<trame::arums::empirical>( "empirical" )
+    class_<empirical_R>( "empirical" )
+        .derives<trame::arums::empirical>( "empirical_cpp" )
         .default_constructor()
 
         .method( "build", build_1 )

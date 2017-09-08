@@ -58,7 +58,7 @@ RCPP_MODULE(transfers_tu_module)
     SEXP (transfers_tu_R::*Vcal_2)(arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_tu_R::Vcal_R ;
 
     // now we can declare the class
-    class_<trame::transfers::tu>( "transfers_tu" )
+    class_<trame::transfers::tu>( "transfers_tu_cpp" )
         .default_constructor()
 
         // basic objects
@@ -74,8 +74,8 @@ RCPP_MODULE(transfers_tu_module)
         // member functions
     ;
 
-    class_<transfers_tu_R>( "transfers_tu_R" )
-        .derives<trame::transfers::tu>( "transfers_tu" )
+    class_<transfers_tu_R>( "transfers_tu" )
+        .derives<trame::transfers::tu>( "transfers_tu_cpp" )
         .default_constructor()
 
         .method( "build", build_1 )

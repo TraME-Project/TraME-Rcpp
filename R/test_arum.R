@@ -38,7 +38,7 @@ test_Logit <- function(nbDraws=1E4, seed=777, outsideOption=TRUE)
     logit_obj$build(nbX,nbY,1.0,TRUE)
     logit_obj$U = U
 
-    sim_obj = logit_obj$simul(1000)
+    sim_obj = logit_obj$simul(nbDraws)
 
     resG = logit_obj$G(n,U)
     resGSim = sim_obj$G(n,U)

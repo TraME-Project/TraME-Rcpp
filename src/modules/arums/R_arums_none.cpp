@@ -48,7 +48,7 @@ RCPP_MODULE(none_module)
     SEXP (none_R::*Gstar_2)(arma::vec, arma::mat) = &none_R::Gstar_R ;
   
     // now we can declare the class
-    class_<trame::arums::none>( "none" )
+    class_<trame::arums::none>( "none_cpp" )
         .default_constructor()
 
         // basic objects
@@ -70,8 +70,8 @@ RCPP_MODULE(none_module)
         .method( "build", &trame::arums::none::build )
     ;
 
-    class_<none_R>( "none_R" )
-        .derives<trame::arums::none>( "none" )
+    class_<none_R>( "none" )
+        .derives<trame::arums::none>( "none_cpp" )
         .default_constructor()
 
         .method( "G", G_1 )

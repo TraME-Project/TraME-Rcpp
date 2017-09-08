@@ -65,27 +65,27 @@ RCPP_MODULE(model_mfe_module)
         .default_constructor()
 
         // basic objects
-        .field( "need_norm", &trame::model<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>>::need_norm )
+        .field( "need_norm", &trame::model<trame::mfe<trame::mmfs::geo>>::need_norm )
 
-        .field( "nbX", &trame::model<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>>::nbX )
-        .field( "nbY", &trame::model<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>>::nbY )
+        .field( "nbX", &trame::model<trame::mfe<trame::mmfs::geo>>::nbX )
+        .field( "nbY", &trame::model<trame::mfe<trame::mmfs::geo>>::nbY )
 
-        .field( "dX", &trame::model<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>>::dX )
-        .field( "dY", &trame::model<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>>::dY )
-        .field( "dim_theta", &trame::model<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>>::dim_theta )
+        .field( "dX", &trame::model<trame::mfe<trame::mmfs::geo>>::dX )
+        .field( "dY", &trame::model<trame::mfe<trame::mmfs::geo>>::dY )
+        .field( "dim_theta", &trame::model<trame::mfe<trame::mmfs::geo>>::dim_theta )
 
-        .field( "n", &trame::model<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>>::n )
-        .field( "m", &trame::model<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>>::m )
+        .field( "n", &trame::model<trame::mfe<trame::mmfs::geo>>::n )
+        .field( "m", &trame::model<trame::mfe<trame::mmfs::geo>>::m )
     ;
 
-    class_<trame::model<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>>>( "model_dse_logit_etu" )
+    class_<trame::model<trame::mfe<trame::mmfs::geo>>>( "model_mfe_geo_cpp" )
         .derives<trame::model_base>( "model_base" )
         .default_constructor()
     ;
 
-    class_<model_mfe_geo_R>( "model_mfe_geo_R" )
+    class_<model_mfe_geo_R>( "model_mfe_geo" )
         // .derives<trame::dse_base>( "dse_base" )
-        .derives<trame::model<trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu>>>( "model_dse_logit_etu" )
+        .derives<trame::model<trame::mfe<trame::mmfs::geo>>>( "model_mfe_geo_cpp" )
         .default_constructor()
 
         .method( "build", build_geo_1 )

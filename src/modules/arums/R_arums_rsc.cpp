@@ -50,7 +50,7 @@ RCPP_MODULE(rsc_module)
     SEXP (rsc_R::*Gstar_2)(arma::vec, arma::mat) = &rsc_R::Gstar_R ;
   
     // now we can declare the class
-    class_<trame::arums::rsc>( "rsc" )
+    class_<trame::arums::rsc>( "rsc_cpp" )
         .default_constructor()
 
         // basic objects
@@ -82,8 +82,8 @@ RCPP_MODULE(rsc_module)
         .method( "build_beta", &trame::arums::rsc::build_beta )
     ;
 
-    class_<rsc_R>( "rsc_R" )
-        .derives<trame::arums::rsc>( "rsc" )
+    class_<rsc_R>( "rsc" )
+        .derives<trame::arums::rsc>( "rsc_cpp" )
         .default_constructor()
 
         .method( "G", G_1 )

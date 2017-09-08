@@ -48,7 +48,7 @@ RCPP_MODULE(mmfs_ces_module)
     SEXP (mmfs_ces_R::*M_2)(arma::mat, arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &mmfs_ces_R::M_R ;
 
     // now we can declare the class
-    class_<trame::mmfs::ces>( "mmfs_ces" )
+    class_<trame::mmfs::ces>( "mmfs_ces_cpp" )
         .default_constructor()
 
         // basic objects
@@ -68,8 +68,8 @@ RCPP_MODULE(mmfs_ces_module)
         // member functions
     ;
 
-    class_<mmfs_ces_R>( "mmfs_ces_R" )
-        .derives<trame::mmfs::ces>( "mmfs_ces" )
+    class_<mmfs_ces_R>( "mmfs_ces" )
+        .derives<trame::mmfs::ces>( "mmfs_ces_cpp" )
         .default_constructor()
 
         .method( "build", build_1 )

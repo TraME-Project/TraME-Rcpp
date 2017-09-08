@@ -50,7 +50,7 @@ RCPP_MODULE(rusc_module)
     SEXP (rusc_R::*Gstar_2)(arma::vec, arma::mat) = &rusc_R::Gstar_R ;
   
     // now we can declare the class
-    class_<trame::arums::rusc>( "rusc" )
+    class_<trame::arums::rusc>( "rusc_cpp" )
         .default_constructor()
 
         // basic objects
@@ -75,8 +75,8 @@ RCPP_MODULE(rusc_module)
         .method( "build", build_1 )
     ;
 
-    class_<rusc_R>( "rusc_R" )
-        .derives<trame::arums::rusc>( "rusc" )
+    class_<rusc_R>( "rusc" )
+        .derives<trame::arums::rusc>( "rusc_cpp" )
         .default_constructor()
 
         .method( "G", G_1 )

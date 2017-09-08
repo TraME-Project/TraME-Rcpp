@@ -48,7 +48,7 @@ RCPP_MODULE(mmfs_min_module)
     SEXP (mmfs_min_R::*M_2)(arma::mat, arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &mmfs_min_R::M_R ;
 
     // now we can declare the class
-    class_<trame::mmfs::min>( "mmfs_min" )
+    class_<trame::mmfs::min>( "mmfs_min_cpp" )
         .default_constructor()
 
         // basic objects
@@ -67,8 +67,8 @@ RCPP_MODULE(mmfs_min_module)
         // member functions
     ;
 
-    class_<mmfs_min_R>( "mmfs_min_R" )
-        .derives<trame::mmfs::min>( "mmfs_min" )
+    class_<mmfs_min_R>( "mmfs_min" )
+        .derives<trame::mmfs::min>( "mmfs_min_cpp" )
         .default_constructor()
 
         .method( "build", build_1 )
