@@ -44,11 +44,11 @@ RCPP_MODULE(rusc_module)
     // void (trame::arums::rusc::*build_1)(int, int) = &trame::arums::rusc::build ;
     void (trame::arums::rusc::*build_2)(const arma::mat&, bool) = &trame::arums::rusc::build ;
 
-    SEXP (rusc_R::*G_1)(arma::vec) = &rusc_R::G_R ;
-    SEXP (rusc_R::*G_2)(arma::vec, arma::mat) = &rusc_R::G_R ;
+    SEXP (rusc_R::*G_1)(const arma::vec&) = &rusc_R::G_R ;
+    SEXP (rusc_R::*G_2)(const arma::vec&, const arma::mat&) = &rusc_R::G_R ;
 
-    SEXP (rusc_R::*Gstar_1)(arma::vec) = &rusc_R::Gstar_R ;
-    SEXP (rusc_R::*Gstar_2)(arma::vec, arma::mat) = &rusc_R::Gstar_R ;
+    SEXP (rusc_R::*Gstar_1)(const arma::vec&) = &rusc_R::Gstar_R ;
+    SEXP (rusc_R::*Gstar_2)(const arma::vec&, const arma::mat&) = &rusc_R::Gstar_R ;
   
     // now we can declare the class
     class_<trame::arums::rusc>( "rusc_cpp" )
@@ -93,7 +93,7 @@ RCPP_MODULE(rusc_module)
 }
 
 // wrapper functions to catch errors and handle memory pointers
-SEXP rusc_R::G_R(arma::vec n)
+SEXP rusc_R::G_R(const arma::vec& n)
 {
     try {
         double val_out = this->G(n);
@@ -107,7 +107,7 @@ SEXP rusc_R::G_R(arma::vec n)
     return R_NilValue;
 }
 
-SEXP rusc_R::G_R(arma::vec n, arma::mat U_inp)
+SEXP rusc_R::G_R(const arma::vec& n, const arma::mat& U_inp)
 {
     try {
         arma::mat mu_out;
@@ -122,7 +122,7 @@ SEXP rusc_R::G_R(arma::vec n, arma::mat U_inp)
     return R_NilValue;
 }
 
-SEXP rusc_R::Gx_R(arma::mat U_x_inp, int x)
+SEXP rusc_R::Gx_R(const arma::mat& U_x_inp, int x)
 {
     try {
         arma::mat mu_x_out;
@@ -137,7 +137,7 @@ SEXP rusc_R::Gx_R(arma::mat U_x_inp, int x)
     return R_NilValue;
 }
 
-SEXP rusc_R::Gstar_R(arma::vec n)
+SEXP rusc_R::Gstar_R(const arma::vec& n)
 {
     try {
         double val_out = this->Gstar(n);
@@ -151,7 +151,7 @@ SEXP rusc_R::Gstar_R(arma::vec n)
     return R_NilValue;
 }
 
-SEXP rusc_R::Gstar_R(arma::vec n, arma::mat mu_inp)
+SEXP rusc_R::Gstar_R(const arma::vec& n, const arma::mat& mu_inp)
 {
     try {
         arma::mat U_out;
@@ -166,7 +166,7 @@ SEXP rusc_R::Gstar_R(arma::vec n, arma::mat mu_inp)
     return R_NilValue;
 }
 
-SEXP rusc_R::Gstarx_R(arma::mat mu_x_inp, int x)
+SEXP rusc_R::Gstarx_R(const arma::mat& mu_x_inp, int x)
 {   
     try {
         arma::mat U_x_out;
@@ -181,7 +181,7 @@ SEXP rusc_R::Gstarx_R(arma::mat mu_x_inp, int x)
     return R_NilValue;
 }
 
-SEXP rusc_R::Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n)
+SEXP rusc_R::Gbar_R(const arma::mat& U_bar, const arma::mat& mu_bar, const arma::vec& n)
 {
     try {
         arma::mat U_out, mu_out;

@@ -41,11 +41,11 @@ RCPP_MODULE(none_module)
     using namespace Rcpp ;
 
     // function overloading requires some trickery
-    SEXP (none_R::*G_1)(arma::vec) = &none_R::G_R ;
-    SEXP (none_R::*G_2)(arma::vec, arma::mat) = &none_R::G_R ;
+    SEXP (none_R::*G_1)(const arma::vec&) = &none_R::G_R ;
+    SEXP (none_R::*G_2)(const arma::vec&, const arma::mat&) = &none_R::G_R ;
 
-    SEXP (none_R::*Gstar_1)(arma::vec) = &none_R::Gstar_R ;
-    SEXP (none_R::*Gstar_2)(arma::vec, arma::mat) = &none_R::Gstar_R ;
+    SEXP (none_R::*Gstar_1)(const arma::vec&) = &none_R::Gstar_R ;
+    SEXP (none_R::*Gstar_2)(const arma::vec&, const arma::mat&) = &none_R::Gstar_R ;
   
     // now we can declare the class
     class_<trame::arums::none>( "none_cpp" )
@@ -86,7 +86,7 @@ RCPP_MODULE(none_module)
 }
 
 // wrapper functions to catch errors and handle memory pointers
-SEXP none_R::G_R(arma::vec n)
+SEXP none_R::G_R(const arma::vec& n)
 {
     try {
         double val_out = this->G(n);
@@ -100,7 +100,7 @@ SEXP none_R::G_R(arma::vec n)
     return R_NilValue;
 }
 
-SEXP none_R::G_R(arma::vec n, arma::mat U_inp)
+SEXP none_R::G_R(const arma::vec& n, const arma::mat& U_inp)
 {
     try {
         arma::mat mu_out;
@@ -115,7 +115,7 @@ SEXP none_R::G_R(arma::vec n, arma::mat U_inp)
     return R_NilValue;
 }
 
-SEXP none_R::Gx_R(arma::mat U_x_inp, int x)
+SEXP none_R::Gx_R(const arma::mat& U_x_inp, int x)
 {
     try {
         arma::mat mu_x_out;
@@ -130,28 +130,28 @@ SEXP none_R::Gx_R(arma::mat U_x_inp, int x)
     return R_NilValue;
 }
 
-SEXP none_R::Gstar_R(arma::vec n)
+SEXP none_R::Gstar_R(const arma::vec& n)
 {   
     Rprintf("Gstar not yet defined for no arums case.\n");
     //
     return R_NilValue;
 }
 
-SEXP none_R::Gstar_R(arma::vec n, arma::mat mu_inp)
+SEXP none_R::Gstar_R(const arma::vec& n, const arma::mat& mu_inp)
 {   
     Rprintf("Gstar not yet defined for no arums case.\n");
     //
     return R_NilValue;
 }
 
-SEXP none_R::Gstarx_R(arma::mat mu_x_inp, int x)
+SEXP none_R::Gstarx_R(const arma::mat& mu_x_inp, int x)
 {   
     Rprintf("Gstar not yet defined for no arums case.\n");
     //
     return R_NilValue;
 }
 
-SEXP none_R::Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n)
+SEXP none_R::Gbar_R(const arma::mat& U_bar, const arma::mat& mu_bar, const arma::vec& n)
 {
     try {
         arma::mat U_out, mu_out;

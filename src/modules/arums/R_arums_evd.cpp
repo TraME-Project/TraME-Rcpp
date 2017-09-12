@@ -44,11 +44,11 @@ RCPP_MODULE(logit_module)
     void (trame::arums::logit::*build_1)(int, int) = &trame::arums::logit::build ;
     void (trame::arums::logit::*build_2)(int, int, double, bool) = &trame::arums::logit::build ;
 
-    SEXP (logit_R::*G_1)(arma::vec) = &logit_R::G_R ;
-    SEXP (logit_R::*G_2)(arma::vec, arma::mat) = &logit_R::G_R ;
+    SEXP (logit_R::*G_1)(const arma::vec&) = &logit_R::G_R ;
+    SEXP (logit_R::*G_2)(const arma::vec&, const arma::mat&) = &logit_R::G_R ;
 
-    SEXP (logit_R::*Gstar_1)(arma::vec) = &logit_R::Gstar_R ;
-    SEXP (logit_R::*Gstar_2)(arma::vec, arma::mat) = &logit_R::Gstar_R ;
+    SEXP (logit_R::*Gstar_1)(const arma::vec&) = &logit_R::Gstar_R ;
+    SEXP (logit_R::*Gstar_2)(const arma::vec&, const arma::mat&) = &logit_R::Gstar_R ;
 
     // now we can declare the class
     class_<trame::arums::logit>( "logit_cpp" )
@@ -90,7 +90,7 @@ RCPP_MODULE(logit_module)
 }
 
 // wrapper functions to catch errors and handle memory pointers
-SEXP logit_R::G_R(arma::vec n)
+SEXP logit_R::G_R(const arma::vec& n)
 {
     try {
         double val_out = this->G(n);
@@ -104,7 +104,7 @@ SEXP logit_R::G_R(arma::vec n)
     return R_NilValue;
 }
 
-SEXP logit_R::G_R(arma::vec n, arma::mat U_inp)
+SEXP logit_R::G_R(const arma::vec& n, const arma::mat& U_inp)
 {
     try {
         arma::mat mu_out;
@@ -119,7 +119,7 @@ SEXP logit_R::G_R(arma::vec n, arma::mat U_inp)
     return R_NilValue;
 }
 
-SEXP logit_R::Gstar_R(arma::vec n)
+SEXP logit_R::Gstar_R(const arma::vec& n)
 {
     try {
         double val_out = this->Gstar(n);
@@ -133,7 +133,7 @@ SEXP logit_R::Gstar_R(arma::vec n)
     return R_NilValue;
 }
 
-SEXP logit_R::Gstar_R(arma::vec n, arma::mat mu_inp)
+SEXP logit_R::Gstar_R(const arma::vec& n, const arma::mat& mu_inp)
 {
     try {
         arma::mat U_out;
@@ -148,7 +148,7 @@ SEXP logit_R::Gstar_R(arma::vec n, arma::mat mu_inp)
     return R_NilValue;
 }
 
-SEXP logit_R::Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n)
+SEXP logit_R::Gbar_R(const arma::mat& U_bar, const arma::mat& mu_bar, const arma::vec& n)
 {
     try {
         arma::mat U_out, mu_out;

@@ -29,23 +29,23 @@ class empirical_R : public trame::arums::empirical
 {
     public:
         SEXP build_R(int nbX_inp, int nbY_inp);
-        SEXP G_R(arma::vec n);
-        SEXP G_R(arma::vec n, arma::mat U_inp);
-        SEXP Gx_R(arma::mat U_x_inp, int x);
-        SEXP Gstar_R(arma::vec n);
-        SEXP Gstar_R(arma::vec n, arma::mat mu_inp);
-        SEXP Gstarx_R(arma::mat mu_x_inp, int x);
-        SEXP Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n);
+        SEXP G_R(const arma::vec& n);
+        SEXP G_R(const arma::vec& n, const arma::mat& U_inp);
+        SEXP Gx_R(const arma::mat& U_x_inp, int x);
+        SEXP Gstar_R(const arma::vec& n);
+        SEXP Gstar_R(const arma::vec& n, const arma::mat& mu_inp);
+        SEXP Gstarx_R(const arma::mat& mu_x_inp, int x);
+        SEXP Gbar_R(const arma::mat& U_bar, const arma::mat& mu_bar, const arma::vec& n);
 };
 
 class logit_R : public trame::arums::logit
 {
     public:
-        SEXP G_R(arma::vec n);
-        SEXP G_R(arma::vec n, arma::mat U_inp);
-        SEXP Gstar_R(arma::vec n);
-        SEXP Gstar_R(arma::vec n, arma::mat mu_inp);
-        SEXP Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n);
+        SEXP G_R(const arma::vec& n);
+        SEXP G_R(const arma::vec& n, const arma::mat& U_inp);
+        SEXP Gstar_R(const arma::vec& n);
+        SEXP Gstar_R(const arma::vec& n, const arma::mat& mu_inp);
+        SEXP Gbar_R(const arma::mat& U_bar, const arma::mat& mu_bar, const arma::vec& n);
 
         empirical_R simul_R(int n_draws);
 };
@@ -53,13 +53,13 @@ class logit_R : public trame::arums::logit
 class none_R : public trame::arums::none
 {
     public:
-        SEXP G_R(arma::vec n);
-        SEXP G_R(arma::vec n, arma::mat U_inp);
-        SEXP Gx_R(arma::mat U_x_inp, int x);
-        SEXP Gstar_R(arma::vec n);
-        SEXP Gstar_R(arma::vec n, arma::mat mu_inp);
-        SEXP Gstarx_R(arma::mat mu_x_inp, int x);
-        SEXP Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n);
+        SEXP G_R(const arma::vec& n);
+        SEXP G_R(const arma::vec& n, const arma::mat& U_inp);
+        SEXP Gx_R(const arma::mat& U_x_inp, int x);
+        SEXP Gstar_R(const arma::vec& n);
+        SEXP Gstar_R(const arma::vec& n, const arma::mat& mu_inp);
+        SEXP Gstarx_R(const arma::mat& mu_x_inp, int x);
+        SEXP Gbar_R(const arma::mat& U_bar, const arma::mat& mu_bar, const arma::vec& n);
 
         empirical_R simul_R(int n_draws);
 };
@@ -73,13 +73,13 @@ class probit_R : public trame::arums::probit
 class rsc_R : public trame::arums::rsc
 {
     public:
-        SEXP G_R(arma::vec n);
-        SEXP G_R(arma::vec n, arma::mat U_inp);
-        SEXP Gx_R(arma::mat U_x_inp, int x);
-        SEXP Gstar_R(arma::vec n);
-        SEXP Gstar_R(arma::vec n, arma::mat mu_inp);
-        SEXP Gstarx_R(arma::mat mu_x_inp, int x);
-        SEXP Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n);
+        SEXP G_R(const arma::vec& n);
+        SEXP G_R(const arma::vec& n, const arma::mat& U_inp);
+        SEXP Gx_R(const arma::mat& U_x_inp, int x);
+        SEXP Gstar_R(const arma::vec& n);
+        SEXP Gstar_R(const arma::vec& n, const arma::mat& mu_inp);
+        SEXP Gstarx_R(const arma::mat& mu_x_inp, int x);
+        SEXP Gbar_R(const arma::mat& U_bar, const arma::mat& mu_bar, const arma::vec& n);
 
         empirical_R simul_R(int n_draws);
 };
@@ -87,13 +87,13 @@ class rsc_R : public trame::arums::rsc
 class rusc_R : public trame::arums::rusc
 {
     public:
-        SEXP G_R(arma::vec n);
-        SEXP G_R(arma::vec n, arma::mat U_inp);
-        SEXP Gx_R(arma::mat U_x_inp, int x);
-        SEXP Gstar_R(arma::vec n);
-        SEXP Gstar_R(arma::vec n, arma::mat mu_inp);
-        SEXP Gstarx_R(arma::mat mu_x_inp, int x);
-        SEXP Gbar_R(arma::mat U_bar, arma::mat mu_bar, arma::vec n);
+        SEXP G_R(const arma::vec& n);
+        SEXP G_R(const arma::vec& n, const arma::mat& U_inp);
+        SEXP Gx_R(const arma::mat& U_x_inp, int x);
+        SEXP Gstar_R(const arma::vec& n);
+        SEXP Gstar_R(const arma::vec& n, const arma::mat& mu_inp);
+        SEXP Gstarx_R(const arma::mat& mu_x_inp, int x);
+        SEXP Gbar_R(const arma::mat& U_bar, const arma::mat& mu_bar, const arma::vec& n);
 
         empirical_R simul_R(int n_draws);
 };
