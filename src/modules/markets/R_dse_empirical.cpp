@@ -58,23 +58,23 @@ RCPP_MODULE(dse_empirical_module)
     // function overloading requires some trickery
  
     // ETU
-    void (dse_empirical_etu_R::*build_ETU_1)(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, arma::mat tau_inp, bool need_norm_inp) = &dse_empirical_etu_R::build_ETU_R ;
-    void (dse_empirical_etu_R::*build_ETU_2)(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, arma::mat tau_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp) = &dse_empirical_etu_R::build_ETU_R ;
+    void (dse_empirical_etu_R::*build_ETU_1)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, bool need_norm_inp) = &dse_empirical_etu_R::build_ETU_R ;
+    void (dse_empirical_etu_R::*build_ETU_2)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp) = &dse_empirical_etu_R::build_ETU_R ;
     SEXP (dse_empirical_etu_R::*solve_ETU_2)(Rcpp::CharacterVector solver_inp) = &dse_empirical_etu_R::solve_R ;
  
     // LTU
-    void (dse_empirical_ltu_R::*build_LTU_1)(arma::vec n_inp, arma::vec m_inp, arma::mat lambda_inp, arma::mat phi_inp, bool need_norm_inp) = &dse_empirical_ltu_R::build_LTU_R ;
-    void (dse_empirical_ltu_R::*build_LTU_2)(arma::vec n_inp, arma::vec m_inp, arma::mat lambda_inp, arma::mat phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp) = &dse_empirical_ltu_R::build_LTU_R ;
+    void (dse_empirical_ltu_R::*build_LTU_1)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, bool need_norm_inp) = &dse_empirical_ltu_R::build_LTU_R ;
+    void (dse_empirical_ltu_R::*build_LTU_2)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp) = &dse_empirical_ltu_R::build_LTU_R ;
     SEXP (dse_empirical_ltu_R::*solve_LTU_2)(Rcpp::CharacterVector solver_inp) = &dse_empirical_ltu_R::solve_R ;
     
     // NTU
-    void (dse_empirical_ntu_R::*build_NTU_1)(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, bool need_norm_inp) = &dse_empirical_ntu_R::build_NTU_R ;
-    void (dse_empirical_ntu_R::*build_NTU_2)(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp) = &dse_empirical_ntu_R::build_NTU_R ;
+    void (dse_empirical_ntu_R::*build_NTU_1)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, bool need_norm_inp) = &dse_empirical_ntu_R::build_NTU_R ;
+    void (dse_empirical_ntu_R::*build_NTU_2)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp) = &dse_empirical_ntu_R::build_NTU_R ;
     SEXP (dse_empirical_ntu_R::*solve_NTU_2)(Rcpp::CharacterVector solver_inp) = &dse_empirical_ntu_R::solve_R ;
  
     // TU
-    void (dse_empirical_tu_R::*build_TU_1)(arma::vec n_inp, arma::vec m_inp, arma::mat phi_inp, bool need_norm_inp) = &dse_empirical_tu_R::build_TU_R ;
-    void (dse_empirical_tu_R::*build_TU_2)(arma::vec n_inp, arma::vec m_inp, arma::mat phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp) = &dse_empirical_tu_R::build_TU_R ;
+    void (dse_empirical_tu_R::*build_TU_1)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, bool need_norm_inp) = &dse_empirical_tu_R::build_TU_R ;
+    void (dse_empirical_tu_R::*build_TU_2)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp) = &dse_empirical_tu_R::build_TU_R ;
     SEXP (dse_empirical_tu_R::*solve_TU_2)(Rcpp::CharacterVector solver_inp) = &dse_empirical_tu_R::solve_R ;
  
     // now we can declare the class
@@ -201,7 +201,7 @@ RCPP_MODULE(dse_empirical_module)
  
  // wrapper functions to catch errors and handle memory pointers
 
-void dse_empirical_etu_R::build_ETU_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, arma::mat tau_inp, bool need_norm_inp)
+void dse_empirical_etu_R::build_ETU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, bool need_norm_inp)
 {
     try {
         int nbX = n_inp.n_elem;
@@ -216,7 +216,7 @@ void dse_empirical_etu_R::build_ETU_R(arma::vec n_inp, arma::vec m_inp, arma::ma
     }
 }
  
-void dse_empirical_etu_R::build_ETU_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, arma::mat tau_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
+void dse_empirical_etu_R::build_ETU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
 {
     try {
         if (Rf_inherits(arums_G_inp, "Rcpp_logit_R")) {
@@ -344,7 +344,7 @@ void dse_empirical_etu_R::set_transfers_R(transfers_etu_R trans_obj_inp)
  //
  // LTU
  
-void dse_empirical_ltu_R::build_LTU_R(arma::vec n_inp, arma::vec m_inp, arma::mat lambda_inp, arma::mat phi_inp, bool need_norm_inp)
+void dse_empirical_ltu_R::build_LTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, bool need_norm_inp)
 {
     try {
         int nbX = n_inp.n_elem;
@@ -359,7 +359,7 @@ void dse_empirical_ltu_R::build_LTU_R(arma::vec n_inp, arma::vec m_inp, arma::ma
     }
 }
  
-void dse_empirical_ltu_R::build_LTU_R(arma::vec n_inp, arma::vec m_inp, arma::mat lambda_inp, arma::mat phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
+void dse_empirical_ltu_R::build_LTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
 {
     try {
         if (Rf_inherits(arums_G_inp, "Rcpp_logit_R")) {
@@ -472,7 +472,7 @@ void dse_empirical_ltu_R::set_transfers_R(transfers_ltu_R trans_obj_inp)
 //
 // NTU
  
-void dse_empirical_ntu_R::build_NTU_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, bool need_norm_inp)
+void dse_empirical_ntu_R::build_NTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, bool need_norm_inp)
 {
     try {
         int nbX = n_inp.n_elem;
@@ -487,7 +487,7 @@ void dse_empirical_ntu_R::build_NTU_R(arma::vec n_inp, arma::vec m_inp, arma::ma
     }
 }
  
-void dse_empirical_ntu_R::build_NTU_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
+void dse_empirical_ntu_R::build_NTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
 {
     try {
         if (Rf_inherits(arums_G_inp, "Rcpp_logit_R")) {
@@ -600,7 +600,7 @@ void dse_empirical_ntu_R::set_transfers_R(transfers_ntu_R trans_obj_inp)
  //
  // TU
  
-void dse_empirical_tu_R::build_TU_R(arma::vec n_inp, arma::vec m_inp, arma::mat phi_inp, bool need_norm_inp)
+void dse_empirical_tu_R::build_TU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, bool need_norm_inp)
 {
     try {
         int nbX = n_inp.n_elem;
@@ -615,7 +615,7 @@ void dse_empirical_tu_R::build_TU_R(arma::vec n_inp, arma::vec m_inp, arma::mat 
     }
 }
 
-void dse_empirical_tu_R::build_TU_R(arma::vec n_inp, arma::vec m_inp, arma::mat phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
+void dse_empirical_tu_R::build_TU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
 {
     try {
         if (Rf_inherits(arums_G_inp, "Rcpp_logit_R")) {

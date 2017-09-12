@@ -41,11 +41,11 @@ RCPP_MODULE(mmfs_ces_module)
     using namespace Rcpp ;
 
     // function overloading requires some trickery
-    void (mmfs_ces_R::*build_1)(arma::mat, arma::mat, arma::mat) = &mmfs_ces_R::build_R ;
-    void (mmfs_ces_R::*build_2)(arma::mat, arma::mat, arma::mat, bool) = &mmfs_ces_R::build_R ;
+    void (mmfs_ces_R::*build_1)(const arma::mat&, const arma::mat&, const arma::mat&) = &mmfs_ces_R::build_R ;
+    void (mmfs_ces_R::*build_2)(const arma::mat&, const arma::mat&, const arma::mat&, bool) = &mmfs_ces_R::build_R ;
 
-    SEXP (mmfs_ces_R::*M_1)(arma::mat, arma::mat) = &mmfs_ces_R::M_R ;
-    SEXP (mmfs_ces_R::*M_2)(arma::mat, arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &mmfs_ces_R::M_R ;
+    SEXP (mmfs_ces_R::*M_1)(const arma::mat&, const arma::mat&) = &mmfs_ces_R::M_R ;
+    SEXP (mmfs_ces_R::*M_2)(const arma::mat&, const arma::mat&, Rcpp::IntegerVector, Rcpp::IntegerVector) = &mmfs_ces_R::M_R ;
 
     // now we can declare the class
     class_<trame::mmfs::ces>( "mmfs_ces_cpp" )
@@ -83,7 +83,7 @@ RCPP_MODULE(mmfs_ces_module)
 }
 
 // wrapper functions to catch errors and handle memory pointers
-void mmfs_ces_R::build_R(arma::mat alpha_inp, arma::mat gamma_inp, arma::mat tau_inp)
+void mmfs_ces_R::build_R(const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp)
 {
     try {
         this->build(alpha_inp,gamma_inp,tau_inp,false);
@@ -94,7 +94,7 @@ void mmfs_ces_R::build_R(arma::mat alpha_inp, arma::mat gamma_inp, arma::mat tau
 	}
 }
 
-void mmfs_ces_R::build_R(arma::mat alpha_inp, arma::mat gamma_inp, arma::mat tau_inp, bool need_norm_inp)
+void mmfs_ces_R::build_R(const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, bool need_norm_inp)
 {
     try {
         this->build(alpha_inp,gamma_inp,tau_inp,need_norm_inp);
@@ -116,7 +116,7 @@ void mmfs_ces_R::trans_R()
 	}
 }
 
-SEXP mmfs_ces_R::M_R(arma::mat a_xs, arma::mat b_ys)
+SEXP mmfs_ces_R::M_R(const arma::mat& a_xs, const arma::mat& b_ys)
 {
     try {
         arma::mat mu_out = this->M(a_xs,b_ys);
@@ -130,7 +130,7 @@ SEXP mmfs_ces_R::M_R(arma::mat a_xs, arma::mat b_ys)
     return R_NilValue;
 }
 
-SEXP mmfs_ces_R::M_R(arma::mat a_xs, arma::mat b_ys, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
+SEXP mmfs_ces_R::M_R(const arma::mat& a_xs, const arma::mat& b_ys, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
 {
     try {
         int x_ind_size = x_ind.size();

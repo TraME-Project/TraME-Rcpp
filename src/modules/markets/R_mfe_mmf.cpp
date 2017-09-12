@@ -50,33 +50,33 @@ RCPP_MODULE(mfe_mmf_module)
     // function overloading requires some trickery
 
     // CD
-    void (mfe_cd_R::*build_cd_1)(arma::vec, arma::vec) = &mfe_cd_R::build_R ;
+    void (mfe_cd_R::*build_cd_1)(const arma::vec&, const arma::vec&) = &mfe_cd_R::build_R ;
     void (mfe_cd_R::*build_cd_2)(double, bool) = &mfe_cd_R::build_R ;
-    void (mfe_cd_R::*build_cd_3)(arma::vec, arma::vec, arma::mat, arma::mat, double, bool) = &mfe_cd_R::build_R ;
+    void (mfe_cd_R::*build_cd_3)(const arma::vec&, const arma::vec&, const arma::mat&, const arma::mat&, double, bool) = &mfe_cd_R::build_R ;
 
     SEXP (mfe_cd_R::*solve_cd_1)() = &mfe_cd_R::solve_R ;
     SEXP (mfe_cd_R::*solve_cd_2)(Rcpp::CharacterVector) = &mfe_cd_R::solve_R ;
 
     // CES
-    void (mfe_ces_R::*build_ces_1)(arma::vec, arma::vec) = &mfe_ces_R::build_R ;
+    void (mfe_ces_R::*build_ces_1)(const arma::vec&, const arma::vec&) = &mfe_ces_R::build_R ;
     void (mfe_ces_R::*build_ces_2)(double, bool) = &mfe_ces_R::build_R ;
-    void (mfe_ces_R::*build_ces_3)(arma::vec, arma::vec, arma::mat, arma::mat, arma::mat, double, bool) = &mfe_ces_R::build_R ;
+    void (mfe_ces_R::*build_ces_3)(const arma::vec&, const arma::vec&, const arma::mat&, const arma::mat&, const arma::mat&, double, bool) = &mfe_ces_R::build_R ;
 
     SEXP (mfe_ces_R::*solve_ces_1)() = &mfe_ces_R::solve_R ;
     SEXP (mfe_ces_R::*solve_ces_2)(Rcpp::CharacterVector) = &mfe_ces_R::solve_R ;
 
     // Geo
-    void (mfe_geo_R::*build_geo_1)(arma::vec, arma::vec) = &mfe_geo_R::build_R ;
+    void (mfe_geo_R::*build_geo_1)(const arma::vec&, const arma::vec&) = &mfe_geo_R::build_R ;
     void (mfe_geo_R::*build_geo_2)(double, bool) = &mfe_geo_R::build_R ;
-    void (mfe_geo_R::*build_geo_3)(arma::vec, arma::vec, arma::mat, double, bool) = &mfe_geo_R::build_R ;
+    void (mfe_geo_R::*build_geo_3)(const arma::vec&, const arma::vec&, const arma::mat&, double, bool) = &mfe_geo_R::build_R ;
 
     SEXP (mfe_geo_R::*solve_geo_1)() = &mfe_geo_R::solve_R ;
     SEXP (mfe_geo_R::*solve_geo_2)(Rcpp::CharacterVector) = &mfe_geo_R::solve_R ;
 
     // Min
-    void (mfe_min_R::*build_min_1)(arma::vec, arma::vec) = &mfe_min_R::build_R ;
+    void (mfe_min_R::*build_min_1)(const arma::vec&, const arma::vec&) = &mfe_min_R::build_R ;
     void (mfe_min_R::*build_min_2)(double, bool) = &mfe_min_R::build_R ;
-    void (mfe_min_R::*build_min_3)(arma::vec, arma::vec, arma::mat, arma::mat, double, bool) = &mfe_min_R::build_R ;
+    void (mfe_min_R::*build_min_3)(const arma::vec&, const arma::vec&, const arma::mat&, const arma::mat&, double, bool) = &mfe_min_R::build_R ;
 
     SEXP (mfe_min_R::*solve_min_1)() = &mfe_min_R::solve_R ;
     SEXP (mfe_min_R::*solve_min_2)(Rcpp::CharacterVector) = &mfe_min_R::solve_R ;
@@ -198,7 +198,7 @@ RCPP_MODULE(mfe_mmf_module)
 //
 // CD
 
-void mfe_cd_R::build_R(arma::vec n_inp, arma::vec m_inp)
+void mfe_cd_R::build_R(const arma::vec& n_inp, const arma::vec& m_inp)
 {
     try {
         this->build(n_inp, m_inp);
@@ -220,7 +220,7 @@ void mfe_cd_R::build_R(double sigma_inp, bool need_norm_inp)
     }
 }
 
-void mfe_cd_R::build_R(arma::vec n_inp, arma::vec m_inp, arma::mat lambda_inp, arma::mat phi_inp, double sigma_inp, bool need_norm_inp)
+void mfe_cd_R::build_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, double sigma_inp, bool need_norm_inp)
 {
     try {
         this->build(sigma_inp,need_norm_inp);
@@ -284,7 +284,7 @@ SEXP mfe_cd_R::solve_R(Rcpp::CharacterVector solver_inp)
 //
 // CES
 
-void mfe_ces_R::build_R(arma::vec n_inp, arma::vec m_inp)
+void mfe_ces_R::build_R(const arma::vec& n_inp, const arma::vec& m_inp)
 {
     try {
         this->build(n_inp, m_inp);
@@ -306,7 +306,7 @@ void mfe_ces_R::build_R(double sigma_inp, bool need_norm_inp)
     }
 }
 
-void mfe_ces_R::build_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, arma::mat tau_inp, double sigma_inp, bool need_norm_inp)
+void mfe_ces_R::build_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, double sigma_inp, bool need_norm_inp)
 {
     try {
         this->build(sigma_inp, need_norm_inp);
@@ -370,7 +370,7 @@ SEXP mfe_ces_R::solve_R(Rcpp::CharacterVector solver_inp)
 //
 // Geo
 
-void mfe_geo_R::build_R(arma::vec n_inp, arma::vec m_inp)
+void mfe_geo_R::build_R(const arma::vec& n_inp, const arma::vec& m_inp)
 {
     try {
         this->build(n_inp, m_inp);
@@ -392,7 +392,7 @@ void mfe_geo_R::build_R(double sigma_inp, bool need_norm_inp)
     }
 }
 
-void mfe_geo_R::build_R(arma::vec n_inp, arma::vec m_inp, arma::mat phi_inp, double sigma_inp, bool need_norm_inp)
+void mfe_geo_R::build_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, double sigma_inp, bool need_norm_inp)
 {
     try {
         this->build(sigma_inp, need_norm_inp);
@@ -456,7 +456,7 @@ SEXP mfe_geo_R::solve_R(Rcpp::CharacterVector solver_inp)
 //
 // Min
 
-void mfe_min_R::build_R(arma::vec n_inp, arma::vec m_inp)
+void mfe_min_R::build_R(const arma::vec& n_inp, const arma::vec& m_inp)
 {
     try {
         this->build(n_inp, m_inp);
@@ -478,7 +478,7 @@ void mfe_min_R::build_R(double sigma_inp, bool need_norm_inp)
     }
 }
 
-void mfe_min_R::build_R(arma::vec n_inp, arma::vec m_inp, arma::mat alpha_inp, arma::mat gamma_inp, double sigma_inp, bool need_norm_inp)
+void mfe_min_R::build_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, double sigma_inp, bool need_norm_inp)
 {
     try {
         this->build(sigma_inp, need_norm_inp);
