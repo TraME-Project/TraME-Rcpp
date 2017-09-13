@@ -28,7 +28,7 @@
  * 10/23/2016
  *
  * This version:
- * 08/28/2017
+ * 09/13/2017
  */
 
 #include "trameR.hpp"
@@ -53,12 +53,12 @@ RCPP_MODULE(model_mfe_module)
     // function overloading requires some trickery
 
     // geo
-    void (model_mfe_geo_R::*build_geo_1)(arma::mat X_inp, arma::mat Y_inp) = &model_mfe_geo_R::build_geo_R ;
-    void (model_mfe_geo_R::*build_geo_2)(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp) = &model_mfe_geo_R::build_geo_R ;
-    void (model_mfe_geo_R::*build_geo_3)(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp, double sigma_inp) = &model_mfe_geo_R::build_geo_R ;
+    void (model_mfe_geo_R::*build_geo_1)(const arma::mat& X_inp, const arma::mat& Y_inp) = &model_mfe_geo_R::build_geo_R ;
+    void (model_mfe_geo_R::*build_geo_2)(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp) = &model_mfe_geo_R::build_geo_R ;
+    void (model_mfe_geo_R::*build_geo_3)(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp, double sigma_inp) = &model_mfe_geo_R::build_geo_R ;
 
-    SEXP (model_mfe_geo_R::*mme_regul_geo_1)(arma::mat mu_hat, double lambda) = &model_mfe_geo_R::mme_regul_geo_R ;
-    SEXP (model_mfe_geo_R::*mme_woregul_geo_1)(arma::mat mu_hat) = &model_mfe_geo_R::mme_woregul_geo_R ;
+    SEXP (model_mfe_geo_R::*mme_regul_geo_1)(const arma::mat& mu_hat, double lambda) = &model_mfe_geo_R::mme_regul_geo_R ;
+    SEXP (model_mfe_geo_R::*mme_woregul_geo_1)(const arma::mat& mu_hat) = &model_mfe_geo_R::mme_woregul_geo_R ;
 
     // now we can declare the class
     class_<trame::model_base>( "model_base" )
@@ -106,7 +106,7 @@ RCPP_MODULE(model_mfe_module)
 
 // geo
 
-void model_mfe_geo_R::build_geo_R(arma::mat X_inp, arma::mat Y_inp)
+void model_mfe_geo_R::build_geo_R(const arma::mat& X_inp, const arma::mat& Y_inp)
 {
     try {
         this->build(X_inp,Y_inp);
@@ -117,7 +117,7 @@ void model_mfe_geo_R::build_geo_R(arma::mat X_inp, arma::mat Y_inp)
     }
 }
 
-void model_mfe_geo_R::build_geo_R(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp)
+void model_mfe_geo_R::build_geo_R(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp)
 {
     try {
         this->build(X_inp,Y_inp,n_inp,m_inp);
@@ -128,7 +128,7 @@ void model_mfe_geo_R::build_geo_R(arma::mat X_inp, arma::mat Y_inp, arma::vec n_
     }
 }
 
-void model_mfe_geo_R::build_geo_R(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp, double sigma_inp)
+void model_mfe_geo_R::build_geo_R(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp, double sigma_inp)
 {
     try {
         this->build(X_inp,Y_inp,n_inp,m_inp,sigma_inp);
@@ -139,7 +139,7 @@ void model_mfe_geo_R::build_geo_R(arma::mat X_inp, arma::mat Y_inp, arma::vec n_
     }
 }
 
-SEXP model_mfe_geo_R::mme_regul_geo_R(arma::mat mu_hat, double lambda)
+SEXP model_mfe_geo_R::mme_regul_geo_R(const arma::mat& mu_hat, double lambda)
 {
     try {
         double val_out;
@@ -156,7 +156,7 @@ SEXP model_mfe_geo_R::mme_regul_geo_R(arma::mat mu_hat, double lambda)
     return R_NilValue;
 }
 
-SEXP model_mfe_geo_R::mme_woregul_geo_R(arma::mat mu_hat)
+SEXP model_mfe_geo_R::mme_woregul_geo_R(const arma::mat& mu_hat)
 {
     try {
         double val_out;

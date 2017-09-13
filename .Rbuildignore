@@ -1,6 +1,7 @@
 .travis.yml
-^appveyor\.yml$
 .git
 .DS_Store
+appveyor.yml
 LICENSE
 README.md
+src/cleanup

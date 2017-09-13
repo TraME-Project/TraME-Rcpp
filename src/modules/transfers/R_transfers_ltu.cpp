@@ -28,7 +28,7 @@
  * 11/08/2016
  *
  * This version:
- * 05/16/2017
+ * 09/13/2017
  */
 
  #include "ancillary/ancillary.hpp"
@@ -42,20 +42,20 @@ RCPP_MODULE(transfers_ltu_module)
     using namespace Rcpp ;
 
     // function overloading requires some trickery
-    void (transfers_ltu_R::*build_1)(arma::mat, arma::mat) = &transfers_ltu_R::build_R ;
-    void (transfers_ltu_R::*build_2)(arma::mat, arma::mat, bool) = &transfers_ltu_R::build_R ;
+    void (transfers_ltu_R::*build_1)(const arma::mat&, const arma::mat&) = &transfers_ltu_R::build_R ;
+    void (transfers_ltu_R::*build_2)(const arma::mat&, const arma::mat&, bool) = &transfers_ltu_R::build_R ;
 
-    SEXP (transfers_ltu_R::*Psi_1)(arma::mat, arma::mat) = &transfers_ltu_R::Psi_R ;
-    SEXP (transfers_ltu_R::*Psi_2)(arma::mat, arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_ltu_R::Psi_R ;
+    SEXP (transfers_ltu_R::*Psi_1)(const arma::mat&, const arma::mat&) = &transfers_ltu_R::Psi_R ;
+    SEXP (transfers_ltu_R::*Psi_2)(const arma::mat&, const arma::mat&, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_ltu_R::Psi_R ;
 
-    SEXP (transfers_ltu_R::*du_Psi_1)(arma::mat, arma::mat) = &transfers_ltu_R::du_Psi_R ;
-    SEXP (transfers_ltu_R::*du_Psi_2)(arma::mat, arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_ltu_R::du_Psi_R ;
+    SEXP (transfers_ltu_R::*du_Psi_1)(const arma::mat&, const arma::mat&) = &transfers_ltu_R::du_Psi_R ;
+    SEXP (transfers_ltu_R::*du_Psi_2)(const arma::mat&, const arma::mat&, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_ltu_R::du_Psi_R ;
 
-    SEXP (transfers_ltu_R::*Ucal_1)(arma::mat) = &transfers_ltu_R::Ucal_R ;
-    SEXP (transfers_ltu_R::*Ucal_2)(arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_ltu_R::Ucal_R ;
+    SEXP (transfers_ltu_R::*Ucal_1)(const arma::mat&) = &transfers_ltu_R::Ucal_R ;
+    SEXP (transfers_ltu_R::*Ucal_2)(const arma::mat&, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_ltu_R::Ucal_R ;
 
-    SEXP (transfers_ltu_R::*Vcal_1)(arma::mat) = &transfers_ltu_R::Vcal_R ;
-    SEXP (transfers_ltu_R::*Vcal_2)(arma::mat, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_ltu_R::Vcal_R ;
+    SEXP (transfers_ltu_R::*Vcal_1)(const arma::mat&) = &transfers_ltu_R::Vcal_R ;
+    SEXP (transfers_ltu_R::*Vcal_2)(const arma::mat&, Rcpp::IntegerVector, Rcpp::IntegerVector) = &transfers_ltu_R::Vcal_R ;
 
     // now we can declare the class
     class_<trame::transfers::ltu>( "transfers_ltu_cpp" )
@@ -96,7 +96,7 @@ RCPP_MODULE(transfers_ltu_module)
 }
 
 // wrapper functions to catch errors and handle memory pointers
-void transfers_ltu_R::build_R(arma::mat lambda_inp, arma::mat phi_inp)
+void transfers_ltu_R::build_R(const arma::mat& lambda_inp, const arma::mat& phi_inp)
 {
     try {
         this->build(lambda_inp,phi_inp,false);
@@ -107,7 +107,7 @@ void transfers_ltu_R::build_R(arma::mat lambda_inp, arma::mat phi_inp)
 	}
 }
 
-void transfers_ltu_R::build_R(arma::mat lambda_inp, arma::mat phi_inp, bool need_norm_inp)
+void transfers_ltu_R::build_R(const arma::mat& lambda_inp, const arma::mat& phi_inp, bool need_norm_inp)
 {
     try {
         this->build(lambda_inp,phi_inp,need_norm_inp);
@@ -129,7 +129,7 @@ void transfers_ltu_R::trans_R()
 	}
 }
 
-SEXP transfers_ltu_R::Psi_R(arma::mat U, arma::mat V)
+SEXP transfers_ltu_R::Psi_R(const arma::mat& U, const arma::mat& V)
 {
     try {
         arma::mat psi_out = this->Psi(U,V);
@@ -143,7 +143,7 @@ SEXP transfers_ltu_R::Psi_R(arma::mat U, arma::mat V)
     return R_NilValue;
 }
 
-SEXP transfers_ltu_R::Psi_R(arma::mat U, arma::mat V, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
+SEXP transfers_ltu_R::Psi_R(const arma::mat& U, const arma::mat& V, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
 {
     try {
         int x_ind_size = x_ind.size();
@@ -183,7 +183,7 @@ SEXP transfers_ltu_R::Psi_R(arma::mat U, arma::mat V, Rcpp::IntegerVector x_ind,
     return R_NilValue;
 }
 
-SEXP transfers_ltu_R::du_Psi_R(arma::mat U, arma::mat V)
+SEXP transfers_ltu_R::du_Psi_R(const arma::mat& U, const arma::mat& V)
 {
     try {
         arma::mat du_psi_out = this->du_Psi(U,V);
@@ -197,7 +197,7 @@ SEXP transfers_ltu_R::du_Psi_R(arma::mat U, arma::mat V)
     return R_NilValue;
 }
 
-SEXP transfers_ltu_R::du_Psi_R(arma::mat U, arma::mat V, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
+SEXP transfers_ltu_R::du_Psi_R(const arma::mat& U, const arma::mat& V, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
 {
     try {
         int x_ind_size = x_ind.size();
@@ -237,7 +237,7 @@ SEXP transfers_ltu_R::du_Psi_R(arma::mat U, arma::mat V, Rcpp::IntegerVector x_i
     return R_NilValue;
 }
 
-SEXP transfers_ltu_R::Ucal_R(arma::mat vs)
+SEXP transfers_ltu_R::Ucal_R(const arma::mat& vs)
 {
     try {
         arma::mat ucal_out = this->Ucal(vs);
@@ -251,7 +251,7 @@ SEXP transfers_ltu_R::Ucal_R(arma::mat vs)
     return R_NilValue;
 }
 
-SEXP transfers_ltu_R::Ucal_R(arma::mat vs, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
+SEXP transfers_ltu_R::Ucal_R(const arma::mat& vs, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
 {
     try {
         int x_ind_size = x_ind.size();
@@ -291,7 +291,7 @@ SEXP transfers_ltu_R::Ucal_R(arma::mat vs, Rcpp::IntegerVector x_ind, Rcpp::Inte
     return R_NilValue;
 }
 
-SEXP transfers_ltu_R::Vcal_R(arma::mat us)
+SEXP transfers_ltu_R::Vcal_R(const arma::mat& us)
 {
     try {
         arma::mat vcal_out = this->Vcal(us);
@@ -305,7 +305,7 @@ SEXP transfers_ltu_R::Vcal_R(arma::mat us)
     return R_NilValue;
 }
 
-SEXP transfers_ltu_R::Vcal_R(arma::mat us, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
+SEXP transfers_ltu_R::Vcal_R(const arma::mat& us, Rcpp::IntegerVector x_ind, Rcpp::IntegerVector y_ind)
 {
     try {
         int x_ind_size = x_ind.size();

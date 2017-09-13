@@ -28,7 +28,7 @@
  * 11/10/2016
  *
  * This version:
- * 08/13/2017
+ * 09/13/2017
  */
 
 // these functions take SEXP input arguements instead of exposed class templates ('Ta') because

@@ -28,7 +28,7 @@
  * 10/20/2016
  *
  * This version:
- * 08/28/2017
+ * 09/13/2017
  */
 
 //
@@ -37,13 +37,13 @@
 class model_dse_logit_etu_R : public trame::model< trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::etu> >
 {
     public:
-        void build_ETU_R(arma::cube phi_xyk_inp);
-        void build_ETU_R(arma::cube phi_xyk_inp, arma::vec n_inp, arma::vec m_inp);
-        void build_ETU_R(arma::mat X_inp, arma::mat Y_inp);
-        void build_ETU_R(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp);
+        void build_ETU_R(const arma::cube& phi_xyk_inp);
+        void build_ETU_R(const arma::cube& phi_xyk_inp, const arma::vec& n_inp, const arma::vec& m_inp);
+        void build_ETU_R(const arma::mat& X_inp, const arma::mat& Y_inp);
+        void build_ETU_R(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp);
 
-        SEXP mle_ETU_R(arma::mat mu_hat);
-        SEXP mme_ETU_R(arma::mat mu_hat);
+        SEXP mle_ETU_R(const arma::mat& mu_hat);
+        SEXP mme_ETU_R(const arma::mat& mu_hat);
 
         dse_logit_etu_R get_market();
         void set_market(dse_logit_etu_R market_obj_inp);
@@ -52,13 +52,13 @@ class model_dse_logit_etu_R : public trame::model< trame::dse<trame::arums::logi
 // class model_dse_logit_ltu_R : public trame::model< trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::ltu> >
 // {
 //     public:
-//         void build_LTU_R(arma::cube phi_xyk_inp);
-//         void build_LTU_R(arma::cube phi_xyk_inp, arma::vec n_inp, arma::vec m_inp);
-//         void build_LTU_R(arma::mat X_inp, arma::mat Y_inp);
-//         void build_LTU_R(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp);
+//         void build_LTU_R(const arma::cube& phi_xyk_inp);
+//         void build_LTU_R(const arma::cube& phi_xyk_inp, const arma::vec& n_inp, const arma::vec& m_inp);
+//         void build_LTU_R(const arma::mat& X_inp, const arma::mat& Y_inp);
+//         void build_LTU_R(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp);
 
-//         SEXP mle_LTU_R(arma::mat mu_hat);
-//         SEXP mme_LTU_R(arma::mat mu_hat);
+//         SEXP mle_LTU_R(const arma::mat& mu_hat);
+//         SEXP mme_LTU_R(const arma::mat& mu_hat);
 
 //         dse_logit_ltu_R get_market();
 //         void set_market(dse_logit_ltu_R market_obj_inp);
@@ -67,13 +67,13 @@ class model_dse_logit_etu_R : public trame::model< trame::dse<trame::arums::logi
 // class model_dse_logit_ntu_R : public trame::model< trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::ntu> >
 // {
 //     public:
-//         void build_NTU_R(arma::cube phi_xyk_inp);
-//         void build_NTU_R(arma::cube phi_xyk_inp, arma::vec n_inp, arma::vec m_inp);
-//         void build_NTU_R(arma::mat X_inp, arma::mat Y_inp);
-//         void build_NTU_R(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp);
+//         void build_NTU_R(const arma::cube& phi_xyk_inp);
+//         void build_NTU_R(const arma::cube& phi_xyk_inp, const arma::vec& n_inp, const arma::vec& m_inp);
+//         void build_NTU_R(const arma::mat& X_inp, const arma::mat& Y_inp);
+//         void build_NTU_R(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp);
 
-//         SEXP mle_NTU_R(arma::mat mu_hat);
-//         SEXP mme_NTU_R(arma::mat mu_hat);
+//         SEXP mle_NTU_R(const arma::mat& mu_hat);
+//         SEXP mme_NTU_R(const arma::mat& mu_hat);
 
 //         dse_logit_ntu_R get_market();
 //         void set_market(dse_logit_ntu_R market_obj_inp);
@@ -82,13 +82,13 @@ class model_dse_logit_etu_R : public trame::model< trame::dse<trame::arums::logi
 class model_dse_logit_tu_R : public trame::model< trame::dse<trame::arums::logit,trame::arums::logit,trame::transfers::tu> >
 {
     public:
-        void build_TU_R(arma::cube phi_xyk_inp);
-        void build_TU_R(arma::cube phi_xyk_inp, arma::vec n_inp, arma::vec m_inp);
-        void build_TU_R(arma::mat X_inp, arma::mat Y_inp);
-        void build_TU_R(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp);
+        void build_TU_R(const arma::cube& phi_xyk_inp);
+        void build_TU_R(const arma::cube& phi_xyk_inp, const arma::vec& n_inp, const arma::vec& m_inp);
+        void build_TU_R(const arma::mat& X_inp, const arma::mat& Y_inp);
+        void build_TU_R(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp);
 
-        SEXP mle_TU_R(arma::mat mu_hat);
-        SEXP mme_TU_R(arma::mat mu_hat);
+        SEXP mle_TU_R(const arma::mat& mu_hat);
+        SEXP mme_TU_R(const arma::mat& mu_hat);
 
         dse_logit_tu_R get_market();
         void set_market(dse_logit_tu_R market_obj_inp);

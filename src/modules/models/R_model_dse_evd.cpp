@@ -28,7 +28,7 @@
  * 10/23/2016
  *
  * This version:
- * 08/28/2017
+ * 09/13/2017
  */
 
 #include "trameR.hpp"
@@ -58,40 +58,40 @@ RCPP_MODULE(model_dse_logit_module)
     // function overloading requires some trickery
 
     // ETU
-    void (model_dse_logit_etu_R::*build_ETU_1)(arma::cube phi_xyk_inp) = &model_dse_logit_etu_R::build_ETU_R ;
-    void (model_dse_logit_etu_R::*build_ETU_2)(arma::cube phi_xyk_inp, arma::vec n_inp, arma::vec m_inp) = &model_dse_logit_etu_R::build_ETU_R ;
-    void (model_dse_logit_etu_R::*build_ETU_3)(arma::mat X_inp, arma::mat Y_inp) = &model_dse_logit_etu_R::build_ETU_R ;
-    void (model_dse_logit_etu_R::*build_ETU_4)(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp) = &model_dse_logit_etu_R::build_ETU_R ;
+    void (model_dse_logit_etu_R::*build_ETU_1)(const arma::cube& phi_xyk_inp) = &model_dse_logit_etu_R::build_ETU_R ;
+    void (model_dse_logit_etu_R::*build_ETU_2)(const arma::cube& phi_xyk_inp, const arma::vec& n_inp, const arma::vec& m_inp) = &model_dse_logit_etu_R::build_ETU_R ;
+    void (model_dse_logit_etu_R::*build_ETU_3)(const arma::mat& X_inp, const arma::mat& Y_inp) = &model_dse_logit_etu_R::build_ETU_R ;
+    void (model_dse_logit_etu_R::*build_ETU_4)(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp) = &model_dse_logit_etu_R::build_ETU_R ;
 
-    SEXP (model_dse_logit_etu_R::*mle_ETU_1)(arma::mat mu_hat) = &model_dse_logit_etu_R::mle_ETU_R ;
-    SEXP (model_dse_logit_etu_R::*mme_ETU_1)(arma::mat mu_hat) = &model_dse_logit_etu_R::mme_ETU_R ;
+    SEXP (model_dse_logit_etu_R::*mle_ETU_1)(const arma::mat& mu_hat) = &model_dse_logit_etu_R::mle_ETU_R ;
+    SEXP (model_dse_logit_etu_R::*mme_ETU_1)(const arma::mat& mu_hat) = &model_dse_logit_etu_R::mme_ETU_R ;
 
     // LTU
-    // void (model_dse_logit_ltu_R::*build_LTU_1)(arma::cube phi_xyk_inp) = &model_dse_logit_ltu_R::build_LTU_R ;
-    // void (model_dse_logit_ltu_R::*build_LTU_2)(arma::cube phi_xyk_inp, arma::vec n_inp, arma::vec m_inp) = &model_dse_logit_ltu_R::build_LTU_R ;
-    // void (model_dse_logit_ltu_R::*build_LTU_3)(arma::mat X_inp, arma::mat Y_inp) = &model_dse_logit_ltu_R::build_LTU_R ;
-    // void (model_dse_logit_ltu_R::*build_LTU_4)(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp) = &model_dse_logit_ltu_R::build_LTU_R ;
+    // void (model_dse_logit_ltu_R::*build_LTU_1)(const arma::cube& phi_xyk_inp) = &model_dse_logit_ltu_R::build_LTU_R ;
+    // void (model_dse_logit_ltu_R::*build_LTU_2)(const arma::cube& phi_xyk_inp, const arma::vec& n_inp, const arma::vec& m_inp) = &model_dse_logit_ltu_R::build_LTU_R ;
+    // void (model_dse_logit_ltu_R::*build_LTU_3)(const arma::mat& X_inp, const arma::mat& Y_inp) = &model_dse_logit_ltu_R::build_LTU_R ;
+    // void (model_dse_logit_ltu_R::*build_LTU_4)(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp) = &model_dse_logit_ltu_R::build_LTU_R ;
 
-    // SEXP (model_dse_logit_ltu_R::*mle_LTU_1)(arma::mat mu_hat) = &model_dse_logit_ltu_R::mle_LTU_R ;
-    // SEXP (model_dse_logit_ltu_R::*mme_LTU_1)(arma::mat mu_hat) = &model_dse_logit_ltu_R::mme_LTU_R ;
+    // SEXP (model_dse_logit_ltu_R::*mle_LTU_1)(const arma::mat& mu_hat) = &model_dse_logit_ltu_R::mle_LTU_R ;
+    // SEXP (model_dse_logit_ltu_R::*mme_LTU_1)(const arma::mat& mu_hat) = &model_dse_logit_ltu_R::mme_LTU_R ;
     
     // // NTU
-    // void (model_dse_logit_ntu_R::*build_NTU_1)(arma::cube phi_xyk_inp) = &model_dse_logit_ntu_R::build_NTU_R ;
-    // void (model_dse_logit_ntu_R::*build_NTU_2)(arma::cube phi_xyk_inp, arma::vec n_inp, arma::vec m_inp) = &model_dse_logit_ntu_R::build_NTU_R ;
-    // void (model_dse_logit_ntu_R::*build_NTU_3)(arma::mat X_inp, arma::mat Y_inp) = &model_dse_logit_ntu_R::build_NTU_R ;
-    // void (model_dse_logit_ntu_R::*build_NTU_4)(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp) = &model_dse_logit_ntu_R::build_NTU_R ;
+    // void (model_dse_logit_ntu_R::*build_NTU_1)(const arma::cube& phi_xyk_inp) = &model_dse_logit_ntu_R::build_NTU_R ;
+    // void (model_dse_logit_ntu_R::*build_NTU_2)(const arma::cube& phi_xyk_inp, const arma::vec& n_inp, const arma::vec& m_inp) = &model_dse_logit_ntu_R::build_NTU_R ;
+    // void (model_dse_logit_ntu_R::*build_NTU_3)(const arma::mat& X_inp, const arma::mat& Y_inp) = &model_dse_logit_ntu_R::build_NTU_R ;
+    // void (model_dse_logit_ntu_R::*build_NTU_4)(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp) = &model_dse_logit_ntu_R::build_NTU_R ;
 
-    // SEXP (model_dse_logit_ntu_R::*mle_NTU_1)(arma::mat mu_hat) = &model_dse_logit_ntu_R::mle_NTU_R ;
-    // SEXP (model_dse_logit_ntu_R::*mme_NTU_1)(arma::mat mu_hat) = &model_dse_logit_ntu_R::mme_NTU_R ;
+    // SEXP (model_dse_logit_ntu_R::*mle_NTU_1)(const arma::mat& mu_hat) = &model_dse_logit_ntu_R::mle_NTU_R ;
+    // SEXP (model_dse_logit_ntu_R::*mme_NTU_1)(const arma::mat& mu_hat) = &model_dse_logit_ntu_R::mme_NTU_R ;
 
     // TU
-    void (model_dse_logit_tu_R::*build_TU_1)(arma::cube phi_xyk_inp) = &model_dse_logit_tu_R::build_TU_R ;
-    void (model_dse_logit_tu_R::*build_TU_2)(arma::cube phi_xyk_inp, arma::vec n_inp, arma::vec m_inp) = &model_dse_logit_tu_R::build_TU_R ;
-    void (model_dse_logit_tu_R::*build_TU_3)(arma::mat X_inp, arma::mat Y_inp) = &model_dse_logit_tu_R::build_TU_R ;
-    void (model_dse_logit_tu_R::*build_TU_4)(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp) = &model_dse_logit_tu_R::build_TU_R ;
+    void (model_dse_logit_tu_R::*build_TU_1)(const arma::cube& phi_xyk_inp) = &model_dse_logit_tu_R::build_TU_R ;
+    void (model_dse_logit_tu_R::*build_TU_2)(const arma::cube& phi_xyk_inp, const arma::vec& n_inp, const arma::vec& m_inp) = &model_dse_logit_tu_R::build_TU_R ;
+    void (model_dse_logit_tu_R::*build_TU_3)(const arma::mat& X_inp, const arma::mat& Y_inp) = &model_dse_logit_tu_R::build_TU_R ;
+    void (model_dse_logit_tu_R::*build_TU_4)(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp) = &model_dse_logit_tu_R::build_TU_R ;
 
-    SEXP (model_dse_logit_tu_R::*mle_TU_1)(arma::mat mu_hat) = &model_dse_logit_tu_R::mle_TU_R ;
-    SEXP (model_dse_logit_tu_R::*mme_TU_1)(arma::mat mu_hat) = &model_dse_logit_tu_R::mme_TU_R ;
+    SEXP (model_dse_logit_tu_R::*mle_TU_1)(const arma::mat& mu_hat) = &model_dse_logit_tu_R::mle_TU_R ;
+    SEXP (model_dse_logit_tu_R::*mme_TU_1)(const arma::mat& mu_hat) = &model_dse_logit_tu_R::mme_TU_R ;
 
     // now we can declare the class
     class_<trame::model_base>( "model_base" )
@@ -206,7 +206,7 @@ RCPP_MODULE(model_dse_logit_module)
 
 // ETU
 
-void model_dse_logit_etu_R::build_ETU_R(arma::cube phi_xyk_inp)
+void model_dse_logit_etu_R::build_ETU_R(const arma::cube& phi_xyk_inp)
 {
     try {
         this->build(phi_xyk_inp);
@@ -217,7 +217,7 @@ void model_dse_logit_etu_R::build_ETU_R(arma::cube phi_xyk_inp)
     }
 }
 
-void model_dse_logit_etu_R::build_ETU_R(arma::cube phi_xyk_inp, arma::vec n_inp, arma::vec m_inp)
+void model_dse_logit_etu_R::build_ETU_R(const arma::cube& phi_xyk_inp, const arma::vec& n_inp, const arma::vec& m_inp)
 {
     try {
         this->build(phi_xyk_inp,n_inp,m_inp);
@@ -228,7 +228,7 @@ void model_dse_logit_etu_R::build_ETU_R(arma::cube phi_xyk_inp, arma::vec n_inp,
     }
 }
 
-void model_dse_logit_etu_R::build_ETU_R(arma::mat X_inp, arma::mat Y_inp)
+void model_dse_logit_etu_R::build_ETU_R(const arma::mat& X_inp, const arma::mat& Y_inp)
 {
     try {
         this->build(X_inp,Y_inp);
@@ -239,7 +239,7 @@ void model_dse_logit_etu_R::build_ETU_R(arma::mat X_inp, arma::mat Y_inp)
     }
 }
 
-void model_dse_logit_etu_R::build_ETU_R(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp)
+void model_dse_logit_etu_R::build_ETU_R(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp)
 {
     try {
         this->build(X_inp,Y_inp,n_inp,m_inp);
@@ -250,7 +250,7 @@ void model_dse_logit_etu_R::build_ETU_R(arma::mat X_inp, arma::mat Y_inp, arma::
     }
 }
 
-SEXP model_dse_logit_etu_R::mle_ETU_R(arma::mat mu_hat)
+SEXP model_dse_logit_etu_R::mle_ETU_R(const arma::mat& mu_hat)
 {
     try {
         arma::mat theta_hat;
@@ -266,7 +266,7 @@ SEXP model_dse_logit_etu_R::mle_ETU_R(arma::mat mu_hat)
     return R_NilValue;
 }
 
-SEXP model_dse_logit_etu_R::mme_ETU_R(arma::mat mu_hat)
+SEXP model_dse_logit_etu_R::mme_ETU_R(const arma::mat& mu_hat)
 {
     try {
         arma::mat theta_hat;
@@ -302,7 +302,7 @@ void model_dse_logit_etu_R::set_market(dse_logit_etu_R market_obj_inp)
 
 // LTU
 
-// void model_dse_logit_ltu_R::build_LTU_R(arma::cube phi_xyk_inp)
+// void model_dse_logit_ltu_R::build_LTU_R(const arma::cube& phi_xyk_inp)
 // {
 //     try {
 //         this->build(phi_xyk_inp);
@@ -313,7 +313,7 @@ void model_dse_logit_etu_R::set_market(dse_logit_etu_R market_obj_inp)
 //     }
 // }
 
-// void model_dse_logit_ltu_R::build_LTU_R(arma::cube phi_xyk_inp, arma::vec n_inp, arma::vec m_inp)
+// void model_dse_logit_ltu_R::build_LTU_R(const arma::cube& phi_xyk_inp, const arma::vec& n_inp, const arma::vec& m_inp)
 // {
 //     try {
 //         this->build(phi_xyk_inp,n_inp,m_inp);
@@ -324,7 +324,7 @@ void model_dse_logit_etu_R::set_market(dse_logit_etu_R market_obj_inp)
 //     }
 // }
 
-// void model_dse_logit_ltu_R::build_LTU_R(arma::mat X_inp, arma::mat Y_inp)
+// void model_dse_logit_ltu_R::build_LTU_R(const arma::mat& X_inp, const arma::mat& Y_inp)
 // {
 //     try {
 //         this->build(X_inp,Y_inp);
@@ -335,7 +335,7 @@ void model_dse_logit_etu_R::set_market(dse_logit_etu_R market_obj_inp)
 //     }
 // }
 
-// void model_dse_logit_ltu_R::build_LTU_R(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp)
+// void model_dse_logit_ltu_R::build_LTU_R(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp)
 // {
 //     try {
 //         this->build(X_inp,Y_inp,n_inp,m_inp);
@@ -346,7 +346,7 @@ void model_dse_logit_etu_R::set_market(dse_logit_etu_R market_obj_inp)
 //     }
 // }
 
-// SEXP model_dse_logit_ltu_R::mle_LTU_R(arma::mat mu_hat)
+// SEXP model_dse_logit_ltu_R::mle_LTU_R(const arma::mat& mu_hat)
 // {
 //     try {
 //         arma::mat theta_hat;
@@ -362,7 +362,7 @@ void model_dse_logit_etu_R::set_market(dse_logit_etu_R market_obj_inp)
 //     return R_NilValue;
 // }
 
-// SEXP model_dse_logit_ltu_R::mme_LTU_R(arma::mat mu_hat)
+// SEXP model_dse_logit_ltu_R::mme_LTU_R(const arma::mat& mu_hat)
 // {
 //     try {
 //         arma::mat theta_hat;
@@ -398,7 +398,7 @@ void model_dse_logit_etu_R::set_market(dse_logit_etu_R market_obj_inp)
 
 // // NTU
 
-// void model_dse_logit_ntu_R::build_NTU_R(arma::cube phi_xyk_inp)
+// void model_dse_logit_ntu_R::build_NTU_R(const arma::cube& phi_xyk_inp)
 // {
 //     try {
 //         this->build(phi_xyk_inp);
@@ -409,7 +409,7 @@ void model_dse_logit_etu_R::set_market(dse_logit_etu_R market_obj_inp)
 //     }
 // }
 
-// void model_dse_logit_ntu_R::build_NTU_R(arma::cube phi_xyk_inp, arma::vec n_inp, arma::vec m_inp)
+// void model_dse_logit_ntu_R::build_NTU_R(const arma::cube& phi_xyk_inp, const arma::vec& n_inp, const arma::vec& m_inp)
 // {
 //     try {
 //         this->build(phi_xyk_inp,n_inp,m_inp);
@@ -420,7 +420,7 @@ void model_dse_logit_etu_R::set_market(dse_logit_etu_R market_obj_inp)
 //     }
 // }
 
-// void model_dse_logit_ntu_R::build_NTU_R(arma::mat X_inp, arma::mat Y_inp)
+// void model_dse_logit_ntu_R::build_NTU_R(const arma::mat& X_inp, const arma::mat& Y_inp)
 // {
 //     try {
 //         this->build(X_inp,Y_inp);
@@ -431,7 +431,7 @@ void model_dse_logit_etu_R::set_market(dse_logit_etu_R market_obj_inp)
 //     }
 // }
 
-// void model_dse_logit_ntu_R::build_NTU_R(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp)
+// void model_dse_logit_ntu_R::build_NTU_R(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp)
 // {
 //     try {
 //         this->build(X_inp,Y_inp,n_inp,m_inp);
@@ -442,7 +442,7 @@ void model_dse_logit_etu_R::set_market(dse_logit_etu_R market_obj_inp)
 //     }
 // }
 
-// SEXP model_dse_logit_ntu_R::mle_NTU_R(arma::mat mu_hat)
+// SEXP model_dse_logit_ntu_R::mle_NTU_R(const arma::mat& mu_hat)
 // {
 //     try {
 //         arma::mat theta_hat;
@@ -458,7 +458,7 @@ void model_dse_logit_etu_R::set_market(dse_logit_etu_R market_obj_inp)
 //     return R_NilValue;
 // }
 
-// SEXP model_dse_logit_ntu_R::mme_NTU_R(arma::mat mu_hat)
+// SEXP model_dse_logit_ntu_R::mme_NTU_R(const arma::mat& mu_hat)
 // {
 //     try {
 //         arma::mat theta_hat;
@@ -495,7 +495,7 @@ void model_dse_logit_etu_R::set_market(dse_logit_etu_R market_obj_inp)
 
 // TU
 
-void model_dse_logit_tu_R::build_TU_R(arma::cube phi_xyk_inp)
+void model_dse_logit_tu_R::build_TU_R(const arma::cube& phi_xyk_inp)
 {
     try {
         this->build(phi_xyk_inp);
@@ -506,7 +506,7 @@ void model_dse_logit_tu_R::build_TU_R(arma::cube phi_xyk_inp)
     }
 }
 
-void model_dse_logit_tu_R::build_TU_R(arma::cube phi_xyk_inp, arma::vec n_inp, arma::vec m_inp)
+void model_dse_logit_tu_R::build_TU_R(const arma::cube& phi_xyk_inp, const arma::vec& n_inp, const arma::vec& m_inp)
 {
     try {
         this->build(phi_xyk_inp,n_inp,m_inp);
@@ -517,7 +517,7 @@ void model_dse_logit_tu_R::build_TU_R(arma::cube phi_xyk_inp, arma::vec n_inp, a
     }
 }
 
-void model_dse_logit_tu_R::build_TU_R(arma::mat X_inp, arma::mat Y_inp)
+void model_dse_logit_tu_R::build_TU_R(const arma::mat& X_inp, const arma::mat& Y_inp)
 {
     try {
         this->build(X_inp,Y_inp);
@@ -528,7 +528,7 @@ void model_dse_logit_tu_R::build_TU_R(arma::mat X_inp, arma::mat Y_inp)
     }
 }
 
-void model_dse_logit_tu_R::build_TU_R(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp)
+void model_dse_logit_tu_R::build_TU_R(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp)
 {
     try {
         this->build(X_inp,Y_inp,n_inp,m_inp);
@@ -539,7 +539,7 @@ void model_dse_logit_tu_R::build_TU_R(arma::mat X_inp, arma::mat Y_inp, arma::ve
     }
 }
 
-SEXP model_dse_logit_tu_R::mle_TU_R(arma::mat mu_hat)
+SEXP model_dse_logit_tu_R::mle_TU_R(const arma::mat& mu_hat)
 {
     try {
         arma::mat theta_hat;
@@ -555,7 +555,7 @@ SEXP model_dse_logit_tu_R::mle_TU_R(arma::mat mu_hat)
     return R_NilValue;
 }
 
-SEXP model_dse_logit_tu_R::mme_TU_R(arma::mat mu_hat)
+SEXP model_dse_logit_tu_R::mme_TU_R(const arma::mat& mu_hat)
 {
     try {
         arma::mat theta_hat;

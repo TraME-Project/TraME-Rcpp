@@ -28,7 +28,7 @@
  * 11/08/2016
  *
  * This version:
- * 05/13/2017
+ * 09/13/2017
  */
 
  #include "ancillary/ancillary.hpp"

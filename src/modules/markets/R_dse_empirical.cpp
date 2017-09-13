@@ -28,7 +28,7 @@
  * 10/23/2016
  *
  * This version:
- * 08/13/2017
+ * 09/13/2017
  */
 
 #include "trameR.hpp"

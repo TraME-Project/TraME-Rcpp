@@ -28,7 +28,7 @@
  * 10/20/2016
  *
  * This version:
- * 08/28/2017
+ * 09/13/2017
  */
 
 //
@@ -37,12 +37,12 @@
 class model_mfe_geo_R : public trame::model< trame::mfe<trame::mmfs::geo> >
 {
     public:
-        void build_geo_R(arma::mat X_inp, arma::mat Y_inp);
-        void build_geo_R(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp);
-        void build_geo_R(arma::mat X_inp, arma::mat Y_inp, arma::vec n_inp, arma::vec m_inp, double sigma_inp);
+        void build_geo_R(const arma::mat& X_inp, const arma::mat& Y_inp);
+        void build_geo_R(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp);
+        void build_geo_R(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp, double sigma_inp);
 
-        SEXP mme_regul_geo_R(arma::mat mu_hat, double lambda);
-        SEXP mme_woregul_geo_R(arma::mat mu_hat);
+        SEXP mme_regul_geo_R(const arma::mat& mu_hat, double lambda);
+        SEXP mme_woregul_geo_R(const arma::mat& mu_hat);
 
         mfe_geo_R get_market();
         void set_market(mfe_geo_R market_obj_inp);
