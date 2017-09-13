@@ -32,7 +32,7 @@
  */
 
 // these functions take SEXP input arguements instead of exposed class templates ('Ta') because
-// Rcpp modules cannot distinguish between methods with the same number of arguments but different types
+// Rcpp modules cannot distinguish between methods with the same number of arguments but with different types
 
 template<typename Ta>
 void dse_empirical_etu_R::build_ETU_R_int(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
