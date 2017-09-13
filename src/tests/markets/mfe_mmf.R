@@ -5,8 +5,8 @@ library(TraME.Rcpp)
 
 #
 
-nbX = 18
-nbY = 16
+nbX = 500
+nbY = 400
 sigma = 1
 
 n = rep(1,nbX)
@@ -36,6 +36,12 @@ mfe_min_obj$build(n,m,alpha,gamma,sigma,FALSE)
 
 #
 
+ptm = proc.time()
+
 sol_geo <- mfe_geo_obj$solve()
 sol_cd <- mfe_cd_obj$solve()
 sol_min <- mfe_min_obj$solve()
+
+time =  proc.time()  - ptm
+
+message(paste0('\nTime taken = ', time["elapsed"], 's.\n'))
