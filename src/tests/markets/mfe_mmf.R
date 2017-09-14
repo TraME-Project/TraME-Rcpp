@@ -38,10 +38,12 @@ mfe_min_obj$build(n,m,alpha,gamma,sigma,FALSE)
 
 ptm = proc.time()
 
-sol_geo <- mfe_geo_obj$solve()
-sol_cd <- mfe_cd_obj$solve()
-sol_min <- mfe_min_obj$solve()
+sol_geo <- mfe_geo_obj$solve("ipfp")
+sol_cd <- mfe_cd_obj$solve("ipfp")
+sol_min <- mfe_min_obj$solve("ipfp")
 
 time =  proc.time()  - ptm
 
 message(paste0('\nTime taken = ', time["elapsed"], 's.\n'))
+
+sol_cd <- mfe_cd_obj$solve("i")
