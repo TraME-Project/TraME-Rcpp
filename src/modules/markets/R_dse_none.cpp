@@ -31,633 +31,635 @@
  * 09/13/2017
  */
 
- #include "trameR.hpp"
+#include "trameR.hpp"
  
- RCPP_EXPOSED_CLASS(none_R)
- RCPP_EXPOSED_CLASS(transfers_etu_R)
- RCPP_EXPOSED_CLASS(transfers_ltu_R)
- RCPP_EXPOSED_CLASS(transfers_ntu_R)
- RCPP_EXPOSED_CLASS(transfers_tu_R)
- RCPP_EXPOSED_CLASS(dse_none_etu_R)
- RCPP_EXPOSED_CLASS(dse_none_ltu_R)
- RCPP_EXPOSED_CLASS(dse_none_ntu_R)
- RCPP_EXPOSED_CLASS(dse_none_tu_R)
+RCPP_EXPOSED_CLASS(none_R)
  
- RCPP_MODULE(dse_none_module)
- {
-     using namespace Rcpp ;
+RCPP_EXPOSED_CLASS(transfers_etu_R)
+RCPP_EXPOSED_CLASS(transfers_ltu_R)
+RCPP_EXPOSED_CLASS(transfers_ntu_R)
+RCPP_EXPOSED_CLASS(transfers_tu_R)
+
+RCPP_EXPOSED_CLASS(dse_none_etu_R)
+RCPP_EXPOSED_CLASS(dse_none_ltu_R)
+RCPP_EXPOSED_CLASS(dse_none_ntu_R)
+RCPP_EXPOSED_CLASS(dse_none_tu_R)
  
-     //
-     // function overloading requires some trickery
+RCPP_MODULE(dse_none_module)
+{
+    using namespace Rcpp ;
  
-     // ETU
-     void (dse_none_etu_R::*build_ETU_1)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, bool need_norm_inp) = &dse_none_etu_R::build_ETU_R ;
-     void (dse_none_etu_R::*build_ETU_2)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp) = &dse_none_etu_R::build_ETU_R ;
-     SEXP (dse_none_etu_R::*solve_ETU_2)(Rcpp::CharacterVector solver_inp) = &dse_none_etu_R::solve_R ;
+    //
+    // function overloading requires some trickery
  
-     // LTU
-     void (dse_none_ltu_R::*build_LTU_1)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, bool need_norm_inp) = &dse_none_ltu_R::build_LTU_R ;
-     void (dse_none_ltu_R::*build_LTU_2)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp) = &dse_none_ltu_R::build_LTU_R ;
-     SEXP (dse_none_ltu_R::*solve_LTU_2)(Rcpp::CharacterVector solver_inp) = &dse_none_ltu_R::solve_R ;
-     
-     // NTU
-     void (dse_none_ntu_R::*build_NTU_1)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, bool need_norm_inp) = &dse_none_ntu_R::build_NTU_R ;
-     void (dse_none_ntu_R::*build_NTU_2)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp) = &dse_none_ntu_R::build_NTU_R ;
-     SEXP (dse_none_ntu_R::*solve_NTU_2)(Rcpp::CharacterVector solver_inp) = &dse_none_ntu_R::solve_R ;
+    // ETU
+    void (dse_none_etu_R::*build_ETU_1)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, bool need_norm_inp) = &dse_none_etu_R::build_ETU_R ;
+    void (dse_none_etu_R::*build_ETU_2)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp) = &dse_none_etu_R::build_ETU_R ;
+    SEXP (dse_none_etu_R::*solve_ETU_2)(Rcpp::CharacterVector solver_inp) = &dse_none_etu_R::solve_R ;
  
-     // TU
-     void (dse_none_tu_R::*build_TU_1)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, bool need_norm_inp) = &dse_none_tu_R::build_TU_R ;
-     void (dse_none_tu_R::*build_TU_2)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp) = &dse_none_tu_R::build_TU_R ;
-     SEXP (dse_none_tu_R::*solve_TU_2)(Rcpp::CharacterVector solver_inp) = &dse_none_tu_R::solve_R ;
+    // LTU
+    void (dse_none_ltu_R::*build_LTU_1)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, bool need_norm_inp) = &dse_none_ltu_R::build_LTU_R ;
+    void (dse_none_ltu_R::*build_LTU_2)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp) = &dse_none_ltu_R::build_LTU_R ;
+    SEXP (dse_none_ltu_R::*solve_LTU_2)(Rcpp::CharacterVector solver_inp) = &dse_none_ltu_R::solve_R ;
+    
+    // NTU
+    void (dse_none_ntu_R::*build_NTU_1)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, bool need_norm_inp) = &dse_none_ntu_R::build_NTU_R ;
+    void (dse_none_ntu_R::*build_NTU_2)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp) = &dse_none_ntu_R::build_NTU_R ;
+    SEXP (dse_none_ntu_R::*solve_NTU_2)(Rcpp::CharacterVector solver_inp) = &dse_none_ntu_R::solve_R ;
  
-     // now we can declare the class
-     class_<trame::dse_base>( "dse_base" )
-         .default_constructor()
+    // TU
+    void (dse_none_tu_R::*build_TU_1)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, bool need_norm_inp) = &dse_none_tu_R::build_TU_R ;
+    void (dse_none_tu_R::*build_TU_2)(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp) = &dse_none_tu_R::build_TU_R ;
+    SEXP (dse_none_tu_R::*solve_TU_2)(Rcpp::CharacterVector solver_inp) = &dse_none_tu_R::solve_R ;
  
-         // basic objects
-         .field( "ETU", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::ETU )
-         .field( "LTU", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::LTU )
-         .field( "NTU", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::NTU )
-         .field( "TU", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::TU )
+    // now we can declare the class
+    class_<trame::dse_base>( "dse_base" )
+        .default_constructor()
  
-         .field( "need_norm", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::need_norm )
-         .field( "outside_option", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::outside_option )
+        // basic objects
+        .field( "ETU", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::ETU )
+        .field( "LTU", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::LTU )
+        .field( "NTU", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::NTU )
+        .field( "TU", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::TU )
  
-         .field( "nbX", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::nbX )
-         .field( "nbY", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::nbY )
-     ;
+        .field( "need_norm", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::need_norm )
+        .field( "outside_option", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::outside_option )
  
-     class_<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>>( "dse_none_etu_cpp" )
-         .derives<trame::dse_base>( "dse_base" )
-         .default_constructor()
-     ;
+        .field( "nbX", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::nbX )
+        .field( "nbY", &trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>::nbY )
+    ;
  
-     class_<dse_none_etu_R>( "dse_none_etu" )
-         // .derives<trame::dse_base>( "dse_base" )
-         .derives<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>>( "dse_none_etu_cpp" )
-         .default_constructor()
+    class_<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>>( "dse_none_etu_cpp" )
+        .derives<trame::dse_base>( "dse_base" )
+        .default_constructor()
+    ;
  
-         .method( "build", build_ETU_1 )
-         .method( "build", build_ETU_2 )
+    class_<dse_none_etu_R>( "dse_none_etu" )
+        // .derives<trame::dse_base>( "dse_base" )
+        .derives<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::etu>>( "dse_none_etu_cpp" )
+        .default_constructor()
  
-         // .method( "solve", solve_R_1 )
-         .method( "solve", solve_ETU_2 )
+        .method( "build", build_ETU_1 )
+        .method( "build", build_ETU_2 )
  
-         .method( "get_arums_G", &dse_none_etu_R::get_arums_G )
-         .method( "set_arums_G", &dse_none_etu_R::set_arums_G )
-         .method( "get_arums_H", &dse_none_etu_R::get_arums_H )
-         .method( "set_arums_H", &dse_none_etu_R::set_arums_H )
-         .method( "set_arums", &dse_none_etu_R::set_arums )
+        // .method( "solve", solve_R_1 )
+        .method( "solve", solve_ETU_2 )
  
-         .method( "get_transfers", &dse_none_etu_R::get_transfers_R )
-         .method( "set_transfers", &dse_none_etu_R::set_transfers_R )
-     ;
+        .method( "get_arums_G", &dse_none_etu_R::get_arums_G )
+        .method( "set_arums_G", &dse_none_etu_R::set_arums_G )
+        .method( "get_arums_H", &dse_none_etu_R::get_arums_H )
+        .method( "set_arums_H", &dse_none_etu_R::set_arums_H )
+        .method( "set_arums", &dse_none_etu_R::set_arums )
  
-     class_<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::ltu>>( "dse_none_ltu_cpp" )
-         .derives<trame::dse_base>( "dse_base" )
-         .default_constructor()
-     ;
+        .method( "get_transfers", &dse_none_etu_R::get_transfers_R )
+        .method( "set_transfers", &dse_none_etu_R::set_transfers_R )
+    ;
  
-     class_<dse_none_ltu_R>( "dse_none_ltu" )
-         // .derives<trame::dse_base>( "dse_base" )
-         .derives<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::ltu>>( "dse_none_ltu_cpp" )
-         .default_constructor()
+    class_<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::ltu>>( "dse_none_ltu_cpp" )
+        .derives<trame::dse_base>( "dse_base" )
+        .default_constructor()
+    ;
  
-         .method( "build", build_LTU_1 )
-         .method( "build", build_LTU_2 )
+    class_<dse_none_ltu_R>( "dse_none_ltu" )
+        // .derives<trame::dse_base>( "dse_base" )
+        .derives<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::ltu>>( "dse_none_ltu_cpp" )
+        .default_constructor()
  
-         // .method( "solve", solve_R_1 )
-         .method( "solve", solve_LTU_2 )
+        .method( "build", build_LTU_1 )
+        .method( "build", build_LTU_2 )
  
-         .method( "get_arums_G", &dse_none_ltu_R::get_arums_G )
-         .method( "set_arums_G", &dse_none_ltu_R::set_arums_G )
-         .method( "get_arums_H", &dse_none_ltu_R::get_arums_H )
-         .method( "set_arums_H", &dse_none_ltu_R::set_arums_H )
-         .method( "set_arums", &dse_none_ltu_R::set_arums )
+        // .method( "solve", solve_R_1 )
+        .method( "solve", solve_LTU_2 )
  
-         .method( "get_transfers", &dse_none_ltu_R::get_transfers_R )
-         .method( "set_transfers", &dse_none_ltu_R::set_transfers_R )
-     ;
+        .method( "get_arums_G", &dse_none_ltu_R::get_arums_G )
+        .method( "set_arums_G", &dse_none_ltu_R::set_arums_G )
+        .method( "get_arums_H", &dse_none_ltu_R::get_arums_H )
+        .method( "set_arums_H", &dse_none_ltu_R::set_arums_H )
+        .method( "set_arums", &dse_none_ltu_R::set_arums )
  
-     class_<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::ntu>>( "dse_none_ntu_cpp" )
-         .derives<trame::dse_base>( "dse_base" )
-         .default_constructor()
-     ;
+        .method( "get_transfers", &dse_none_ltu_R::get_transfers_R )
+        .method( "set_transfers", &dse_none_ltu_R::set_transfers_R )
+    ;
  
-     class_<dse_none_ntu_R>( "dse_none_ntu" )
-         // .derives<trame::dse_base>( "dse_base" )
-         .derives<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::ntu>>( "dse_none_ntu_cpp" )
-         .default_constructor()
+    class_<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::ntu>>( "dse_none_ntu_cpp" )
+        .derives<trame::dse_base>( "dse_base" )
+        .default_constructor()
+    ;
  
-         .method( "build", build_NTU_1 )
-         .method( "build", build_NTU_2 )
+    class_<dse_none_ntu_R>( "dse_none_ntu" )
+        // .derives<trame::dse_base>( "dse_base" )
+        .derives<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::ntu>>( "dse_none_ntu_cpp" )
+        .default_constructor()
  
-         // .method( "solve", solve_R_1 )
-         .method( "solve", solve_NTU_2 )
+        .method( "build", build_NTU_1 )
+        .method( "build", build_NTU_2 )
  
-         .method( "get_arums_G", &dse_none_ntu_R::get_arums_G )
-         .method( "set_arums_G", &dse_none_ntu_R::set_arums_G )
-         .method( "get_arums_H", &dse_none_ntu_R::get_arums_H )
-         .method( "set_arums_H", &dse_none_ntu_R::set_arums_H )
-         .method( "set_arums", &dse_none_ntu_R::set_arums )
+        // .method( "solve", solve_R_1 )
+        .method( "solve", solve_NTU_2 )
  
-         .method( "get_transfers", &dse_none_ntu_R::get_transfers_R )
-         .method( "set_transfers", &dse_none_ntu_R::set_transfers_R )
-     ;
+        .method( "get_arums_G", &dse_none_ntu_R::get_arums_G )
+        .method( "set_arums_G", &dse_none_ntu_R::set_arums_G )
+        .method( "get_arums_H", &dse_none_ntu_R::get_arums_H )
+        .method( "set_arums_H", &dse_none_ntu_R::set_arums_H )
+        .method( "set_arums", &dse_none_ntu_R::set_arums )
  
-     class_<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::tu>>( "dse_none_tu_cpp" )
-         .derives<trame::dse_base>( "dse_base" )
-         .default_constructor()
-     ;
+        .method( "get_transfers", &dse_none_ntu_R::get_transfers_R )
+        .method( "set_transfers", &dse_none_ntu_R::set_transfers_R )
+    ;
  
-     class_<dse_none_tu_R>( "dse_none_tu" )
-         // .derives<trame::dse_base>( "dse_base" )
-         .derives<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::tu>>( "dse_none_tu_cpp" )
-         .default_constructor()
+    class_<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::tu>>( "dse_none_tu_cpp" )
+        .derives<trame::dse_base>( "dse_base" )
+        .default_constructor()
+    ;
  
-         .method( "build", build_TU_1 )
-         .method( "build", build_TU_2 )
+    class_<dse_none_tu_R>( "dse_none_tu" )
+        // .derives<trame::dse_base>( "dse_base" )
+        .derives<trame::dse<trame::arums::none,trame::arums::none,trame::transfers::tu>>( "dse_none_tu_cpp" )
+        .default_constructor()
  
-         // .method( "solve", solve_R_1 )
-         .method( "solve", solve_TU_2 )
+        .method( "build", build_TU_1 )
+        .method( "build", build_TU_2 )
  
-         .method( "get_arums_G", &dse_none_tu_R::get_arums_G )
-         .method( "set_arums_G", &dse_none_tu_R::set_arums_G )
-         .method( "get_arums_H", &dse_none_tu_R::get_arums_H )
-         .method( "set_arums_H", &dse_none_tu_R::set_arums_H )
-         .method( "set_arums", &dse_none_tu_R::set_arums )
+        // .method( "solve", solve_R_1 )
+        .method( "solve", solve_TU_2 )
  
-         .method( "get_transfers", &dse_none_tu_R::get_transfers_R )
-         .method( "set_transfers", &dse_none_tu_R::set_transfers_R )
-     ;
+        .method( "get_arums_G", &dse_none_tu_R::get_arums_G )
+        .method( "set_arums_G", &dse_none_tu_R::set_arums_G )
+        .method( "get_arums_H", &dse_none_tu_R::get_arums_H )
+        .method( "set_arums_H", &dse_none_tu_R::set_arums_H )
+        .method( "set_arums", &dse_none_tu_R::set_arums )
+ 
+        .method( "get_transfers", &dse_none_tu_R::get_transfers_R )
+        .method( "set_transfers", &dse_none_tu_R::set_transfers_R )
+    ;
  }
  
  // wrapper functions to catch errors and handle memory pointers
- void dse_none_etu_R::build_ETU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, bool need_norm_inp)
- {
-     try {
-         int nbX = n_inp.n_elem;
-         int nbY = m_inp.n_elem;
+void dse_none_etu_R::build_ETU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, bool need_norm_inp)
+{
+    try {
+        int nbX = n_inp.n_elem;
+        int nbY = m_inp.n_elem;
  
-         trame::arums::none none_1(nbX,nbY), none_2(nbY,nbX);
-         this->build(n_inp,m_inp,alpha_inp,gamma_inp,tau_inp,none_1,none_2,need_norm_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+        trame::arums::none none_1(nbX,nbY), none_2(nbY,nbX);
+        this->build(n_inp,m_inp,alpha_inp,gamma_inp,tau_inp,none_1,none_2,need_norm_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- void dse_none_etu_R::build_ETU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp)
- {
-     try {
-         trame::arums::none none_1 = static_cast<trame::arums::none&>(arums_G_inp);
-         trame::arums::none none_2 = static_cast<trame::arums::none&>(arums_H_inp);
+void dse_none_etu_R::build_ETU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp)
+{
+    try {
+        trame::arums::none none_1 = static_cast<trame::arums::none&>(arums_G_inp);
+        trame::arums::none none_2 = static_cast<trame::arums::none&>(arums_H_inp);
  
-         this->build(n_inp,m_inp,alpha_inp,gamma_inp,tau_inp,none_1,none_2,need_norm_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+        this->build(n_inp,m_inp,alpha_inp,gamma_inp,tau_inp,none_1,none_2,need_norm_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
  // SEXP dse_none_R::solve_R()
  // {
- //     try {
- //         arma::mat mu_sol;
- //         bool success = this->solve(mu_sol, (char*) "jacobi");
- //         //
- //         return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
- //     } catch( std::exception &ex ) {
- //         forward_exception_to_r( ex );
- //     } catch(...) {
- //         ::Rf_error( "trame: C++ exception (unknown reason)" );
- //     }
- //     return R_NilValue;
+ //    try {
+ //        arma::mat mu_sol;
+ //        bool success = this->solve(mu_sol, (char*) "jacobi");
+ //        //
+ //        return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
+ //    } catch( std::exception &ex ) {
+ //        forward_exception_to_r( ex );
+ //    } catch(...) {
+ //        ::Rf_error( "trame: C++ exception (unknown reason)" );
+ //    }
+ //    return R_NilValue;
  // }
  
- SEXP dse_none_etu_R::solve_R(Rcpp::CharacterVector solver_inp)
- {
-     try {
-         arma::mat mu_sol;
-         // char* solver = solver_inp[0];
-         bool success = this->solve(mu_sol, solver_inp[0]);
-         //
-         return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
-     return R_NilValue;
- }
+SEXP dse_none_etu_R::solve_R(Rcpp::CharacterVector solver_inp)
+{
+    try {
+        arma::mat mu_sol;
+        // char* solver = solver_inp[0];
+        bool success = this->solve(mu_sol, solver_inp[0]);
+        //
+        return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+    return R_NilValue;
+}
  
- none_R dse_none_etu_R::get_arums_G()
- {
-     none_R arums_obj_out = static_cast<none_R&>(arums_G);
+none_R dse_none_etu_R::get_arums_G()
+{
+    none_R arums_obj_out = static_cast<none_R&>(arums_G);
  
-     return arums_obj_out;
- }
+    return arums_obj_out;
+}
  
- void dse_none_etu_R::set_arums_G(none_R arums_G_inp)
- {
-     try {
-         arums_G = static_cast<trame::arums::none&>(arums_G_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_etu_R::set_arums_G(none_R arums_G_inp)
+{
+    try {
+        arums_G = static_cast<trame::arums::none&>(arums_G_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- none_R dse_none_etu_R::get_arums_H()
- {
-     none_R arums_obj_out = static_cast<none_R&>(arums_H);
+none_R dse_none_etu_R::get_arums_H()
+{
+    none_R arums_obj_out = static_cast<none_R&>(arums_H);
  
-     return arums_obj_out;
- }
+    return arums_obj_out;
+}
  
- void dse_none_etu_R::set_arums_H(none_R arums_H_inp)
- {
-     try {
-         arums_H = static_cast<trame::arums::none&>(arums_H_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_etu_R::set_arums_H(none_R arums_H_inp)
+{
+    try {
+        arums_H = static_cast<trame::arums::none&>(arums_H_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- void dse_none_etu_R::set_arums(none_R arums_G_inp, none_R arums_H_inp)
- {
-     try {
-         arums_G = static_cast<trame::arums::none&>(arums_G_inp);
-         arums_H = static_cast<trame::arums::none&>(arums_H_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_etu_R::set_arums(none_R arums_G_inp, none_R arums_H_inp)
+{
+    try {
+        arums_G = static_cast<trame::arums::none&>(arums_G_inp);
+        arums_H = static_cast<trame::arums::none&>(arums_H_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- transfers_etu_R dse_none_etu_R::get_transfers_R()
- {
-     transfers_etu_R trans_obj_out = static_cast<transfers_etu_R&>(trans_obj);
+transfers_etu_R dse_none_etu_R::get_transfers_R()
+{
+    transfers_etu_R trans_obj_out = static_cast<transfers_etu_R&>(trans_obj);
  
-     return trans_obj_out;
- }
+    return trans_obj_out;
+}
  
- void dse_none_etu_R::set_transfers_R(transfers_etu_R trans_obj_inp)
- {
-     try {
-         trans_obj = static_cast<trame::transfers::etu&>(trans_obj_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_etu_R::set_transfers_R(transfers_etu_R trans_obj_inp)
+{
+    try {
+        trans_obj = static_cast<trame::transfers::etu&>(trans_obj_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
  //
  // LTU
  
- void dse_none_ltu_R::build_LTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, bool need_norm_inp)
- {
-     try {
-         int nbX = n_inp.n_elem;
-         int nbY = m_inp.n_elem;
+void dse_none_ltu_R::build_LTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, bool need_norm_inp)
+{
+    try {
+        int nbX = n_inp.n_elem;
+        int nbY = m_inp.n_elem;
  
-         trame::arums::none none_1(nbX,nbY), none_2(nbY,nbX);
-         this->build(n_inp,m_inp,lambda_inp,phi_inp,none_1,none_2,need_norm_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+        trame::arums::none none_1(nbX,nbY), none_2(nbY,nbX);
+        this->build(n_inp,m_inp,lambda_inp,phi_inp,none_1,none_2,need_norm_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- void dse_none_ltu_R::build_LTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp)
- {
-     try {
-         trame::arums::none none_1 = static_cast<trame::arums::none&>(arums_G_inp);
-         trame::arums::none none_2 = static_cast<trame::arums::none&>(arums_H_inp);
+void dse_none_ltu_R::build_LTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp)
+{
+    try {
+        trame::arums::none none_1 = static_cast<trame::arums::none&>(arums_G_inp);
+        trame::arums::none none_2 = static_cast<trame::arums::none&>(arums_H_inp);
  
-         this->build(n_inp,m_inp,lambda_inp,phi_inp,none_1,none_2,need_norm_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+        this->build(n_inp,m_inp,lambda_inp,phi_inp,none_1,none_2,need_norm_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- SEXP dse_none_ltu_R::solve_R(Rcpp::CharacterVector solver_inp)
- {
-     try {
-         arma::mat mu_sol;
-         // char* solver = solver_inp[0];
-         bool success = this->solve(mu_sol, solver_inp[0]);
-         //
-         return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
-     return R_NilValue;
- }
+SEXP dse_none_ltu_R::solve_R(Rcpp::CharacterVector solver_inp)
+{
+    try {
+        arma::mat mu_sol;
+        // char* solver = solver_inp[0];
+        bool success = this->solve(mu_sol, solver_inp[0]);
+        //
+        return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+    return R_NilValue;
+}
  
- none_R dse_none_ltu_R::get_arums_G()
- {
-     none_R arums_obj_out = static_cast<none_R&>(arums_G);
+none_R dse_none_ltu_R::get_arums_G()
+{
+    none_R arums_obj_out = static_cast<none_R&>(arums_G);
  
-     return arums_obj_out;
- }
+    return arums_obj_out;
+}
  
- void dse_none_ltu_R::set_arums_G(none_R arums_G_inp)
- {
-     try {
-         arums_G = static_cast<trame::arums::none&>(arums_G_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_ltu_R::set_arums_G(none_R arums_G_inp)
+{
+    try {
+        arums_G = static_cast<trame::arums::none&>(arums_G_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- none_R dse_none_ltu_R::get_arums_H()
- {
-     none_R arums_obj_out = static_cast<none_R&>(arums_H);
+none_R dse_none_ltu_R::get_arums_H()
+{
+    none_R arums_obj_out = static_cast<none_R&>(arums_H);
  
-     return arums_obj_out;
- }
+    return arums_obj_out;
+}
  
- void dse_none_ltu_R::set_arums_H(none_R arums_H_inp)
- {
-     try {
-         arums_H = static_cast<trame::arums::none&>(arums_H_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_ltu_R::set_arums_H(none_R arums_H_inp)
+{
+    try {
+        arums_H = static_cast<trame::arums::none&>(arums_H_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- void dse_none_ltu_R::set_arums(none_R arums_G_inp, none_R arums_H_inp)
- {
-     try {
-         arums_G = static_cast<trame::arums::none&>(arums_G_inp);
-         arums_H = static_cast<trame::arums::none&>(arums_H_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_ltu_R::set_arums(none_R arums_G_inp, none_R arums_H_inp)
+{
+    try {
+        arums_G = static_cast<trame::arums::none&>(arums_G_inp);
+        arums_H = static_cast<trame::arums::none&>(arums_H_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- transfers_ltu_R dse_none_ltu_R::get_transfers_R()
- {
-     transfers_ltu_R trans_obj_out = static_cast<transfers_ltu_R&>(trans_obj);
+transfers_ltu_R dse_none_ltu_R::get_transfers_R()
+{
+    transfers_ltu_R trans_obj_out = static_cast<transfers_ltu_R&>(trans_obj);
  
-     return trans_obj_out;
- }
+    return trans_obj_out;
+}
  
- void dse_none_ltu_R::set_transfers_R(transfers_ltu_R trans_obj_inp)
- {
-     try {
-         trans_obj = static_cast<trame::transfers::ltu&>(trans_obj_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_ltu_R::set_transfers_R(transfers_ltu_R trans_obj_inp)
+{
+    try {
+        trans_obj = static_cast<trame::transfers::ltu&>(trans_obj_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- //
- // NTU
+//
+// NTU
  
- void dse_none_ntu_R::build_NTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, bool need_norm_inp)
- {
-     try {
-         int nbX = n_inp.n_elem;
-         int nbY = m_inp.n_elem;
+void dse_none_ntu_R::build_NTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, bool need_norm_inp)
+{
+    try {
+        int nbX = n_inp.n_elem;
+        int nbY = m_inp.n_elem;
  
-         trame::arums::none none_1(nbX,nbY), none_2(nbY,nbX);
-         this->build(n_inp,m_inp,alpha_inp,gamma_inp,none_1,none_2,need_norm_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+        trame::arums::none none_1(nbX,nbY), none_2(nbY,nbX);
+        this->build(n_inp,m_inp,alpha_inp,gamma_inp,none_1,none_2,need_norm_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- void dse_none_ntu_R::build_NTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp)
- {
-     try {
-         trame::arums::none none_1 = static_cast<trame::arums::none&>(arums_G_inp);
-         trame::arums::none none_2 = static_cast<trame::arums::none&>(arums_H_inp);
+void dse_none_ntu_R::build_NTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp)
+{
+    try {
+        trame::arums::none none_1 = static_cast<trame::arums::none&>(arums_G_inp);
+        trame::arums::none none_2 = static_cast<trame::arums::none&>(arums_H_inp);
  
-         this->build(n_inp,m_inp,alpha_inp,gamma_inp,none_1,none_2,need_norm_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+        this->build(n_inp,m_inp,alpha_inp,gamma_inp,none_1,none_2,need_norm_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- SEXP dse_none_ntu_R::solve_R(Rcpp::CharacterVector solver_inp)
- {
-     try {
-         arma::mat mu_sol;
-         // char* solver = solver_inp[0];
-         bool success = this->solve(mu_sol, solver_inp[0]);
-         //
-         return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
-     return R_NilValue;
- }
+SEXP dse_none_ntu_R::solve_R(Rcpp::CharacterVector solver_inp)
+{
+    try {
+        arma::mat mu_sol;
+        // char* solver = solver_inp[0];
+        bool success = this->solve(mu_sol, solver_inp[0]);
+        //
+        return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+    return R_NilValue;
+}
  
- none_R dse_none_ntu_R::get_arums_G()
- {
-     none_R arums_obj_out = static_cast<none_R&>(arums_G);
+none_R dse_none_ntu_R::get_arums_G()
+{
+    none_R arums_obj_out = static_cast<none_R&>(arums_G);
  
-     return arums_obj_out;
- }
+    return arums_obj_out;
+}
  
- void dse_none_ntu_R::set_arums_G(none_R arums_G_inp)
- {
-     try {
-         arums_G = static_cast<trame::arums::none&>(arums_G_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_ntu_R::set_arums_G(none_R arums_G_inp)
+{
+    try {
+        arums_G = static_cast<trame::arums::none&>(arums_G_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- none_R dse_none_ntu_R::get_arums_H()
- {
-     none_R arums_obj_out = static_cast<none_R&>(arums_H);
+none_R dse_none_ntu_R::get_arums_H()
+{
+    none_R arums_obj_out = static_cast<none_R&>(arums_H);
  
-     return arums_obj_out;
- }
+    return arums_obj_out;
+}
  
- void dse_none_ntu_R::set_arums_H(none_R arums_H_inp)
- {
-     try {
-         arums_H = static_cast<trame::arums::none&>(arums_H_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_ntu_R::set_arums_H(none_R arums_H_inp)
+{
+    try {
+        arums_H = static_cast<trame::arums::none&>(arums_H_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- void dse_none_ntu_R::set_arums(none_R arums_G_inp, none_R arums_H_inp)
- {
-     try {
-         arums_G = static_cast<trame::arums::none&>(arums_G_inp);
-         arums_H = static_cast<trame::arums::none&>(arums_H_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_ntu_R::set_arums(none_R arums_G_inp, none_R arums_H_inp)
+{
+    try {
+        arums_G = static_cast<trame::arums::none&>(arums_G_inp);
+        arums_H = static_cast<trame::arums::none&>(arums_H_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- transfers_ntu_R dse_none_ntu_R::get_transfers_R()
- {
-     transfers_ntu_R trans_obj_out = static_cast<transfers_ntu_R&>(trans_obj);
+transfers_ntu_R dse_none_ntu_R::get_transfers_R()
+{
+    transfers_ntu_R trans_obj_out = static_cast<transfers_ntu_R&>(trans_obj);
  
-     return trans_obj_out;
- }
+    return trans_obj_out;
+}
  
- void dse_none_ntu_R::set_transfers_R(transfers_ntu_R trans_obj_inp)
- {
-     try {
-         trans_obj = static_cast<trame::transfers::ntu&>(trans_obj_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_ntu_R::set_transfers_R(transfers_ntu_R trans_obj_inp)
+{
+    try {
+        trans_obj = static_cast<trame::transfers::ntu&>(trans_obj_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- //
- // TU
+//
+// TU
  
- void dse_none_tu_R::build_TU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, bool need_norm_inp)
- {
-     try {
-         int nbX = n_inp.n_elem;
-         int nbY = m_inp.n_elem;
+void dse_none_tu_R::build_TU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, bool need_norm_inp)
+{
+    try {
+        int nbX = n_inp.n_elem;
+        int nbY = m_inp.n_elem;
  
-         trame::arums::none none_1(nbX,nbY), none_2(nbY,nbX);
-         this->build(n_inp,m_inp,phi_inp,none_1,none_2,need_norm_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+        trame::arums::none none_1(nbX,nbY), none_2(nbY,nbX);
+        this->build(n_inp,m_inp,phi_inp,none_1,none_2,need_norm_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- void dse_none_tu_R::build_TU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp)
- {
-     try {
-         trame::arums::none none_1 = static_cast<trame::arums::none&>(arums_G_inp);
-         trame::arums::none none_2 = static_cast<trame::arums::none&>(arums_H_inp);
+void dse_none_tu_R::build_TU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, none_R arums_G_inp, none_R arums_H_inp, bool need_norm_inp)
+{
+    try {
+        trame::arums::none none_1 = static_cast<trame::arums::none&>(arums_G_inp);
+        trame::arums::none none_2 = static_cast<trame::arums::none&>(arums_H_inp);
  
-         this->build(n_inp,m_inp,phi_inp,none_1,none_2,need_norm_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+        this->build(n_inp,m_inp,phi_inp,none_1,none_2,need_norm_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- SEXP dse_none_tu_R::solve_R(Rcpp::CharacterVector solver_inp)
- {
-     try {
-         arma::mat mu_sol;
-         // char* solver = solver_inp[0];
-         bool success = this->solve(mu_sol, solver_inp[0]);
-         //
-         return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
-     return R_NilValue;
- }
+SEXP dse_none_tu_R::solve_R(Rcpp::CharacterVector solver_inp)
+{
+    try {
+        arma::mat mu_sol;
+        // char* solver = solver_inp[0];
+        bool success = this->solve(mu_sol, solver_inp[0]);
+        //
+        return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+    return R_NilValue;
+}
  
- none_R dse_none_tu_R::get_arums_G()
- {
-     none_R arums_obj_out = static_cast<none_R&>(arums_G);
+none_R dse_none_tu_R::get_arums_G()
+{
+    none_R arums_obj_out = static_cast<none_R&>(arums_G);
  
-     return arums_obj_out;
- }
+    return arums_obj_out;
+}
  
- void dse_none_tu_R::set_arums_G(none_R arums_G_inp)
- {
-     try {
-         arums_G = static_cast<trame::arums::none&>(arums_G_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_tu_R::set_arums_G(none_R arums_G_inp)
+{
+    try {
+        arums_G = static_cast<trame::arums::none&>(arums_G_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- none_R dse_none_tu_R::get_arums_H()
- {
-     none_R arums_obj_out = static_cast<none_R&>(arums_H);
+none_R dse_none_tu_R::get_arums_H()
+{
+    none_R arums_obj_out = static_cast<none_R&>(arums_H);
  
-     return arums_obj_out;
- }
+    return arums_obj_out;
+}
  
- void dse_none_tu_R::set_arums_H(none_R arums_H_inp)
- {
-     try {
-         arums_H = static_cast<trame::arums::none&>(arums_H_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_tu_R::set_arums_H(none_R arums_H_inp)
+{
+    try {
+        arums_H = static_cast<trame::arums::none&>(arums_H_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- void dse_none_tu_R::set_arums(none_R arums_G_inp, none_R arums_H_inp)
- {
-     try {
-         arums_G = static_cast<trame::arums::none&>(arums_G_inp);
-         arums_H = static_cast<trame::arums::none&>(arums_H_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_tu_R::set_arums(none_R arums_G_inp, none_R arums_H_inp)
+{
+    try {
+        arums_G = static_cast<trame::arums::none&>(arums_G_inp);
+        arums_H = static_cast<trame::arums::none&>(arums_H_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  
- transfers_tu_R dse_none_tu_R::get_transfers_R()
- {
-     transfers_tu_R trans_obj_out = static_cast<transfers_tu_R&>(trans_obj);
+transfers_tu_R dse_none_tu_R::get_transfers_R()
+{
+    transfers_tu_R trans_obj_out = static_cast<transfers_tu_R&>(trans_obj);
  
-     return trans_obj_out;
- }
+    return trans_obj_out;
+}
  
- void dse_none_tu_R::set_transfers_R(transfers_tu_R trans_obj_inp)
- {
-     try {
-         trans_obj = static_cast<trame::transfers::tu&>(trans_obj_inp);
-     } catch( std::exception &ex ) {
-         forward_exception_to_r( ex );
-     } catch(...) {
-         ::Rf_error( "trame: C++ exception (unknown reason)" );
-     }
- }
+void dse_none_tu_R::set_transfers_R(transfers_tu_R trans_obj_inp)
+{
+    try {
+        trans_obj = static_cast<trame::transfers::tu&>(trans_obj_inp);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+}
  

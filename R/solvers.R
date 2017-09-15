@@ -21,6 +21,22 @@
 ##
 ################################################################################
 
+arc_newton <- function(market_inp)
+{
+    #
+    solver_out <- .Call("arc_newton_R", market_inp, PACKAGE = "TraME.Rcpp")
+    #
+    return(solver_out)
+}
+
+darum <- function(market_inp)
+{
+    #
+    solver_out <- .Call("darum_R", market_inp, PACKAGE = "TraME.Rcpp")
+    #
+    return(solver_out)
+}
+
 ipfp <- function(market_inp)
 {
     #

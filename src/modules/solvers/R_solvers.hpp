@@ -21,11 +21,16 @@
   ##
   ################################################################################*/
 
-#ifndef _R_ipfp_HPP
-#define _R_ipfp_HPP
+#ifndef _R_solvers_HPP
+#define _R_solvers_HPP
 
 #include "trameR.hpp"
 
+// DSE
+RcppExport SEXP arc_newton_R(SEXP market_inp);
+RcppExport SEXP darum_R(SEXP market_inp);
+
+// MFE
 RcppExport SEXP ipfp_R(SEXP market_inp);
 RcppExport SEXP nodal_newton_R(SEXP market_inp);
 

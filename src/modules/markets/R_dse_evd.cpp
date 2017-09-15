@@ -34,10 +34,12 @@
 #include "trameR.hpp"
 
 RCPP_EXPOSED_CLASS(logit_R)
+
 RCPP_EXPOSED_CLASS(transfers_etu_R)
 RCPP_EXPOSED_CLASS(transfers_ltu_R)
 RCPP_EXPOSED_CLASS(transfers_ntu_R)
 RCPP_EXPOSED_CLASS(transfers_tu_R)
+
 RCPP_EXPOSED_CLASS(dse_logit_etu_R)
 RCPP_EXPOSED_CLASS(dse_logit_ltu_R)
 RCPP_EXPOSED_CLASS(dse_logit_ntu_R)
