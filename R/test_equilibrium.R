@@ -1,15 +1,17 @@
 ################################################################################
 ##
-##   Copyright (C) 2015 - 2016 Alfred Galichon
+##   Copyright (C) 2015 - 2017 the TraME Team:
+##      Alfred Galichon
+##      Keith O'Hara
 ##
-##   This file is part of the R package TraME.
+##   This file is part of TraME.
 ##
-##   The R package TraME is free software: you can redistribute it and/or modify
+##   TraME is free software: you can redistribute it and/or modify
 ##   it under the terms of the GNU General Public License as published by
 ##   the Free Software Foundation, either version 2 of the License, or
 ##   (at your option) any later version.
 ##
-##   The R package TraME is distributed in the hope that it will be useful,
+##   TraME is distributed in the hope that it will be useful,
 ##   but WITHOUT ANY WARRANTY; without even the implied warranty of
 ##   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ##   GNU General Public License for more details.
@@ -187,7 +189,7 @@ test_arc_newton <- function(seed=777, nbX=5, nbY=3, nbDraws=1e3)
     return(ret)
 }
 
-test_maxWelfare = function(seed=777, nbX=5, nbY=3, nbDraws=1e3)
+test_max_welfare = function(seed=777, nbX=5, nbY=3, nbDraws=1e3)
 {
     set.seed(seed)
     tm = proc.time()
@@ -388,7 +390,7 @@ test_darum <- function(nbDraws=1E3,seed=777)
     return(ret)
 }
 
-test_cupidsLP <- function(nbX=5, nbY=3, nbDraws=1E3, seed=777)
+test_cupids_lp <- function(nbX=5, nbY=3, nbDraws=1E3, seed=777)
 {
     set.seed(seed)
     ptm = proc.time()
@@ -453,7 +455,7 @@ test_cupidsLP <- function(nbX=5, nbY=3, nbDraws=1E3, seed=777)
     return(ret)
 }
 
-test_oapLP <- function(nbX=8,nbY=5,seed=777)
+test_oap_lp <- function(nbX=8,nbY=5,seed=777)
 {
     set.seed(seed)
     ptm <- proc.time()
@@ -489,7 +491,7 @@ test_oapLP <- function(nbX=8,nbY=5,seed=777)
     ret <- c(res$u,res$v)
 }  
 
-test_eapNash <- function(nbX=8,nbY=5,seed=777,debugmode=FALSE)
+test_eap_nash <- function(nbX=8,nbY=5,seed=777,debugmode=FALSE)
 {
     set.seed(seed)
     ptm <- proc.time()
@@ -544,13 +546,13 @@ tests_equilibrium = function(notifications=TRUE,nbDraws=1e3){
     #
     res_darum       <- round(test_darum(nbDraws=nbDraws),5)
     res_ipfp        <- round(test_ipfp(),5)
-    res_nodalNewton <- round(test_arcNewton(),5)
-    res_arcNewton   <- round(test_arcNewton(nbDraws=nbDraws),5)
-    res_maxW        <- round(test_maxWelfare(nbDraws=nbDraws),5)
+    res_nodalNewton <- round(test_nodal_newton(),5)
+    res_arcNewton   <- round(test_arc_newton(nbDraws=nbDraws),5)
+    res_maxW        <- round(test_max_welfare(nbDraws=nbDraws),5)
     res_jacobi      <- round(test_jacobi(nbDraws=nbDraws),5)
-    res_CLP         <- round(test_cupidsLP(nbDraws=nbDraws),5)
-    res_oapLP       <- round(test_oapLP(),5)
-    res_nash        <- round(test_eapNash(),5)
+    res_CLP         <- round(test_cupids_lp(nbDraws=nbDraws),5)
+    res_oapLP       <- round(test_oap_lp(),5)
+    res_nash        <- round(test_eap_nash(),5)
     
     res_all <- c(res_darum,res_ipfp,res_nodalNewton,res_arcNewton,res_maxW,res_jacobi,res_CLP,res_oapLP,res_nash)
     # MD5 checksum
