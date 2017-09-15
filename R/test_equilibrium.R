@@ -21,106 +21,152 @@
 
 test_ipfp <- function(seed=777, nbX=18, nbY=5)
 {
-  noSingles = (nbX == nbY)
-  set.seed(seed)
-  tm = proc.time()
-  #
-  message('*===================   Start of test_ipfp   ===================*\n')
-  #
-  n=rep(1,nbX)
-  m=rep(1,nbY)
-  
-  alpha = matrix(runif(nbX*nbY),nrow=nbX)
-  gamma = matrix(runif(nbX*nbY),nrow=nbX)
-  lambda = matrix(1+runif(nbX*nbY),nrow=nbX)
-  zeta = matrix(1+runif(nbX*nbY),nrow=nbX)
-  
-  m1 = build_market_TU_logit(n,m,alpha+gamma,neededNorm = defaultNorm(noSingles))
-  m2 = build_market_NTU_logit(n,m,alpha,gamma,neededNorm = defaultNorm(noSingles))
-  m3 = build_market_LTU_logit(n,m,lambda/(lambda+zeta),(lambda*alpha+zeta*gamma)/(lambda+zeta),neededNorm = defaultNorm(noSingles))
-  #
-  r1 = ipfp(m1,xFirst=TRUE,notifications=TRUE)
-  message("Solution of TU-logit problem using ipfp:")
-  print(c(r1$mu))
-  message("")
-  #
-  if (!noSingles) {
-    r2 = ipfp(m2,xFirst=TRUE,notifications=TRUE)
-    message("Solution of NTU-logit problem using ipfp:")
-    print(c(r2$mu))
+    noSingles = (nbX == nbY)
+    set.seed(seed)
+    tm = proc.time()
+    #
+    message('*===================   Start of test_ipfp   ===================*\n')
+    #
+
+    sigma = 1
+
+    n = rep(1,nbX)
+    m = rep(1,nbY)
+
+    alpha = matrix(runif(nbX*nbY),nbX,nbY)
+    gamma = matrix(runif(nbX*nbY),nbX,nbY)
+
+    lambda = 1 + matrix(runif(nbX*nbY),nbX,nbY)
+    zeta = 1 + matrix(runif(nbX*nbY),nbX,nbY)
+
+    phi = alpha + gamma
+
+    lambda_LTU = lambda/(lambda + zeta)
+    phi_LTU = (lambda*alpha + zeta*gamma) / (lambda + zeta)
+
+    #
+
+    mfe_geo_obj <- new(mfe_geo)
+    mfe_geo_obj$build(n,m,phi,sigma,FALSE)
+
+    mfe_cd_obj <- new(mfe_cd)
+    mfe_cd_obj$build(n,m,lambda_LTU,phi_LTU,sigma,FALSE)
+
+    mfe_min_obj <- new(mfe_min)
+    mfe_min_obj$build(n,m,alpha,gamma,sigma,FALSE)
+
+    #
+
+    sol_geo <- mfe_geo_obj$solve("ipfp")
+    message("Solution of TU-logit problem using ipfp:")
+    print(c(sol_geo$mu))
     message("")
-  }
-  #
-  r3 = ipfp(m3,xFirst=TRUE,notifications=TRUE)
-  message("Solution of LTU-logit problem using parallel ipfp:")
-  print(c(r3$mu))
-  #
-  time <- proc.time() - tm
-  message(paste0('\nEnd of test_ipfp. Time elapsed = ', round(time["elapsed"],5), 's.\n'))
-  #
-  ret <- c(r1$mu,r3$mu)
-  return(ret)
+
+    sol_cd <- mfe_cd_obj$solve("ipfp")
+    message("Solution of LTU-logit problem using parallel ipfp:")
+    print(c(sol_cd$mu))
+    message("")
+
+    if (!noSingles) {
+        sol_min <- mfe_min_obj$solve("ipfp")
+        message("Solution of NTU-logit problem using ipfp:")
+        print(c(sol_min$mu))
+    }
+    
+    #
+
+    time <- proc.time() - tm
+    message(paste0('\nEnd of test_ipfp. Time elapsed = ', round(time["elapsed"],5), 's.\n'))
+
+    #
+
+    return(c(sol_geo$mu,sol_cd$mu))
 }
 
 
-test_nodalNewton <- function(seed=777, nbX=17, nbY=15, nbDraws=1e3)
+test_nodal_newton <- function(seed=777, nbX=17, nbY=15, nbDraws=1e3)
 {
-  set.seed(seed)
-  tm = proc.time()
-  #
-  message('*===================   Start of test_nodalNewton   ===================*\n')
-  #
-  n = rep(1,nbX)
-  m = rep(1,nbY)
+    set.seed(seed)
+    tm = proc.time()
+    #
+    message('*===================   Start of test_nodalNewton   ===================*\n')
+    #
+
+    sigma = 1
+
+    n = rep(1,nbX)
+    m = rep(1,nbY)
+
+    phi = 1 + matrix(runif(nbX*nbY),nbX,nbY)
+    alpha = matrix(runif(nbX*nbY),nbX,nbY)
+    gamma = matrix(runif(nbX*nbY),nbX,nbY)
+
+    #
+
+    mfe_geo_obj <- new(mfe_geo)
+    mfe_geo_obj$build(n,m,phi,sigma,FALSE)
+
+    mfe_min_obj <- new(mfe_min)
+    mfe_min_obj$build(n,m,alpha,gamma,sigma,FALSE)
+
+    #
+
+    r1 = ipfp(mfe_geo_obj)
+    r1bis = nodal_newton(mfe_geo_obj)
+
+    message("Solution of TU-logit:")
+    message("mu_x0 using (i) IPFP and (ii) nodalNewton:")
+    print(r1$mu_x0[1:min(nbX,10)])
+    print(r1bis$mu_x0[1:min(nbX,10)])
+
+    #
+
+    r2 = ipfp(mfe_min_obj)
+    r2bis = nodal_newton(mfe_min_obj)
+
+    message("Solution of NTU-logit:")
+    message("mu using (i) IPFP and (ii) nodalNewton:")
+    print(r2$mu_x0[1:min(nbX,10)])
+    print(r2bis$mu_x0[1:min(nbX,10)])
+    
+    #
+
+    time = proc.time() - tm
+    message(paste0('\nEnd of test_nodalNewton. Time elapsed = ', round(time["elapsed"],5), 's.\n')) 
   
-  phi =  1+matrix(runif(nbX*nbY),nrow=nbX)
-  alpha = matrix(runif(nbX*nbY),nrow=nbX)
-  gamma = matrix(runif(nbX*nbY),nrow=nbX)
-  #
-  m1 = build_market_TU_logit(n,m,phi)
-  m2 = build_market_NTU_logit(n,m,alpha,gamma)
-  
-  r1 = ipfp(m1,xFirst=TRUE,notifications=TRUE)
-  r1bis = nodalNewton(m1,xFirst=TRUE,notifications=TRUE)
-  #
-  message("Solution of TU-logit:")
-  message("mux0 using (i) IPFP and (ii) nodalNewton:")
-  print(r1$mux0[1:min(nbX,10)])
-  print(r1bis$mux0[1:min(nbX,10)])
-  #
-  
-  r2 = ipfp(m2,xFirst=TRUE,notifications=TRUE)
-  r2bis = nodalNewton(m2,xFirst=TRUE,notifications=TRUE)
-  #
-  message("Solution of NTU-logit:")
-  message("mu using (i) IPFP and (ii) nodalNewton:")
-  print(r2$mux0[1:min(nbX,10)])
-  print(r2bis$mux0[1:min(nbX,10)])
-  #
-  time = proc.time() - tm
-  message(paste0('\nEnd of test_nodalNewton. Time elapsed = ', round(time["elapsed"],5), 's.\n')) 
-  #
-  ret <- c(r1$mu,r1bis$mu,r1$U,r1bis$U,r1$V,r1bis$V,r2$mu,r2bis$mu,r2$U,r2bis$U,r2$V,r2bis$V)
-  return(ret)
+    #
+    
+    ret <- c(r1$mu,r1bis$mu,r1$U,r1bis$U,r1$V,r1bis$V,r2$mu,r2bis$mu,r2$U,r2bis$U,r2$V,r2bis$V)
+    return(ret)
 }
 
 
-test_arcNewton <- function(seed=777, nbX=5, nbY=3, nbDraws=1e3)
+test_arc_newton <- function(seed=777, nbX=5, nbY=3, nbDraws=1e3)
 {
     set.seed(seed)
     tm = proc.time()
     #
     message('*===================   Start of test_arcNewton   ===================*\n')
     #
-    n = rep(1,nbX)
-    m = rep(1,nbY)
+
+    n <- rep(1,nbX)
+    m <- rep(1,nbY)
     
-    phi =  matrix(runif(nbX*nbY),nrow=nbX)
+    phi <- matrix(runif(nbX*nbY),nrow=nbX)
+    
     #
-    m1 = build_market_TU_logit(n,m,phi)
-    r1 = ipfp(m1,xFirst=TRUE,notifications=TRUE)
-    r1bis = arcNewton(m1,xFirst=TRUE,notifications=TRUE)
+
+    mfe_geo_obj <- new(mfe_geo)
+    mfe_geo_obj$build(n,m,phi,1.0,FALSE)
+
+    dse_logit_obj_TU <- new(dse_logit_tu)
+    dse_logit_obj_TU$build(n,m,phi,FALSE)
+
+    r1 = ipfp(mfe_geo_obj)
+    r1bis = arc_newton(dse_logit_obj_TU)
+
     #
+    
     message("Solution of TU-logit:")
     message("mu using (i) IPFP and (ii) arcNewton:")
     print(r1$mu)
@@ -447,7 +493,8 @@ tests_equilibrium = function(notifications=TRUE,nbDraws=1e3){
     res_all_md5 <- digest(res_all,algo="md5")
     #
     time = proc.time() - ptm
-    if(notifications){
+    
+    if (notifications) {
         message(paste0('All tests of Equilibrium completed. Overall time elapsed = ', round(time["elapsed"],5), 's.'))
     }
     #

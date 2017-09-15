@@ -69,7 +69,7 @@ OBJECTS_MFES= $(SOURCES_MFES:.cpp=.o)
 SOURCES_DSES= ./modules/markets/R_dse_empirical.cpp ./modules/markets/R_dse_evd.cpp ./modules/markets/R_dse_none.cpp ./modules/markets/R_dse_rsc.cpp ./modules/markets/R_dse_rusc.cpp
 OBJECTS_DSES= $(SOURCES_DSES:.cpp=.o)
 
-SOURCES_SLVRS= ./modules/solvers/R_arc_newton.cpp ./modules/solvers/R_darum.cpp ./modules/solvers/R_ipfp.cpp ./modules/solvers/R_nodal_newton.cpp
+SOURCES_SLVRS= ./modules/solvers/R_arc_newton.cpp ./modules/solvers/R_darum.cpp ./modules/solvers/R_ipfp.cpp ./modules/solvers/R_jacobi.cpp ./modules/solvers/R_max_welfare.cpp ./modules/solvers/R_nodal_newton.cpp
 OBJECTS_SLVRS= $(SOURCES_SLVRS:.cpp=.o)
 
 SOURCES_MDLS= ./modules/models/R_model_dse_evd.cpp ./modules/models/R_model_mfe.cpp

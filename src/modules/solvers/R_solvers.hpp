@@ -29,6 +29,8 @@
 // DSE
 RcppExport SEXP arc_newton_R(SEXP market_inp);
 RcppExport SEXP darum_R(SEXP market_inp);
+RcppExport SEXP jacobi_R(SEXP market_inp);
+RcppExport SEXP max_welfare_R(SEXP market_inp);
 
 // MFE
 RcppExport SEXP ipfp_R(SEXP market_inp);

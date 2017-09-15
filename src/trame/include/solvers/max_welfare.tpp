@@ -106,7 +106,9 @@ max_welfare_int(const dse<Tg,Th,transfers::tu>& market, arma::mat* mu_out, arma:
     if (val_out) {
         *val_out = val;
     }
+
     //
+    
     return success;
 }
 

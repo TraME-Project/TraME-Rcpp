@@ -37,6 +37,22 @@ darum <- function(market_inp)
     return(solver_out)
 }
 
+jacobi <- function(market_inp)
+{
+    #
+    solver_out <- .Call("jacobi_R", market_inp, PACKAGE = "TraME.Rcpp")
+    #
+    return(solver_out)
+}
+
+max_welfare <- function(market_inp)
+{
+    #
+    solver_out <- .Call("max_welfare_R", market_inp, PACKAGE = "TraME.Rcpp")
+    #
+    return(solver_out)
+}
+
 ipfp <- function(market_inp)
 {
     #
