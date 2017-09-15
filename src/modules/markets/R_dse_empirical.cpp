@@ -219,19 +219,19 @@ void dse_empirical_etu_R::build_ETU_R(const arma::vec& n_inp, const arma::vec& m
 void dse_empirical_etu_R::build_ETU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, const arma::mat& tau_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
 {
     try {
-        if (Rf_inherits(arums_G_inp, "Rcpp_logit_R")) {
+        if (Rf_inherits(arums_G_inp, "Rcpp_logit")) {
             this->build_ETU_R_int<logit_R>(n_inp, m_inp, alpha_inp, gamma_inp, tau_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         } 
-        else if (Rf_inherits(arums_G_inp, "Rcpp_none_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_none")) {
             this->build_ETU_R_int<none_R>(n_inp, m_inp, alpha_inp, gamma_inp, tau_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
-        else if (Rf_inherits(arums_G_inp, "Rcpp_probit_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_probit")) {
             this->build_ETU_R_int<probit_R>(n_inp, m_inp, alpha_inp, gamma_inp, tau_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
-        else if (Rf_inherits(arums_G_inp, "Rcpp_rsc_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_rsc")) {
             this->build_ETU_R_int<rsc_R>(n_inp, m_inp, alpha_inp, gamma_inp, tau_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
-        else if (Rf_inherits(arums_G_inp, "Rcpp_rusc_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_rusc")) {
             this->build_ETU_R_int<rusc_R>(n_inp, m_inp, alpha_inp, gamma_inp, tau_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
         else {
@@ -362,19 +362,19 @@ void dse_empirical_ltu_R::build_LTU_R(const arma::vec& n_inp, const arma::vec& m
 void dse_empirical_ltu_R::build_LTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
 {
     try {
-        if (Rf_inherits(arums_G_inp, "Rcpp_logit_R")) {
+        if (Rf_inherits(arums_G_inp, "Rcpp_logit")) {
             this->build_LTU_R_int<logit_R>(n_inp, m_inp, lambda_inp, phi_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         } 
-        else if (Rf_inherits(arums_G_inp, "Rcpp_none_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_none")) {
             this->build_LTU_R_int<none_R>(n_inp, m_inp, lambda_inp, phi_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
-        else if (Rf_inherits(arums_G_inp, "Rcpp_probit_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_probit")) {
             this->build_LTU_R_int<probit_R>(n_inp, m_inp, lambda_inp, phi_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
-        else if (Rf_inherits(arums_G_inp, "Rcpp_rsc_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_rsc")) {
             this->build_LTU_R_int<rsc_R>(n_inp, m_inp, lambda_inp, phi_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
-        else if (Rf_inherits(arums_G_inp, "Rcpp_rusc_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_rusc")) {
             this->build_LTU_R_int<rusc_R>(n_inp, m_inp, lambda_inp, phi_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
         else {
@@ -490,19 +490,19 @@ void dse_empirical_ntu_R::build_NTU_R(const arma::vec& n_inp, const arma::vec& m
 void dse_empirical_ntu_R::build_NTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
 {
     try {
-        if (Rf_inherits(arums_G_inp, "Rcpp_logit_R")) {
+        if (Rf_inherits(arums_G_inp, "Rcpp_logit")) {
             this->build_NTU_R_int<logit_R>(n_inp, m_inp, alpha_inp, gamma_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         } 
-        else if (Rf_inherits(arums_G_inp, "Rcpp_none_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_none")) {
             this->build_NTU_R_int<none_R>(n_inp, m_inp, alpha_inp, gamma_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
-        else if (Rf_inherits(arums_G_inp, "Rcpp_probit_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_probit")) {
             this->build_NTU_R_int<probit_R>(n_inp, m_inp, alpha_inp, gamma_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
-        else if (Rf_inherits(arums_G_inp, "Rcpp_rsc_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_rsc")) {
             this->build_NTU_R_int<rsc_R>(n_inp, m_inp, alpha_inp, gamma_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
-        else if (Rf_inherits(arums_G_inp, "Rcpp_rusc_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_rusc")) {
             this->build_NTU_R_int<rusc_R>(n_inp, m_inp, alpha_inp, gamma_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
         else {
@@ -618,19 +618,19 @@ void dse_empirical_tu_R::build_TU_R(const arma::vec& n_inp, const arma::vec& m_i
 void dse_empirical_tu_R::build_TU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp)
 {
     try {
-        if (Rf_inherits(arums_G_inp, "Rcpp_logit_R")) {
+        if (Rf_inherits(arums_G_inp, "Rcpp_logit")) {
             this->build_TU_R_int<logit_R>(n_inp, m_inp, phi_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         } 
-        else if (Rf_inherits(arums_G_inp, "Rcpp_none_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_none")) {
             this->build_TU_R_int<none_R>(n_inp, m_inp, phi_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
-        else if (Rf_inherits(arums_G_inp, "Rcpp_probit_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_probit")) {
             this->build_TU_R_int<probit_R>(n_inp, m_inp, phi_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
-        else if (Rf_inherits(arums_G_inp, "Rcpp_rsc_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_rsc")) {
             this->build_TU_R_int<rsc_R>(n_inp, m_inp, phi_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
-        else if (Rf_inherits(arums_G_inp, "Rcpp_rusc_R")) {
+        else if (Rf_inherits(arums_G_inp, "Rcpp_rusc")) {
             this->build_TU_R_int<rusc_R>(n_inp, m_inp, phi_inp, arums_G_inp, arums_H_inp, need_norm_inp);
         }
         else {
@@ -642,7 +642,7 @@ void dse_empirical_tu_R::build_TU_R(const arma::vec& n_inp, const arma::vec& m_i
         ::Rf_error( "trame: C++ exception (unknown reason)" );
     }
 }
- 
+
 SEXP dse_empirical_tu_R::solve_R(Rcpp::CharacterVector solver_inp)
 {
     try {

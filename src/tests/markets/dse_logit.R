@@ -62,4 +62,4 @@ trans_obj$Psi(phi,phi)
 
 dse_emp_obj_TU <- new(dse_empirical_tu)
 dse_emp_obj_TU$build(n,m,phi,arums_G,arums_H,FALSE)
-dse_emp_obj_TU$solve("cupidsLP")
+dse_emp_obj_TU$solve("cupids_lp")

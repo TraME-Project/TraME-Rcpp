@@ -230,17 +230,24 @@ test_maxWelfare = function(seed=777, nbX=5, nbY=3, nbDraws=1e3)
     #
     # RSC
 
+    rsc_G <- new(rsc)
+    rsc_H <- new(rsc)
+
     zetaG = matrix(1,nbX,1) %*% matrix(runif(nbY+1),1,nbY+1)
     zetaH = matrix(1,nbY,1) %*% matrix(runif(nbX+1),1,nbX+1)
     
-    rscG = build_RSCbeta(zetaG,2,2)
-    rscH = build_RSCbeta(zetaH,2,2)
+    rsc_G$build_beta(zetaG,2,2)
+    rsc_H$build_beta(zetaH,2,2)
+
+    m2 <- new(dse_rsc_tu)
+    m2$build(n,m,phi,rsc_G,rsc_H,FALSE)
+
+    m2Sim <- new(dse_empirical_tu)
+    m2Sim$build(n,m,phi,rsc_G,rsc_H,FALSE)
     
-    m2 = build_market_TU_general(n,m,phi,rscG,rscH)
-    m2Sim = build_market_TU_empirical(n,m,phi,rscG,rscH,nbDraws,seed)  
+    r2 = max_welfare(m2)
+    r2Sim = cupids_lp(m2Sim)
     
-    r2 = maxWelfare(m2,xFirst=T,notifications=T)
-    r2Sim = CupidsLP(m2Sim,xFirst=T,notifications=T)
     #
     message("Solution of TU-RSCbeta:")
     #
@@ -274,43 +281,58 @@ test_jacobi <- function(nbDraws=1E3, seed=777, extensiveTesting = FALSE)
     #
     message('*===================   Start of test_jacobi   ===================*\n')
     #
+
     alpha = matrix(c(1.6, 3.2, 1.1, 2.9, 1.0, 3.1),nrow=2,byrow=T)
     gamma = matrix(c(1.6, 3.2, 1.1, 2.9, 1.0, 3.1),nrow=2,byrow=T)
     muhat = matrix(c(1, 3, 1, 2, 1, 3), nrow=2, byrow=T)
+
+    phi = alpha + gamma
     
     n = c(1.2*apply(muhat,1,sum))
     m = c(1.3*apply(t(muhat),1,sum))
+
     #
-    m1 = build_market_TU_logit(n,m,alpha+gamma)
+
+    m1 <- new(dse_logit_tu)
+    m1$build(n,m,phi,FALSE)
+
     r1_jacobi = jacobi(m1)
-    #
+
     message("Solution of TU-logit problem using Jacobi:")
     print(c(r1_jacobi$mu))
     message("")
+
     #
-    m2 = build_market_NTU_logit(n,m,alpha,gamma)
+
+    m2 <- new(dse_logit_ntu)
+    m2$build(n,m,alpha,gamma,FALSE)
+
     r2_jacobi = jacobi(m2)
-    #
+    
     message("Solution of NTU-logit problem using Jacobi:")
     print(c(r2_jacobi$mu))
+    
     #
-    if(extensiveTesting==TRUE){
-        nbX = length(n)
-        nbY = length(m)
+
+    # if(extensiveTesting==TRUE){
+    #     nbX = length(n)
+    #     nbY = length(m)
         
-        logitM = build_logit(nbX,nbY)
-        logitW = build_logit(nbY,nbX)
+    #     logitM = build_logit(nbX,nbY)
+    #     logitW = build_logit(nbY,nbX)
         
-        logitSimM = simul(logitM,nbDraws,seed)
-        logitSimW = simul(logitW,nbDraws,seed)
-        #
-        m2Sim = build_market_NTU_general(n,m,alpha,gamma,logitSimM,logitSimW)
-        r2Sim_jacobi = jacobi(m2Sim)
-        #
-        message("\nSolution of NTU-logitSim problem using Jacobi:")
-        print(c(r2Sim_jacobi$mu))
-    }
+    #     logitSimM = simul(logitM,nbDraws,seed)
+    #     logitSimW = simul(logitW,nbDraws,seed)
+    #     #
+    #     m2Sim = build_market_NTU_general(n,m,alpha,gamma,logitSimM,logitSimW)
+    #     r2Sim_jacobi = jacobi(m2Sim)
+    #     #
+    #     message("\nSolution of NTU-logitSim problem using Jacobi:")
+    #     print(c(r2Sim_jacobi$mu))
+    # }
+
     #
+
     time = proc.time()-ptm
     message(paste0('\nEnd of test_jacobi. Time elapsed = ', round(time["elapsed"],5), 's.\n'))
     #
@@ -325,35 +347,40 @@ test_darum <- function(nbDraws=1E3,seed=777)
     #
     message('*===================   Start of test_darum   ===================*\n')
     #
+
     alpha = matrix(c(1.6, 3.2, 1.1, 2.9, 1.0, 3.1),nrow=2,byrow=T)
     gamma = matrix(c(1.6, 3.2, 1.1, 2.9, 1.0, 3.1),nrow=2,byrow=T)
     muhat = matrix(c(1, 3, 1, 2, 1, 3), nrow=2, byrow=T)
     
     n = c(1.2*apply(muhat,1,sum))
     m = c(1.3*apply(t(muhat),1,sum))
+ 
     #
-    nbX = length(n)
-    nbY = length(m)
+
+    m1 <- new(dse_logit_ntu)
+    m1$build(n,m,alpha,gamma,FALSE)
+
+    r1 = darum(m1)
     
-    logitM = build_logit(nbX,nbY)
-    logitW = build_logit(nbY,nbX)  
-    
-    logitSimM = simul(logitM,nbDraws,seed)
-    logitSimW = simul(logitW,nbDraws,seed)  
-    #
-    m1 = build_market_NTU_logit(n,m,alpha,gamma)
-    r1 = darum(m1,TRUE,TRUE)
-    #
-    message("Solution of NTU-logit problem using Jacobi:")  
+    message("Solution of NTU-logit problem using darum:")  
     print(c(r1$mu))
     message("")
+
     #
-    m1Sim = build_market_NTU_general(n,m,alpha,gamma,logitSimM,logitSimW)
-    r1Sim = darum(m1Sim,TRUE,TRUE)
-    #
-    message("Solution of NTU-logitSim problem using Jacobi:")  
+
+    arums_G = m1$get_arums_G()
+    arums_H = m1$get_arums_H()
+
+    m1Sim <- new(dse_empirical_ntu)
+    m1Sim$build(n,m,alpha,gamma,arums_G,arums_H,FALSE)
+
+    r1Sim = darum(m1Sim)
+
+    message("Solution of NTU-logitSim problem using darum:")  
     print(c(r1Sim$mu))
+
     #
+    
     time = proc.time() - ptm
     message(paste0('\nEnd of test_darum. Time elapsed = ', round(time["elapsed"],5), 's.\n'))
     #
@@ -372,7 +399,7 @@ test_cupidsLP <- function(nbX=5, nbY=3, nbDraws=1E3, seed=777)
     gamma = matrix(runif(nbX*nbY),nrow=nbX)
     
     n = rep(1,nbX)
-    m = rep(1, nbY)
+    m = rep(1,nbY)
     
     logitM = build_logit(nbX,nbY)
     logitW = build_logit(nbY,nbX)
