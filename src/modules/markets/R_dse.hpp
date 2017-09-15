@@ -34,36 +34,8 @@
 //
 // DSE-empirical
 
-/*
-class dse_empirical_R : public trame::dse<trame::empirical>
-{
-    public:
-        void build_LTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, bool need_norm_inp);
-        void build_LTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp);
-        template<typename Ta> void build_LTU_R_int(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& lambda_inp, const arma::mat& phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp);
-        
-        void build_NTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, bool need_norm_inp);
-        void build_NTU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp);
-        template<typename Ta> void build_NTU_R_int(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& alpha_inp, const arma::mat& gamma_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp);
-        
-        void build_TU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, bool need_norm_inp);
-        void build_TU_R(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp);
-        template<typename Ta> void build_TU_R_int(const arma::vec& n_inp, const arma::vec& m_inp, const arma::mat& phi_inp, SEXP arums_G_inp, SEXP arums_H_inp, bool need_norm_inp);
-        
-        SEXP solve_R();
-        SEXP solve_R(Rcpp::CharacterVector solver_inp);
-        bool solve_R_int(const arma::mat&& mu_sol, const char* solver);
-
-        empirical_R get_arums_G();
-        void set_arums_G(empirical_R arums_G_inp);
-        empirical_R get_arums_H();
-        void set_arums_H(empirical_R arums_H_inp);
-        void set_arums(empirical_R arums_G_inp, empirical_R arums_H_inp);
-
-        transfers_R get_transfers_R();
-        void set_transfers_R(transfers_R trans_obj_inp);
-};
-*/
+#ifndef _R_dse_HPP
+#define _R_dse_HPP
 
 class dse_empirical_etu_R : public trame::dse<trame::arums::empirical,trame::arums::empirical,trame::transfers::etu>
 {
@@ -462,3 +434,5 @@ class dse_rusc_tu_R : public trame::dse<trame::arums::rusc,trame::arums::rusc,tr
         SEXP solve_R();
         SEXP solve_R(Rcpp::CharacterVector solver_inp);
 };
+
+#endif

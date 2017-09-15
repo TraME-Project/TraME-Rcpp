@@ -34,6 +34,9 @@
 //
 // MFE
 
+#ifndef _R_mfe_HPP
+#define _R_mfe_HPP
+
 class mfe_cd_R : public trame::mfe<trame::mmfs::cd>
 {
     public:
@@ -89,3 +92,5 @@ class mfe_min_R : public trame::mfe<trame::mmfs::min>
         SEXP solve_R();
         SEXP solve_R(Rcpp::CharacterVector solver_inp);
 };
+
+#endif

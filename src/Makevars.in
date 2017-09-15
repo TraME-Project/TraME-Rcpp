@@ -51,14 +51,14 @@ OBJECTS_TRAME= $(OBJECTS_LP) $(OBJECTS_LPXX) $(OBJECTS_TRAME_F90) $(OBJECTS_TRAM
 
 # modules
 
+SOURCES_ANC= ./modules/anc/inv_pwa_R.cpp
+OBJECTS_ANC= $(SOURCES_ANC:.cpp=.o)
+
 SOURCES_ARUMS= ./modules/arums/R_arums_empirical.cpp ./modules/arums/R_arums_evd.cpp ./modules/arums/R_arums_none.cpp ./modules/arums/R_arums_probit.cpp ./modules/arums/R_arums_rsc.cpp ./modules/arums/R_arums_rusc.cpp
 OBJECTS_ARUMS= $(SOURCES_ARUMS:.cpp=.o)
 
 SOURCES_MMFS= ./modules/mmfs/R_mmfs_cd.cpp ./modules/mmfs/R_mmfs_ces.cpp ./modules/mmfs/R_mmfs_geo.cpp ./modules/mmfs/R_mmfs_min.cpp
 OBJECTS_MMFS= $(SOURCES_MMFS:.cpp=.o)
-
-SOURCES_ANC= ./modules/anc/inv_pwa_R.cpp
-OBJECTS_ANC= $(SOURCES_ANC:.cpp=.o)
 
 SOURCES_TRANS= ./modules/transfers/R_transfers_etu.cpp ./modules/transfers/R_transfers_ltu.cpp ./modules/transfers/R_transfers_ntu.cpp ./modules/transfers/R_transfers_tu.cpp
 OBJECTS_TRANS= $(SOURCES_TRANS:.cpp=.o)
@@ -69,12 +69,15 @@ OBJECTS_MFES= $(SOURCES_MFES:.cpp=.o)
 SOURCES_DSES= ./modules/markets/R_dse_empirical.cpp ./modules/markets/R_dse_evd.cpp ./modules/markets/R_dse_none.cpp ./modules/markets/R_dse_rsc.cpp ./modules/markets/R_dse_rusc.cpp
 OBJECTS_DSES= $(SOURCES_DSES:.cpp=.o)
 
+SOURCES_SLVRS= ./modules/solvers/R_ipfp.cpp ./modules/solvers/R_nodal_newton.cpp
+OBJECTS_SLVRS= $(SOURCES_SLVRS:.cpp=.o)
+
 SOURCES_MDLS= ./modules/models/R_model_dse_evd.cpp ./modules/models/R_model_mfe.cpp
 OBJECTS_MDLS= $(SOURCES_MDLS:.cpp=.o)
 
 #
 
-OBJECTS_TRAMERCPP=$(OBJECTS_TRAME) $(OBJECTS_ARUMS) $(OBJECTS_ANC) $(OBJECTS_MMFS) $(OBJECTS_TRANS) $(OBJECTS_MFES) $(OBJECTS_DSES) $(OBJECTS_MDLS)
+OBJECTS_TRAMERCPP=$(OBJECTS_TRAME) $(OBJECTS_ARUMS) $(OBJECTS_ANC) $(OBJECTS_MMFS) $(OBJECTS_TRANS) $(OBJECTS_MFES) $(OBJECTS_DSES) $(OBJECTS_SLVRS) $(OBJECTS_MDLS)
 
 all: $(SHLIB) libTraME.Rcpp$(SHLIB_EXT)
 

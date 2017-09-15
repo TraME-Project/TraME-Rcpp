@@ -25,6 +25,9 @@
  * Derived classes to provide wrappers to the TraME library
  */
 
+#ifndef _R_arums_HPP
+#define _R_arums_HPP
+
 class empirical_R : public trame::arums::empirical
 {
     public:
@@ -97,3 +100,5 @@ class rusc_R : public trame::arums::rusc
 
         empirical_R simul_R(int n_draws);
 };
+
+#endif

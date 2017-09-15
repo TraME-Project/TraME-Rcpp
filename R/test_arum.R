@@ -26,6 +26,7 @@ test_Logit <- function(nbDraws=1E4, seed=777, outsideOption=TRUE)
     #
     message('*===================   Start of testLogit   ===================*\n')
     #
+
     logit_obj <- new(logit)
 
     U = matrix(c(1.6, 3.2, 1.1, 2.9, 1.0, 3.1),nrow=2,byrow=TRUE)
@@ -85,6 +86,7 @@ test_Probit <- function(nbDraws=1E4, seed=777, outsideOption=TRUE)
     #
     message('*===================   Start of testProbit   ===================*\n')
     #
+    
     probit_obj <- new(probit)
 
     U = matrix(c(1.6, 3.2, 1.1, 2.9, 1.0, 3.1),nrow=2,byrow=TRUE)

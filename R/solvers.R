@@ -21,6 +21,19 @@
 ##
 ################################################################################
 
-.onLoad <- function(libname, pkgname) {
-    suppressWarnings(Rcpp::loadRcppModules())
+ipfp <- function(market_inp)
+{
+    #
+    solver_out <- .Call("ipfp_R", market_inp, PACKAGE = "TraME.Rcpp")
+    #
+    return(solver_out)
 }
+
+nodal_newton <- function(market_inp)
+{
+    #
+    solver_out <- .Call("nodal_newton_R", market_inp, PACKAGE = "TraME.Rcpp")
+    #
+    return(solver_out)
+}
+

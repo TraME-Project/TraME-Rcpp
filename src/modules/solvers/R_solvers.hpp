@@ -21,11 +21,12 @@
   ##
   ################################################################################*/
 
-#ifndef _inv_pwa_R_HPP
-#define _inv_pwa_R_HPP
+#ifndef _R_ipfp_HPP
+#define _R_ipfp_HPP
 
 #include "trameR.hpp"
 
-RcppExport SEXP inv_pwa_R(SEXP a_R, SEXP B_R, SEXP C_R, SEXP k_R);
+RcppExport SEXP ipfp_R(SEXP market_inp);
+RcppExport SEXP nodal_newton_R(SEXP market_inp);
 
 #endif

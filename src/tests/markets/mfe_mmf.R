@@ -5,8 +5,8 @@ library(TraME.Rcpp)
 
 #
 
-nbX = 500
-nbY = 400
+nbX = 18
+nbY = 5
 sigma = 1
 
 n = rep(1,nbX)
