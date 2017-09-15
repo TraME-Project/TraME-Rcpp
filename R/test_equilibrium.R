@@ -194,14 +194,23 @@ test_maxWelfare = function(seed=777, nbX=5, nbY=3, nbDraws=1e3)
     #
     message('*===================   Start of test_maxWelfare   ===================*\n')
     #
-    n=rep(1,nbX)
-    m=rep(1,nbY)  
     
-    phi =  matrix(runif(nbX*nbY),nrow=nbX)
+    n <- rep(1,nbX)
+    m <- rep(1,nbY)
+    
+    phi <- matrix(runif(nbX*nbY),nrow=nbX)
+    
     #
-    m1 = build_market_TU_logit(n,m,phi)
-    r1 = ipfp(m1,xFirst=TRUE,notifications=TRUE)
-    r1bis = maxWelfare(m1,xFirst=TRUE,notifications=TRUE)
+
+    mfe_geo_obj <- new(mfe_geo)
+    mfe_geo_obj$build(n,m,phi,1.0,FALSE)
+
+    dse_logit_obj_TU <- new(dse_logit_tu)
+    dse_logit_obj_TU$build(n,m,phi,FALSE)
+
+    r1 = ipfp(mfe_geo_obj)
+    r1bis = max_welfare(dse_logit_obj_TU)
+    
     #
     message("Solution of TU-logit:")
     #
@@ -217,7 +226,10 @@ test_maxWelfare = function(seed=777, nbX=5, nbY=3, nbDraws=1e3)
     print(c(r1$V)[1:min(5,nbX*nbY)])
     print(c(r1bis$V)[1:min(5,nbX*nbY)])
     message("")
+
     #
+    # RSC
+
     zetaG = matrix(1,nbX,1) %*% matrix(runif(nbY+1),1,nbY+1)
     zetaH = matrix(1,nbY,1) %*% matrix(runif(nbX+1),1,nbX+1)
     

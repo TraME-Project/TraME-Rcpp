@@ -29,10 +29,26 @@ arc_newton <- function(market_inp)
     return(solver_out)
 }
 
+cupids_lp <- function(market_inp)
+{
+    #
+    solver_out <- .Call("cupids_lp_R", market_inp, PACKAGE = "TraME.Rcpp")
+    #
+    return(solver_out)
+}
+
 darum <- function(market_inp)
 {
     #
     solver_out <- .Call("darum_R", market_inp, PACKAGE = "TraME.Rcpp")
+    #
+    return(solver_out)
+}
+
+eap_nash <- function(market_inp)
+{
+    #
+    solver_out <- .Call("eap_nash_R", market_inp, PACKAGE = "TraME.Rcpp")
     #
     return(solver_out)
 }
@@ -49,6 +65,14 @@ max_welfare <- function(market_inp)
 {
     #
     solver_out <- .Call("max_welfare_R", market_inp, PACKAGE = "TraME.Rcpp")
+    #
+    return(solver_out)
+}
+
+oap_lp <- function(market_inp)
+{
+    #
+    solver_out <- .Call("oap_lp_R", market_inp, PACKAGE = "TraME.Rcpp")
     #
     return(solver_out)
 }
