@@ -45,10 +45,10 @@ darum <- function(market_inp)
     return(solver_out)
 }
 
-eap_nash <- function(market_inp)
+eap_nash <- function(market_inp, x_first=TRUE)
 {
     #
-    solver_out <- .Call("eap_nash_R", market_inp, PACKAGE = "TraME.Rcpp")
+    solver_out <- .Call("eap_nash_R", market_inp,x_first, PACKAGE = "TraME.Rcpp")
     #
     return(solver_out)
 }

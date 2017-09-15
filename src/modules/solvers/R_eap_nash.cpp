@@ -55,116 +55,117 @@ RCPP_EXPOSED_CLASS(dse_rusc_ltu_R)
 RCPP_EXPOSED_CLASS(dse_rusc_ntu_R)
 RCPP_EXPOSED_CLASS(dse_rusc_tu_R)
 
-SEXP eap_nash_R(SEXP market_inp)
+SEXP eap_nash_R(SEXP market_inp, SEXP x_first_inp)
 {
     try {
+        bool x_first = Rcpp::as<bool>(x_first_inp);
         bool success = false;
-        arma::mat mu_out, U_out, V_out;
+        arma::mat mu_out, u_out, v_out;
         arma::vec mu_x0_out, mu_0y_out;
 
         if (Rf_inherits(market_inp, "Rcpp_dse_empirical_etu")) {
             dse_empirical_etu_R* market_obj = Rcpp::as<dse_empirical_etu_R*>(market_inp);
 
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_empirical_ltu")) {
             dse_empirical_ltu_R* market_obj = Rcpp::as<dse_empirical_ltu_R*>(market_inp);
             
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_empirical_ntu")) {
             dse_empirical_ntu_R* market_obj = Rcpp::as<dse_empirical_ntu_R*>(market_inp);
 
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_empirical_tu")) {
             dse_empirical_tu_R* market_obj = Rcpp::as<dse_empirical_tu_R*>(market_inp);
 
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         //
         else if (Rf_inherits(market_inp, "Rcpp_dse_logit_etu")) {
             dse_logit_etu_R* market_obj = Rcpp::as<dse_logit_etu_R*>(market_inp);
 
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_logit_ltu")) {
             dse_logit_ltu_R* market_obj = Rcpp::as<dse_logit_ltu_R*>(market_inp);
             
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_logit_ntu")) {
             dse_logit_ntu_R* market_obj = Rcpp::as<dse_logit_ntu_R*>(market_inp);
 
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_logit_tu")) {
             dse_logit_tu_R* market_obj = Rcpp::as<dse_logit_tu_R*>(market_inp);
 
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         //
         else if (Rf_inherits(market_inp, "Rcpp_dse_none_etu")) {
             dse_none_etu_R* market_obj = Rcpp::as<dse_none_etu_R*>(market_inp);
 
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_none_ltu")) {
             dse_none_ltu_R* market_obj = Rcpp::as<dse_none_ltu_R*>(market_inp);
             
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_none_ntu")) {
             dse_none_ntu_R* market_obj = Rcpp::as<dse_none_ntu_R*>(market_inp);
 
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_none_tu")) {
             dse_none_tu_R* market_obj = Rcpp::as<dse_none_tu_R*>(market_inp);
 
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         //
         else if (Rf_inherits(market_inp, "Rcpp_dse_rsc_etu")) {
             dse_rsc_etu_R* market_obj = Rcpp::as<dse_rsc_etu_R*>(market_inp);
 
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rsc_ltu")) {
             dse_rsc_ltu_R* market_obj = Rcpp::as<dse_rsc_ltu_R*>(market_inp);
             
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rsc_ntu")) {
             dse_rsc_ntu_R* market_obj = Rcpp::as<dse_rsc_ntu_R*>(market_inp);
 
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rsc_tu")) {
             dse_rsc_tu_R* market_obj = Rcpp::as<dse_rsc_tu_R*>(market_inp);
 
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         //
         else if (Rf_inherits(market_inp, "Rcpp_dse_rusc_etu")) {
             dse_rusc_etu_R* market_obj = Rcpp::as<dse_rusc_etu_R*>(market_inp);
 
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rusc_ltu")) {
             dse_rusc_ltu_R* market_obj = Rcpp::as<dse_rusc_ltu_R*>(market_inp);
             
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rusc_ntu")) {
             dse_rusc_ntu_R* market_obj = Rcpp::as<dse_rusc_ntu_R*>(market_inp);
 
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rusc_tu")) {
             dse_rusc_tu_R* market_obj = Rcpp::as<dse_rusc_tu_R*>(market_inp);
 
-            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&U_out,&V_out,nullptr,nullptr,nullptr);
+            success = trame::eap_nash_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&x_first,nullptr,nullptr);
         }
         //
         else {
@@ -172,7 +173,7 @@ SEXP eap_nash_R(SEXP market_inp)
             return R_NilValue;
         }
 
-        return Rcpp::List::create(Rcpp::Named("mu") = mu_out, Rcpp::Named("mu_x0") = mu_x0_out, Rcpp::Named("mu_0y") = mu_0y_out, Rcpp::Named("U") = U_out, Rcpp::Named("V") = V_out, Rcpp::Named("success") = success);
+        return Rcpp::List::create(Rcpp::Named("mu") = mu_out, Rcpp::Named("mu_x0") = mu_x0_out, Rcpp::Named("mu_0y") = mu_0y_out, Rcpp::Named("u") = u_out, Rcpp::Named("v") = v_out, Rcpp::Named("success") = success);
     } catch( std::exception &ex ) {
         forward_exception_to_r( ex );
     } catch(...) {

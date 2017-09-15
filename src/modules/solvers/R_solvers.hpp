@@ -30,7 +30,7 @@
 RcppExport SEXP arc_newton_R(SEXP market_inp);
 RcppExport SEXP cupids_lp_R(SEXP market_inp);
 RcppExport SEXP darum_R(SEXP market_inp);
-RcppExport SEXP eap_nash_R(SEXP market_inp);
+RcppExport SEXP eap_nash_R(SEXP market_inp, SEXP x_first_inp);
 RcppExport SEXP jacobi_R(SEXP market_inp);
 RcppExport SEXP max_welfare_R(SEXP market_inp);
 RcppExport SEXP oap_lp_R(SEXP market_inp);

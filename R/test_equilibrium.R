@@ -397,37 +397,57 @@ test_cupidsLP <- function(nbX=5, nbY=3, nbDraws=1E3, seed=777)
     #
     alpha = matrix(runif(nbX*nbY),nrow=nbX)
     gamma = matrix(runif(nbX*nbY),nrow=nbX)
+
+    phi <- alpha+gamma
     
     n = rep(1,nbX)
     m = rep(1,nbY)
     
-    logitM = build_logit(nbX,nbY)
-    logitW = build_logit(nbY,nbX)
+    logitM = new(logit)
+    logitW = new(logit)
+
+    logitM$build(nbX,nbY)
+    logitW$build(nbY,nbX)
     
-    logitSimM = simul(logitM,nbDraws,seed)
-    logitSimW = simul(logitW,nbDraws,seed)
+    m1Sim <- new(dse_empirical_tu)
+    m1Sim$build(n,m,phi,logitM,logitW,FALSE)
+
     #
-    m1Sim = build_market_TU_general(n,m,alpha+gamma,logitSimM,logitSimW)
-    r1SimSmart = CupidsLP(m1Sim, TRUE, TRUE)
-    #
+
+    r1SimSmart <- cupids_lp(m1Sim)
+    
     message("Solution of TU-logitSim problem using LP:")
     print(c(r1SimSmart$mu))
     message("")
+
     #
-    probitMth = build_probit(unifCorrelCovMatrices(nbX,nbY,0.3))
-    probitWth = build_probit(unifCorrelCovMatrices(nbY,nbX,0.3))
-    
-    probitM = simul(probitMth,nbDraws,seed)
-    probitW = simul(probitWth,nbDraws,seed)
+
+    rho = 0.3
+
+    probit_G <- new(probit)
+    probit_H <- new(probit)
+
+    probit_G$build(nbX,nbY,rho,TRUE)
+    probit_G$unifCorrelCovMatrices()
+
+    probit_H$build(nbY,nbX,rho,TRUE)
+    probit_H$unifCorrelCovMatrices()
+
+    mktTUProbit <- new(dse_empirical_tu)
+    mktTUProbit$build(n,m,phi,probit_G,probit_H,FALSE)
+
     #
-    mktTUProbit = build_market_TU_general(n,m,alpha+gamma,probitM,probitW)
-    rTUProbit = CupidsLP(mktTUProbit, TRUE, TRUE)
-    #
+
+    rTUProbit <- cupids_lp(mktTUProbit)
+
     message("Solution of TU-Probit problem using LP:")
     print(c(rTUProbit$mu))
+
     #
+
     time = proc.time() - ptm
     message(paste0('\nEnd of test_cupidsLP. Time elapsed = ', round(time["elapsed"],5), 's.\n')) 
+    
     #
     ret <- c(r1SimSmart$mu,rTUProbit$mu)
     return(ret)
@@ -440,35 +460,43 @@ test_oapLP <- function(nbX=8,nbY=5,seed=777)
     #
     message('*===================   Start of test_plainOAP   ===================*\n')
     #
+
     n=rep(1,nbX)
     m=rep(1,nbY)
     
     alpha = matrix(runif(nbX*nbY),nrow=nbX)
     gamma = matrix(runif(nbX*nbY),nrow=nbX)
+
+    phi <- alpha+gamma
+
+    mkt <- new(dse_none_tu)
+    mkt$build(n,m,phi,FALSE)
+
+    res <- oap_lp(mkt)
+
     #
-    mkt = build_market_TU_none(n,m,alpha+gamma)
-    res = oapLP(mkt,TRUE, TRUE)
-    #
-    #   print('mu:')
-    #   print(res$mu)
+
     message('u:')
     print(res$u)
     message('v:')
     print(res$v)
+
     #
+
     time <- proc.time()-ptm
     message(paste0('\nEnd of test_oapLP. Time elapsed = ', round(time["elapsed"],5), 's.\n'))
     #
     ret <- c(res$u,res$v)
 }  
 
-test_eapNash <- function(nbX=8,nbY=5,seed=777,debugmode = FALSE)
+test_eapNash <- function(nbX=8,nbY=5,seed=777,debugmode=FALSE)
 {
     set.seed(seed)
     ptm <- proc.time()
     #
     message('*===================   Start of test_nashITU   ===================*\n')
     #
+
     n=rep(1,nbX)
     m=rep(1,nbY)
     
@@ -476,15 +504,22 @@ test_eapNash <- function(nbX=8,nbY=5,seed=777,debugmode = FALSE)
     gamma = matrix(runif(nbX*nbY),nrow=nbX)
     lambda = matrix(1+runif(nbX*nbY),nrow=nbX)
     zeta = matrix(1+runif(nbX*nbY),nrow=nbX)
+
+    lambda_LTU <- lambda/(lambda+zeta)
+    phi_LTU <- (lambda*alpha + zeta*gamma)/(lambda + zeta)
+
     #
-    mkt = build_market_LTU_none(n,m,lambda/(lambda+zeta),(lambda*alpha+zeta*gamma)/(lambda+zeta) )
-    #mkt = build_market_TU_none(n,m,alpha,gamma)
+
+    mkt <- new(dse_none_ltu)
+    mkt$build(n,m,lambda_LTU,phi_LTU,FALSE)
+    
     #
-    nash1 = eapNash(mkt,TRUE,TRUE)
+
+    nash1 = eap_nash(mkt,TRUE)
     unash1 = nash1$u
     vnash1 = nash1$v
     #
-    nash2 = eapNash(mkt,FALSE,TRUE)
+    nash2 = eap_nash(mkt,FALSE)
     unash2 = nash2$u
     vnash2 = nash2$v
     #
