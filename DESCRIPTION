@@ -1,8 +1,8 @@
 Package: TraME.Rcpp
 Type: Package
 Title: Transportation Methods for Econometrics
-Version: 0.9.0
-Date: 2017-08-29
+Version: 0.9.1
+Date: 2017-09-17
 Author: Alfred Galichon [aut, cre],
     Keith O'Hara [aut],
     Simon Weber [ctb],
@@ -10,7 +10,7 @@ Author: Alfred Galichon [aut, cre],
 Maintainer: Keith O'Hara <keith.ohara@nyu.edu>
 Description: A package for solving problems of equilibrium computation and estimation via the Mass Transportation Approach.
 License: GPL (>=2)
-Depends: R (>= 3.2.0), Rcpp, RcppArmadillo, digest
+Depends: R (>= 3.4.0), Rcpp, RcppArmadillo, digest
 LinkingTo: Rcpp, RcppArmadillo (>= 0.6.400.2)
 SystemRequirements: Gurobi or GLPK library
 RcppModules: empirical_module, logit_module, none_module, probit_module, rsc_module, rusc_module, 
