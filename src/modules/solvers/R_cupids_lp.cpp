@@ -36,20 +36,21 @@ SEXP cupids_lp_R(SEXP market_inp)
 {
     try {
         bool success = false;
+        double val_out;
         arma::mat mu_out, U_out, V_out;
         arma::vec mu_x0_out, mu_0y_out;
 
         if (Rf_inherits(market_inp, "Rcpp_dse_empirical_tu")) {
             dse_empirical_tu_R* market_obj = Rcpp::as<dse_empirical_tu_R*>(market_inp);
 
-            success = trame::cupids_lp(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out);
+            success = trame::cupids_lp(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out);
         }
         else {
             ::Rf_error( "trame: unrecognized market type" );
             return R_NilValue;
         }
 
-        return Rcpp::List::create(Rcpp::Named("mu") = mu_out, Rcpp::Named("mu_x0") = mu_x0_out, Rcpp::Named("mu_0y") = mu_0y_out, Rcpp::Named("U") = U_out, Rcpp::Named("V") = V_out, Rcpp::Named("success") = success);
+        return Rcpp::List::create(Rcpp::Named("mu") = mu_out, Rcpp::Named("mu_x0") = mu_x0_out, Rcpp::Named("mu_0y") = mu_0y_out, Rcpp::Named("U") = U_out, Rcpp::Named("V") = V_out, Rcpp::Named("val") = val_out, Rcpp::Named("success") = success);
     } catch( std::exception &ex ) {
         forward_exception_to_r( ex );
     } catch(...) {

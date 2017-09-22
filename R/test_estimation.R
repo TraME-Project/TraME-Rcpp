@@ -1,15 +1,17 @@
 ################################################################################
 ##
-##   Copyright (C) 2015 - 2016 Alfred Galichon
+##   Copyright (C) 2015 - 2017 the TraME Team:
+##      Alfred Galichon
+##      Keith O'Hara
 ##
-##   This file is part of the R package TraME.
+##   This file is part of TraME.
 ##
-##   The R package TraME is free software: you can redistribute it and/or modify
+##   TraME is free software: you can redistribute it and/or modify
 ##   it under the terms of the GNU General Public License as published by
 ##   the Free Software Foundation, either version 2 of the License, or
 ##   (at your option) any later version.
 ##
-##   The R package TraME is distributed in the hope that it will be useful,
+##   TraME is distributed in the hope that it will be useful,
 ##   but WITHOUT ANY WARRANTY; without even the implied warranty of
 ##   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ##   GNU General Public License for more details.
@@ -26,21 +28,38 @@ test_loglikelihood <- function(seed=777, nbX=5, nbY=4, dX=3, dY=2)
     #
     message('*===================   Start of test_loglikelihood   ===================*\n')
     #
+    
     n = rep(1,nbX)
     m = rep(1,nbY)  
-    #
+    
     xs = matrix(runif(nbX*dX),nrow=nbX)
     ys = matrix(runif(nbY*dY),nrow=nbY)
+    
     #
-    logitM = build_logit(nbX,nbY)
-    logitW = build_logit(nbY,nbX)
-    # logitSimM = simul(logitM,1,seed)
-    # logitSimW = simul(logitW,1,seed)
+
+    logitM = new(logit)
+    logitW = new(logit)
+
+    logitM$build(nbX,nbY)
+    logitW$build(nbY,nbX)
+
+    A <- matrix(1,nrow=dX,ncol=dY)
+    phi <- xs %*% A %*% t(ys) 
+    
+    mktSim <- new(dse_empirical_tu)
+    mktSim$build(n,m,phi,logitM,logitW,FALSE)
+
     #
-    A = matrix(1,nrow=dX,ncol=dY)
-    phi = xs %*% A %*% t(ys) 
+
+    res <- cupids_lp(mktSim)
+
+    mu_hat <- res$mu
+
+    mu_hat_x0 <- n - apply(mu_hat,1,sum)
+    mu_hat_0y <- m - apply(mu_hat,2,sum)
+
     #
-    mktSim = build_market_TU_empirical(n,m,phi,logitM,logitW,1,seed)  
+
     muhat = CupidsLP(mktSim, T, F)$mu
     muhatx0  = n-apply(muhat,1,sum)
     muhat0y  = m-apply(muhat,2,sum)
@@ -89,27 +108,36 @@ test_mle <- function(seed=777, nbX=80, nbY=72, noiseScale=0.1, dX=3, dY=3)
     #
     message('*===================   Start of test_mle   ===================*\n')
     #
-    n = rep(1,nbX)
-    m = rep(1,nbY)  
     
+    sigma = 1
+
+    n = rep(1,nbX)
+    m = rep(1,nbY)
+
     xs = matrix(runif(nbX*dX),nrow=nbX)
     ys = matrix(runif(nbY*dY),nrow=nbY)
-    #
-    logitM = build_logit(nbX,nbY,1)
-    logitW = build_logit(nbY,nbX,1)
-    
-    logitSimM = simul(logitM,50,seed)
-    logitSimW = simul(logitW,50,seed)
-    #
+
     A = matrix(1,nrow=dX,ncol=dY)
     phi = xs %*% A %*% t(ys) 
+
+    mfe_geo_obj <- new(mfe_geo)
+    mfe_geo_obj$build(n,m,phi,sigma,FALSE)
+
     #
-    mktLogit = build_market_TU_logit(n,m,phi)
-    noise = matrix(1+ noiseScale*rnorm(nbX*nbY),nrow=nbX)
-    muhat = ipfp(mktLogit, T, F)$mu * noise
+
+    noise = matrix(1 + noiseScale*rnorm(nbX*nbY),nrow=nbX)
+
+    mu_hat = mfe_geo_obj$solve("ipfp")$mu * noise
+
     #
-    TUlogitmodel = buildModel_TU_logit(array(kronecker(ys,xs) , dim=c(nbX,nbY,dX*dY) ),n,m)
-    thetahat = mle(TUlogitmodel,muhat, print_level=0)$thetahat
+
+    model_obj = new(model_dse_logit_tu)
+    model_obj$build(xs,ys,n,m)
+
+    res = model_obj$mle(mu_hat)
+
+    thetahat = res$theta_hat
+
     #
     message("Estimator:")
     print(thetahat)
@@ -128,27 +156,36 @@ test_mme <- function(seed=777, nbX=80, nbY=72, noiseScale=0.1, dX=3, dY=3)
     #
     message('*===================   Start of test_mme   ===================*\n')
     #
-    n = rep(1,nbX)
-    m = rep(1,nbY)  
     
+    sigma = 1
+
+    n = rep(1,nbX)
+    m = rep(1,nbY)
+
     xs = matrix(runif(nbX*dX),nrow=nbX)
     ys = matrix(runif(nbY*dY),nrow=nbY)
-    #
-    logitM = build_logit(nbX,nbY,1)
-    logitW = build_logit(nbY,nbX,1)
-    
-    logitSimM = simul(logitM,50,seed) # why are these here?
-    logitSimW = simul(logitW,50,seed)
-    #
+
     A = matrix(1,nrow=dX,ncol=dY)
-    phi = xs %*% A %*% t(ys)
+    phi = xs %*% A %*% t(ys) 
+
+    mfe_geo_obj <- new(mfe_geo)
+    mfe_geo_obj$build(n,m,phi,sigma,FALSE)
+
     #
-    mktLogit = build_market_TU_logit(n,m,phi)
+
     noise = matrix(1 + noiseScale*rnorm(nbX*nbY),nrow=nbX)
-    muhat = ipfp(mktLogit, T, F)$mu * noise
+
+    mu_hat = mfe_geo_obj$solve("ipfp")$mu * noise
+
     #
-    TUlogitmodel = buildModel_TU_logit(array(kronecker(ys,xs) , dim=c(nbX,nbY,dX*dY) ),n,m)
-    thetahat = mme(TUlogitmodel,muhat, print_level=0)$thetahat
+
+    model_obj = new(model_dse_logit_tu)
+    model_obj$build(xs,ys,n,m)
+
+    res = model_obj$mme(mu_hat)
+
+    thetahat = res$theta_hat
+
     #
     message("Estimator:")
     print(thetahat)  
@@ -187,13 +224,14 @@ tests_estimation = function(notifications=TRUE,nbDraws=1e3)
 {
     ptm = proc.time()
     #
-    res_LL  <- round(test_loglikelihood(),5)
+    # res_LL  <- round(test_loglikelihood(),5)
     res_mle <- round(test_mle(),5)
     res_mme <- round(test_mme(),5)
     
-    res_all <- c(res_LL,res_mle,res_mme)
+    # res_all <- c(res_LL,res_mle,res_mme)
+    res_all <- c(res_mle,res_mme)
     # MD5 checksum
-    res_LL_md5 <- digest(res_LL,algo="md5")
+    # res_LL_md5 <- digest(res_LL,algo="md5")
     res_mle_md5 <- digest(res_mle,algo="md5")
     res_mme_md5 <- digest(res_mme,algo="md5")
     
@@ -204,7 +242,8 @@ tests_estimation = function(notifications=TRUE,nbDraws=1e3)
         message(paste0('All tests of Estimation completed. Overall time elapsed = ', round(time["elapsed"],5), 's.'))
     }
     #
-    ret <- list(res_all_md5=res_all_md5,res_LL_md5=res_LL_md5,res_mle_md5=res_mle_md5,res_mme_md5=res_mme_md5)
+    # ret <- list(res_all_md5=res_all_md5,res_LL_md5=res_LL_md5,res_mle_md5=res_mle_md5,res_mme_md5=res_mme_md5)
+    ret <- list(res_all_md5=res_all_md5,res_mle_md5=res_mle_md5,res_mme_md5=res_mme_md5)
     #
     return(ret)
 }

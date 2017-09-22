@@ -397,6 +397,7 @@ test_cupids_lp <- function(nbX=5, nbY=3, nbDraws=1E3, seed=777)
     #
     message('*===================   Start of test_cupidsLP   ===================*\n')
     #
+    
     alpha = matrix(runif(nbX*nbY),nrow=nbX)
     gamma = matrix(runif(nbX*nbY),nrow=nbX)
 
