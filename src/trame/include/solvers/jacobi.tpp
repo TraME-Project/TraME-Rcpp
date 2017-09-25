@@ -175,9 +175,7 @@ jacobi_int(const dse<Tg,Th,Tt>& market, const arma::mat* w_low_inp, const arma::
     if (V_out) {
         *V_out = V;
     }
-
     //
-    
     return success;
 }
 
