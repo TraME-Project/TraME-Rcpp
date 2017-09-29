@@ -15,27 +15,27 @@ extern void beta_cdf_(double* x, double* a, double* b, double* cdf);
 
 int main()
 {
-	double x[1];
-	
-	double cdf[] = {0.1808};
-	double p[]   = {2.0};
-	double q[]   = {3.0};
+    double x[1];
     
-	beta_cdf_inv_(cdf,p,q,x);
-	
-	printf("Inv. Beta: %.4f\n", x[0]);
+    double cdf[] = {0.1808};
+    double p[]   = {2.0};
+    double q[]   = {3.0};
+    
+    beta_cdf_inv_(cdf,p,q,x);
+    
+    printf("Inv. Beta: %.4f\n", x[0]);
     
     //
     
     double cdf_2[1];
-	
-	double x_2[] = {0.2};
-	double a[]   = {2.0};
-	double b[]   = {3.0};
     
-	beta_cdf_(x_2,a,b,cdf_2);
-	
-	printf("Beta: %.4f\n", cdf_2[0]);
-	
-	return 0;
+    double x_2[] = {0.2};
+    double a[]   = {2.0};
+    double b[]   = {3.0};
+    
+    beta_cdf_(x_2,a,b,cdf_2);
+    
+    printf("Beta: %.4f\n", cdf_2[0]);
+    
+    return 0;
 }

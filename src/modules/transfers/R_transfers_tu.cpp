@@ -103,7 +103,7 @@ void transfers_tu_R::build_R(const arma::mat& phi_inp)
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
 }
 
 void transfers_tu_R::build_R(const arma::mat& phi_inp, bool need_norm_inp)
@@ -114,7 +114,7 @@ void transfers_tu_R::build_R(const arma::mat& phi_inp, bool need_norm_inp)
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
 }
 
 void transfers_tu_R::trans_R()
@@ -125,7 +125,7 @@ void transfers_tu_R::trans_R()
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
 }
 
 SEXP transfers_tu_R::Psi_R(const arma::mat& U, const arma::mat& V)
@@ -138,7 +138,7 @@ SEXP transfers_tu_R::Psi_R(const arma::mat& U, const arma::mat& V)
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
     return R_NilValue;
 }
 
@@ -178,7 +178,7 @@ SEXP transfers_tu_R::Psi_R(const arma::mat& U, const arma::mat& V, Rcpp::Integer
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
     return R_NilValue;
 }
 
@@ -192,7 +192,7 @@ SEXP transfers_tu_R::du_Psi_R(const arma::mat& U, const arma::mat& V)
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
     return R_NilValue;
 }
 
@@ -232,7 +232,7 @@ SEXP transfers_tu_R::du_Psi_R(const arma::mat& U, const arma::mat& V, Rcpp::Inte
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
     return R_NilValue;
 }
 
@@ -246,7 +246,7 @@ SEXP transfers_tu_R::Ucal_R(const arma::mat& vs)
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
     return R_NilValue;
 }
 
@@ -286,7 +286,7 @@ SEXP transfers_tu_R::Ucal_R(const arma::mat& vs, Rcpp::IntegerVector x_ind, Rcpp
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
     return R_NilValue;
 }
 
@@ -300,7 +300,7 @@ SEXP transfers_tu_R::Vcal_R(const arma::mat& us)
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
     return R_NilValue;
 }
 
@@ -340,6 +340,6 @@ SEXP transfers_tu_R::Vcal_R(const arma::mat& us, Rcpp::IntegerVector x_ind, Rcpp
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
     return R_NilValue;
 }

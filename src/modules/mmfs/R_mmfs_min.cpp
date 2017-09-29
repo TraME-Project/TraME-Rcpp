@@ -90,7 +90,7 @@ void mmfs_min_R::build_R(const arma::mat& alpha_inp, const arma::mat& gamma_inp)
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
 }
 
 void mmfs_min_R::build_R(const arma::mat& alpha_inp, const arma::mat& gamma_inp, bool need_norm_inp)
@@ -101,7 +101,7 @@ void mmfs_min_R::build_R(const arma::mat& alpha_inp, const arma::mat& gamma_inp,
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
 }
 
 void mmfs_min_R::trans_R()
@@ -112,7 +112,7 @@ void mmfs_min_R::trans_R()
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
 }
 
 SEXP mmfs_min_R::M_R(const arma::mat& a_xs, const arma::mat& b_ys)
@@ -125,7 +125,7 @@ SEXP mmfs_min_R::M_R(const arma::mat& a_xs, const arma::mat& b_ys)
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
     return R_NilValue;
 }
 
@@ -165,6 +165,6 @@ SEXP mmfs_min_R::M_R(const arma::mat& a_xs, const arma::mat& b_ys, Rcpp::Integer
         forward_exception_to_r( ex );
     } catch(...) {
         ::Rf_error( "trame: C++ exception (unknown reason)" );
-	}
+    }
     return R_NilValue;
 }

@@ -15,15 +15,15 @@ extern void beta_cdf_inv_int_(double* x, double* p, double* q, double* result);
 
 int main()
 {
-	double result[1];
-	
-	double x[] = {0.7};
-	double p[] = {2.0};
-	double q[] = {3.0};
+    double result[1];
     
-	beta_cdf_inv_int_(x,p,q,result);
-	
-	printf("Inv. Beta: %.4f\n", result[0]);
-	
-	return 0;
+    double x[] = {0.7};
+    double p[] = {2.0};
+    double q[] = {3.0};
+    
+    beta_cdf_inv_int_(x,p,q,result);
+    
+    printf("Inv. Beta: %.4f\n", result[0]);
+    
+    return 0;
 }
