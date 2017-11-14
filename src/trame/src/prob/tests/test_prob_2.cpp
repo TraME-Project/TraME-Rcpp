@@ -13,22 +13,22 @@
 #include "omp.h"
 
 extern "C" {
-    void beta_cdf_inv_int_(double* x, double* p, double* q, double* result);
+	void beta_cdf_inv_int_(double* x, double* p, double* q, double* result);
 }
 
 int main()
 {    
-    double result[1];
+	double result[1];
+	
+	double x[] = {0.7};
+	double p[] = {2.0};
+	double q[] = {3.0};
     
-    double x[] = {0.7};
-    double p[] = {2.0};
-    double q[] = {3.0};
-    
-    beta_cdf_inv_int_(x,p,q,result);
-    
-    printf("Inv. Beta: %.4f\n", result[0]);
-    
-    //
+	beta_cdf_inv_int_(x,p,q,result);
+	
+	printf("Inv. Beta: %.4f\n", result[0]);
+	
+	//
     
     int i;
     int N_test = 100;
@@ -40,14 +40,14 @@ int main()
     for (i=0; i<N_test; i++) {
         x_seq[i] = a + i*seqby;
     }
-    
-    //#pragma omp parallel for num_threads(2) private(result)
-        for (i=0; i<N_test; i++) {
-            beta_cdf_inv_int_(&x_seq[i],p,q,result);
+	
+	//#pragma omp parallel for num_threads(2) private(result)
+		for (i=0; i<N_test; i++) {
+			beta_cdf_inv_int_(&x_seq[i],p,q,result);
             
             printf("Inv. Beta: %.4f\n", result[0]);
-        }
-    
+		}
+	
     //
-    return 0;
+	return 0;
 }

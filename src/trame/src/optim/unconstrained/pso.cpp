@@ -105,7 +105,7 @@ optim::pso_int(arma::vec& init_out_vals, std::function<double (const arma::vec& 
 #endif
     for (int i=0; i < n_pop; i++) {
         if (center_particle && i == n_pop - 1) {
-            P.row(i) = arma::sum(P.rows(0,n_pop-2),0) / (double) (n_pop-1); // center vector
+            P.row(i) = arma::sum(P.rows(0,n_pop-2),0) / static_cast<double>(n_pop-1); // center vector
         } else {
             P.row(i) = par_initial_lb.t() + (par_initial_ub.t() - par_initial_lb.t())%arma::randu(1,n_vals);
         }
@@ -168,7 +168,7 @@ optim::pso_int(arma::vec& init_out_vals, std::function<double (const arma::vec& 
 
                 P.row(i) += V.row(i);
             } else {
-                P.row(i) = arma::sum(P.rows(0,n_pop-2),0) / (double) (n_pop-1); // center vector
+                P.row(i) = arma::sum(P.rows(0,n_pop-2),0) / static_cast<double>(n_pop-1); // center vector
             }
             
             //
@@ -194,7 +194,7 @@ optim::pso_int(arma::vec& init_out_vals, std::function<double (const arma::vec& 
     }
     //
     if (vals_bound) {
-        global_best_vec = arma::trans( inv_transform(global_best_vec.t(), bounds_type, lower_bounds, upper_bounds) );
+	    global_best_vec = arma::trans( inv_transform(global_best_vec.t(), bounds_type, lower_bounds, upper_bounds) );
     }
 
     error_reporting(init_out_vals,global_best_vec.t(),opt_objfn,opt_data,success,err,err_tol,iter,n_gen,conv_failure_switch,settings_inp);
