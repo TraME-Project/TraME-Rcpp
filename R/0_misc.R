@@ -27,6 +27,14 @@ inversePWA <- function(a, B, C, k=1.0)
     return(c(vals))
 }
 
+LogSumExp <- function(X)
+{
+    #
+    val <- .Call("lse_R", as.matrix(X), PACKAGE = "TraME.Rcpp")
+    #
+    return(val)
+}
+
 tests_TraME <- function(nbDraws = 1e3,save_output=FALSE,output_file=NA)
 {
     ptm = proc.time()
