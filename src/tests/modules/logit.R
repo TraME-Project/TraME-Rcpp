@@ -1,8 +1,11 @@
+
+#
+
 rm(list=ls())
 
 library(TraME.Rcpp)
 
-#library(gurobi)
+#
 
 logit_obj <- new(logit)
 
