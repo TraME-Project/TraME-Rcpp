@@ -16,7 +16,7 @@ n = c(apply(mu,1,sum))
 logit_obj$build(nbX,nbY,1.0,TRUE)
 logit_obj$U = U
 
-sim_obj = logit_obj$simul(1000,777)
+sim_obj = logit_obj$simul(1000)
 
 logit_obj$G(n)
 
