@@ -57,6 +57,7 @@ RCPP_MODULE(mfe_mmf_module)
 
     // SEXP (mfe_cd_R::*solve_cd_1)() = &mfe_cd_R::solve_R ;
     SEXP (mfe_cd_R::*solve_cd_2)(Rcpp::CharacterVector) = &mfe_cd_R::solve_R ;
+    SEXP (mfe_cd_R::*solve_cd_3)(Rcpp::CharacterVector, double tol_inp, int max_iter) = &mfe_cd_R::solve_R ;
 
     // CES
     void (mfe_ces_R::*build_ces_1)(const arma::vec&, const arma::vec&) = &mfe_ces_R::build_R ;
@@ -65,6 +66,7 @@ RCPP_MODULE(mfe_mmf_module)
 
     // SEXP (mfe_ces_R::*solve_ces_1)() = &mfe_ces_R::solve_R ;
     SEXP (mfe_ces_R::*solve_ces_2)(Rcpp::CharacterVector) = &mfe_ces_R::solve_R ;
+    SEXP (mfe_ces_R::*solve_ces_3)(Rcpp::CharacterVector, double tol_inp, int max_iter) = &mfe_ces_R::solve_R ;
 
     // Geo
     void (mfe_geo_R::*build_geo_1)(const arma::vec&, const arma::vec&) = &mfe_geo_R::build_R ;
@@ -73,6 +75,7 @@ RCPP_MODULE(mfe_mmf_module)
 
     // SEXP (mfe_geo_R::*solve_geo_1)() = &mfe_geo_R::solve_R ;
     SEXP (mfe_geo_R::*solve_geo_2)(Rcpp::CharacterVector) = &mfe_geo_R::solve_R ;
+    SEXP (mfe_geo_R::*solve_geo_3)(Rcpp::CharacterVector, double tol_inp, int max_iter) = &mfe_geo_R::solve_R ;
 
     // Min
     void (mfe_min_R::*build_min_1)(const arma::vec&, const arma::vec&) = &mfe_min_R::build_R ;
@@ -81,6 +84,7 @@ RCPP_MODULE(mfe_mmf_module)
 
     // SEXP (mfe_min_R::*solve_min_1)() = &mfe_min_R::solve_R ;
     SEXP (mfe_min_R::*solve_min_2)(Rcpp::CharacterVector) = &mfe_min_R::solve_R ;
+    SEXP (mfe_min_R::*solve_min_3)(Rcpp::CharacterVector, double tol_inp, int max_iter) = &mfe_min_R::solve_R ;
   
     //
     // now we can declare the class
@@ -110,6 +114,7 @@ RCPP_MODULE(mfe_mmf_module)
 
         // .method( "solve", solve_cd_1 )
         .method( "solve", solve_cd_2 )
+        .method( "solve", solve_cd_3 )
     ;
 
     // CES
@@ -137,6 +142,7 @@ RCPP_MODULE(mfe_mmf_module)
 
         // .method( "solve", solve_ces_1 )
         .method( "solve", solve_ces_2 )
+        .method( "solve", solve_ces_3 )
     ;
 
     // Geo
@@ -164,6 +170,7 @@ RCPP_MODULE(mfe_mmf_module)
 
         // .method( "solve", solve_geo_1 )
         .method( "solve", solve_geo_2 )
+        .method( "solve", solve_geo_3 )
     ;
 
     // Min
@@ -191,6 +198,7 @@ RCPP_MODULE(mfe_mmf_module)
 
         // .method( "solve", solve_min_1 )
         .method( "solve", solve_min_2 )
+        .method( "solve", solve_min_3 )
     ;
 }
 
@@ -256,6 +264,21 @@ SEXP mfe_cd_R::solve_R(Rcpp::CharacterVector solver_inp)
     try {
         arma::mat mu_sol;
         bool success = this->solve(mu_sol, solver_inp[0]);
+        //
+        return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+    return R_NilValue;
+}
+
+SEXP mfe_cd_R::solve_R(Rcpp::CharacterVector solver_inp, double tol_inp, int max_iter_inp)
+{
+    try {
+        arma::mat mu_sol;
+        bool success = ipfp(*this, mu_sol, tol_inp, max_iter_inp);
         //
         return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
     } catch( std::exception &ex ) {
@@ -367,6 +390,21 @@ SEXP mfe_ces_R::solve_R(Rcpp::CharacterVector solver_inp)
     return R_NilValue;
 }
 
+SEXP mfe_ces_R::solve_R(Rcpp::CharacterVector solver_inp, double tol_inp, int max_iter_inp)
+{
+    try {
+        arma::mat mu_sol;
+        bool success = ipfp(*this, mu_sol, tol_inp, max_iter_inp);
+        //
+        return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+    return R_NilValue;
+}
+
 //
 // Geo
 
@@ -452,6 +490,21 @@ SEXP mfe_geo_R::solve_R(Rcpp::CharacterVector solver_inp)
     return R_NilValue;
 }
 
+SEXP mfe_geo_R::solve_R(Rcpp::CharacterVector solver_inp, double tol_inp, int max_iter_inp)
+{
+    try {
+        arma::mat mu_sol;
+        bool success = ipfp(*this, mu_sol, tol_inp, max_iter_inp);
+        //
+        return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+    return R_NilValue;
+}
+
 //
 // Min
 
@@ -527,6 +580,21 @@ SEXP mfe_min_R::solve_R(Rcpp::CharacterVector solver_inp)
     try {
         arma::mat mu_sol;
         bool success = this->solve(mu_sol, solver_inp[0]);
+        //
+        return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
+    } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+    } catch(...) {
+        ::Rf_error( "trame: C++ exception (unknown reason)" );
+    }
+    return R_NilValue;
+}
+
+SEXP mfe_min_R::solve_R(Rcpp::CharacterVector solver_inp, double tol_inp, int max_iter_inp)
+{
+    try {
+        arma::mat mu_sol;
+        bool success = ipfp(*this, mu_sol, tol_inp, max_iter_inp);
         //
         return Rcpp::List::create(Rcpp::Named("mu") = mu_sol, Rcpp::Named("success") = success);
     } catch( std::exception &ex ) {

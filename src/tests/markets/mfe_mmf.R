@@ -46,4 +46,4 @@ time =  proc.time()  - ptm
 
 message(paste0('\nTime taken = ', time["elapsed"], 's.\n'))
 
-sol_cd <- mfe_cd_obj$solve("i")
+sol_cd <- mfe_cd_obj$solve("ipfp",1E-04,1000)

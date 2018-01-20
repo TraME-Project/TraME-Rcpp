@@ -49,6 +49,7 @@ class mfe_cd_R : public trame::mfe<trame::mmfs::cd>
 
         SEXP solve_R();
         SEXP solve_R(Rcpp::CharacterVector solver_inp);
+        SEXP solve_R(Rcpp::CharacterVector solver_inp, double tol_inp, int max_iter_inp);
 };
 
 class mfe_ces_R : public trame::mfe<trame::mmfs::ces>
@@ -63,6 +64,7 @@ class mfe_ces_R : public trame::mfe<trame::mmfs::ces>
 
         SEXP solve_R();
         SEXP solve_R(Rcpp::CharacterVector solver_inp);
+        SEXP solve_R(Rcpp::CharacterVector solver_inp, double tol_inp, int max_iter_inp);
 };
 
 class mfe_geo_R : public trame::mfe<trame::mmfs::geo>
@@ -77,6 +79,7 @@ class mfe_geo_R : public trame::mfe<trame::mmfs::geo>
 
         SEXP solve_R();
         SEXP solve_R(Rcpp::CharacterVector solver_inp);
+        SEXP solve_R(Rcpp::CharacterVector solver_inp, double tol_inp, int max_iter_inp);
 };
 
 class mfe_min_R : public trame::mfe<trame::mmfs::min>
@@ -91,6 +94,7 @@ class mfe_min_R : public trame::mfe<trame::mmfs::min>
 
         SEXP solve_R();
         SEXP solve_R(Rcpp::CharacterVector solver_inp);
+        SEXP solve_R(Rcpp::CharacterVector solver_inp, double tol_inp, int max_iter_inp);
 };
 
 #endif
