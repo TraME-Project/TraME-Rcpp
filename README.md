@@ -1,4 +1,4 @@
-# TraME-Rcpp &nbsp; [![Build Status](https://travis-ci.org/TraME-Project/TraME.svg?branch=master)](https://travis-ci.org/TraME-Project/TraME) [![Build status](https://ci.appveyor.com/api/projects/status/github/TraME-Project/TraME-Rcpp?branch=master)](https://ci.appveyor.com/project/kthohr/trame-rcpp/branch/master)
+# TraME-Rcpp &nbsp; [![Build Status](https://travis-ci.org/TraME-Project/TraME-Rcpp.svg?branch=master)](https://travis-ci.org/TraME-Project/TraME-Rcpp) [![Build status](https://ci.appveyor.com/api/projects/status/github/TraME-Project/TraME-Rcpp?branch=master)](https://ci.appveyor.com/project/kthohr/trame-rcpp/branch/master)
 
 **Tra**nsportation **M**ethods for **E**conometrics via **Rcpp** modules
 
