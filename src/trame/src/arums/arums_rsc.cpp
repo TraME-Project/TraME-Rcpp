@@ -1,6 +1,6 @@
 /*################################################################################
   ##
-  ##   Copyright (C) 2015 - 2017 the TraME Team:
+  ##   Copyright (C) 2015-2018 the TraME Team:
   ##      Alfred Galichon
   ##      Keith O'Hara
   ##
@@ -372,7 +372,7 @@ const
 
     //
 
-    optim::opt_settings settings;
+    optim::algo_settings settings;
 
     settings.vals_bound = true;
 

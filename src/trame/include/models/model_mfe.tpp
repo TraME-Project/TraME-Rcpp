@@ -1,6 +1,6 @@
 /*################################################################################
   ##
-  ##   Copyright (C) 2015 - 2017 the TraME Team:
+  ##   Copyright (C) 2015-2018 the TraME Team:
   ##      Alfred Galichon
   ##      Keith O'Hara
   ##
@@ -37,7 +37,6 @@
 // build
 
 template<typename Tt>
-inline
 void
 model<mfe<Tt>>::build(const arma::mat& X_inp, const arma::mat& Y_inp)
 {
@@ -45,7 +44,6 @@ model<mfe<Tt>>::build(const arma::mat& X_inp, const arma::mat& Y_inp)
 }
 
 template<typename Tt>
-inline
 void
 model<mfe<Tt>>::build(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp)
 {
@@ -53,7 +51,6 @@ model<mfe<Tt>>::build(const arma::mat& X_inp, const arma::mat& Y_inp, const arma
 }
 
 template<typename Tt>
-inline
 void
 model<mfe<Tt>>::build(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec& n_inp, const arma::vec& m_inp, const double sigma_inp)
 {
@@ -61,7 +58,6 @@ model<mfe<Tt>>::build(const arma::mat& X_inp, const arma::mat& Y_inp, const arma
 }
 
 template<typename Tt>
-inline
 void
 model<mfe<Tt>>::build_int(const arma::mat& X_inp, const arma::mat& Y_inp, const arma::vec* n_inp, const arma::vec* m_inp, const double* sigma_inp)
 {
@@ -211,7 +207,7 @@ model<mfe<Tt>>::mme_woregul(const arma::mat& mu_hat, arma::mat& theta_hat, doubl
 
     const int optim_method = (optim_method_inp) ? *optim_method_inp : 1;
 
-    optim::opt_settings settings;
+    optim::algo_settings settings;
 
     settings.err_tol = xtol_rel;
     settings.iter_max = max_eval;
@@ -254,7 +250,7 @@ model<mfe<Tt>>::mme_regul(const arma::mat& mu_hat, arma::mat& theta_hat, const d
     bool success = false;
 
     //
-    
+
     const double xtol_rel = (xtol_rel_inp) ? *xtol_rel_inp : 1E-04;
     const int max_eval = (max_eval_inp) ? *max_eval_inp : 1E05;
 
@@ -416,7 +412,6 @@ model<mfe<Tt>>::solve(arma::mat& mu_sol, arma::mat& U, arma::mat& V, const char*
 // internal
 
 template<typename Tt>
-inline
 void
 model<mfe<Tt>>::initial_theta(arma::mat& theta_0)
 {
@@ -424,7 +419,6 @@ model<mfe<Tt>>::initial_theta(arma::mat& theta_0)
 }
 
 template<typename Tt>
-inline
 arma::mat
 model<mfe<Tt>>::initial_theta()
 {
@@ -432,7 +426,6 @@ model<mfe<Tt>>::initial_theta()
 }
 
 template<typename Tt>
-inline
 arma::mat
 model<mfe<Tt>>::Phi_k(const arma::mat& mu_hat)
 {
@@ -444,7 +437,7 @@ model<mfe<Tt>>::Phi_k(const arma::mat& mu_hat)
 
 template<typename Tt>
 bool
-model<mfe<Tt>>::model_mme_optim(arma::vec& init_out_vals, std::function<double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)> opt_objfn, void* opt_data, optim::opt_settings* settings_inp, const int optim_method)
+model<mfe<Tt>>::model_mme_optim(arma::vec& init_out_vals, std::function<double (const arma::vec& vals_inp, arma::vec* grad, void* opt_data)> opt_objfn, void* opt_data, optim::algo_settings* settings_inp, const int optim_method)
 {
     if (optim_method == 1) {
         return optim::lbfgs_int(init_out_vals,opt_objfn,opt_data,settings_inp);
@@ -461,7 +454,7 @@ double
 model<mfe<Tt>>::model_mfe_mme_opt_objfn(const arma::vec& vals_inp, arma::vec* grad, void* opt_data)
 {
     trame_model_mfe_mme_opt_data *d = reinterpret_cast<trame_model_mfe_mme_opt_data*>(opt_data);
-    
+
     //
 
     const int nbX = d->nbX;

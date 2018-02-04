@@ -1,6 +1,6 @@
 /*################################################################################
   ##
-  ##   Copyright (C) 2015 - 2017 the TraME Team:
+  ##   Copyright (C) 2015-2018 the TraME Team:
   ##      Alfred Galichon
   ##      Keith O'Hara
   ##
@@ -42,3 +42,8 @@
 #ifndef TRAME_DEFAULT_SIM_DRAWS
     #define TRAME_DEFAULT_SIM_DRAWS 1000;
 #endif
+
+namespace trame
+{
+    using uint_t = unsigned int;
+}
