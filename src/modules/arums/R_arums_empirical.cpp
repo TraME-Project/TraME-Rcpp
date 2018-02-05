@@ -40,7 +40,7 @@ RCPP_MODULE(empirical_module)
     using namespace Rcpp ;
 
     // function overloading requires some trickery
-    SEXP (empirical_R::*build_1)(int, int) = &empirical_R::build_R ;
+    SEXP (empirical_R::*build_1)(trame::uint_t, trame::uint_t) = &empirical_R::build_R ;
 
     SEXP (empirical_R::*G_1)(const arma::vec&) = &empirical_R::G_R ;
     SEXP (empirical_R::*G_2)(const arma::vec&, const arma::mat&) = &empirical_R::G_R ;
@@ -95,7 +95,7 @@ RCPP_MODULE(empirical_module)
 
 // wrapper functions to catch errors and handle memory pointers
 
-SEXP empirical_R::build_R(int nbX_inp, int nbY_inp)
+SEXP empirical_R::build_R(trame::uint_t nbX_inp, trame::uint_t nbY_inp)
 {
     try {
         this->build(nbX_inp, nbY_inp);
@@ -136,7 +136,7 @@ SEXP empirical_R::G_R(const arma::vec& n, const arma::mat& U_inp)
     return R_NilValue;
 }
 
-SEXP empirical_R::Gx_R(const arma::mat& U_x_inp, int x)
+SEXP empirical_R::Gx_R(const arma::mat& U_x_inp, trame::uint_t x)
 {
     try {
         arma::mat mu_x_out;
@@ -180,7 +180,7 @@ SEXP empirical_R::Gstar_R(const arma::vec& n, const arma::mat& mu_inp)
     return R_NilValue;
 }
 
-SEXP empirical_R::Gstarx_R(const arma::mat& mu_x_inp, int x)
+SEXP empirical_R::Gstarx_R(const arma::mat& mu_x_inp, trame::uint_t x)
 {   
     try {
         arma::mat U_x_out;
