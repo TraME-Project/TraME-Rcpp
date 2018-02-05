@@ -50,7 +50,8 @@ SEXP cupids_lp_R(SEXP market_inp)
             return R_NilValue;
         }
 
-        return Rcpp::List::create(Rcpp::Named("mu") = mu_out, Rcpp::Named("mu_x0") = mu_x0_out, Rcpp::Named("mu_0y") = mu_0y_out, Rcpp::Named("U") = U_out, Rcpp::Named("V") = V_out, Rcpp::Named("val") = val_out, Rcpp::Named("success") = success);
+        return Rcpp::List::create(Rcpp::Named("mu") = mu_out, Rcpp::Named("mu_x0") = mu_x0_out, Rcpp::Named("mu_0y") = mu_0y_out, 
+                                  Rcpp::Named("U") = U_out, Rcpp::Named("V") = V_out, Rcpp::Named("val") = val_out, Rcpp::Named("success") = success);
     } catch( std::exception &ex ) {
         forward_exception_to_r( ex );
     } catch(...) {

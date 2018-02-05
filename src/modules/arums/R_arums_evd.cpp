@@ -38,11 +38,11 @@ RCPP_EXPOSED_CLASS(logit_R)
 
 RCPP_MODULE(logit_module)
 {
-    using namespace Rcpp ;
+    using namespace Rcpp;
 
     // function overloading requires some trickery
-    void (trame::arums::logit::*build_1)(int, int) = &trame::arums::logit::build ;
-    void (trame::arums::logit::*build_2)(int, int, double, bool) = &trame::arums::logit::build ;
+    void (trame::arums::logit::*build_1)(trame::uint_t, trame::uint_t) = &trame::arums::logit::build ;
+    void (trame::arums::logit::*build_2)(trame::uint_t, trame::uint_t, double, bool) = &trame::arums::logit::build ;
 
     SEXP (logit_R::*G_1)(const arma::vec&) = &logit_R::G_R ;
     SEXP (logit_R::*G_2)(const arma::vec&, const arma::mat&) = &logit_R::G_R ;
@@ -163,7 +163,7 @@ SEXP logit_R::Gbar_R(const arma::mat& U_bar, const arma::mat& mu_bar, const arma
     return R_NilValue;
 }
 
-empirical_R logit_R::simul_R(int n_draws)
+empirical_R logit_R::simul_R(trame::uint_t n_draws)
 {
     trame::arums::empirical emp_obj;
     this->simul_int(emp_obj,&n_draws,nullptr);

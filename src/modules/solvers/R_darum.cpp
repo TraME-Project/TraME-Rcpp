@@ -43,30 +43,33 @@ SEXP darum_R(SEXP market_inp)
         arma::mat mu_out, U_out, V_out;
         arma::vec mu_x0_out, mu_0y_out;
 
+        double err_tol = 1E-08;
+        trame::uint_t max_iter = 5000U;
+
         if (Rf_inherits(market_inp, "Rcpp_dse_empirical_ntu")) {
             dse_empirical_ntu_R* market_obj = Rcpp::as<dse_empirical_ntu_R*>(market_inp);
 
-            success = trame::darum(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,nullptr,nullptr);
+            success = trame::darum(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_logit_ntu")) {
             dse_logit_ntu_R* market_obj = Rcpp::as<dse_logit_ntu_R*>(market_inp);
             
-            success = trame::darum(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,nullptr,nullptr);
+            success = trame::darum(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_none_ntu")) {
             dse_none_ntu_R* market_obj = Rcpp::as<dse_none_ntu_R*>(market_inp);
 
-            success = trame::darum(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,nullptr,nullptr);
+            success = trame::darum(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rsc_ntu")) {
             dse_rsc_ntu_R* market_obj = Rcpp::as<dse_rsc_ntu_R*>(market_inp);
 
-            success = trame::darum(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,nullptr,nullptr);
+            success = trame::darum(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rusc_ntu")) {
             dse_rusc_ntu_R* market_obj = Rcpp::as<dse_rusc_ntu_R*>(market_inp);
 
-            success = trame::darum(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,nullptr,nullptr);
+            success = trame::darum(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,err_tol,max_iter);
         }
         else {
             ::Rf_error( "trame: unrecognized market type" );

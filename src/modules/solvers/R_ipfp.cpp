@@ -42,29 +42,32 @@ SEXP ipfp_R(SEXP market_inp)
         arma::mat mu_out, U_out, V_out;
         arma::vec mu_x0_out, mu_0y_out, u_out, v_out;
 
+        double err_tol = 1E-08;
+        trame::uint_t max_iter = 5000U;
+
         if (Rf_inherits(market_inp, "Rcpp_mfe_cd")) {
             mfe_cd_R* market_obj = Rcpp::as<mfe_cd_R*>(market_inp);
             // trame::mfe<trame::mmfs::cd>* market_recast = static_cast<trame::mfe<trame::mmfs::cd>*>(market_obj);
 
-            success = trame::ipfp(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,u_out,v_out,nullptr,nullptr,nullptr);
+            success = trame::ipfp(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,u_out,v_out,nullptr,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_mfe_ces")) {
             mfe_ces_R* market_obj = Rcpp::as<mfe_ces_R*>(market_inp);
             // trame::mfe<trame::mmfs::ces>* market_recast = static_cast<trame::mfe<trame::mmfs::ces>*>(market_obj);
 
-            success = trame::ipfp(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,u_out,v_out,nullptr,nullptr,nullptr);
+            success = trame::ipfp(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,u_out,v_out,nullptr,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_mfe_geo")) {
             mfe_geo_R* market_obj = Rcpp::as<mfe_geo_R*>(market_inp);
             // trame::mfe<trame::mmfs::geo>* market_recast = static_cast<trame::mfe<trame::mmfs::geo>*>(market_obj);
 
-            success = trame::ipfp(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,u_out,v_out,nullptr,nullptr,nullptr);
+            success = trame::ipfp(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,u_out,v_out,nullptr,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_mfe_min")) {
             mfe_min_R* market_obj = Rcpp::as<mfe_min_R*>(market_inp);
             // trame::mfe<trame::mmfs::min>* market_recast = static_cast<trame::mfe<trame::mmfs::min>*>(market_obj);
 
-            success = trame::ipfp(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,u_out,v_out,nullptr,nullptr,nullptr);
+            success = trame::ipfp(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,u_out,v_out,nullptr,err_tol,max_iter);
         }
         else {
             ::Rf_error( "trame: unrecognized market type" );

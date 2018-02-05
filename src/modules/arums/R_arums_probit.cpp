@@ -40,8 +40,8 @@ RCPP_MODULE(probit_module)
 {
     using namespace Rcpp ;
 
-    void (trame::arums::probit::*build_1)(int, int, bool) = &trame::arums::probit::build;
-    void (trame::arums::probit::*build_2)(int, int, double, bool) = &trame::arums::probit::build;
+    void (trame::arums::probit::*build_1)(trame::uint_t, trame::uint_t, bool) = &trame::arums::probit::build;
+    void (trame::arums::probit::*build_2)(trame::uint_t, trame::uint_t, double, bool) = &trame::arums::probit::build;
 
     void (trame::arums::probit::*unifCorrelCovMatrices_1)() = &trame::arums::probit::unifCorrelCovMatrices;
     void (trame::arums::probit::*unifCorrelCovMatrices_2)(double) = &trame::arums::probit::unifCorrelCovMatrices ;
@@ -81,7 +81,7 @@ RCPP_MODULE(probit_module)
 }
 
 // wrapper functions to catch errors and handle memory pointers
-empirical_R probit_R::simul_R(int n_draws)
+empirical_R probit_R::simul_R(trame::uint_t n_draws)
 {
     trame::arums::empirical emp_obj;
     this->simul_int(emp_obj,&n_draws,nullptr);

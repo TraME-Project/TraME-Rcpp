@@ -63,109 +63,112 @@ SEXP arc_newton_R(SEXP market_inp)
         arma::vec mu_x0_out, mu_0y_out;
         double val_out;
 
+        double err_tol = 1E-08;
+        trame::uint_t max_iter = 5000U;
+
         if (Rf_inherits(market_inp, "Rcpp_dse_empirical_etu")) {
             dse_empirical_etu_R* market_obj = Rcpp::as<dse_empirical_etu_R*>(market_inp);
 
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_empirical_ltu")) {
             dse_empirical_ltu_R* market_obj = Rcpp::as<dse_empirical_ltu_R*>(market_inp);
             
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_empirical_ntu")) {
             dse_empirical_ntu_R* market_obj = Rcpp::as<dse_empirical_ntu_R*>(market_inp);
 
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_empirical_tu")) {
             dse_empirical_tu_R* market_obj = Rcpp::as<dse_empirical_tu_R*>(market_inp);
 
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         //
         else if (Rf_inherits(market_inp, "Rcpp_dse_logit_etu")) {
             dse_logit_etu_R* market_obj = Rcpp::as<dse_logit_etu_R*>(market_inp);
 
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_logit_ltu")) {
             dse_logit_ltu_R* market_obj = Rcpp::as<dse_logit_ltu_R*>(market_inp);
             
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_logit_ntu")) {
             dse_logit_ntu_R* market_obj = Rcpp::as<dse_logit_ntu_R*>(market_inp);
 
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_logit_tu")) {
             dse_logit_tu_R* market_obj = Rcpp::as<dse_logit_tu_R*>(market_inp);
 
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         //
         else if (Rf_inherits(market_inp, "Rcpp_dse_none_etu")) {
             dse_none_etu_R* market_obj = Rcpp::as<dse_none_etu_R*>(market_inp);
 
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_none_ltu")) {
             dse_none_ltu_R* market_obj = Rcpp::as<dse_none_ltu_R*>(market_inp);
             
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_none_ntu")) {
             dse_none_ntu_R* market_obj = Rcpp::as<dse_none_ntu_R*>(market_inp);
 
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_none_tu")) {
             dse_none_tu_R* market_obj = Rcpp::as<dse_none_tu_R*>(market_inp);
 
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         //
         else if (Rf_inherits(market_inp, "Rcpp_dse_rsc_etu")) {
             dse_rsc_etu_R* market_obj = Rcpp::as<dse_rsc_etu_R*>(market_inp);
 
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rsc_ltu")) {
             dse_rsc_ltu_R* market_obj = Rcpp::as<dse_rsc_ltu_R*>(market_inp);
             
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rsc_ntu")) {
             dse_rsc_ntu_R* market_obj = Rcpp::as<dse_rsc_ntu_R*>(market_inp);
 
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rsc_tu")) {
             dse_rsc_tu_R* market_obj = Rcpp::as<dse_rsc_tu_R*>(market_inp);
 
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         //
         else if (Rf_inherits(market_inp, "Rcpp_dse_rusc_etu")) {
             dse_rusc_etu_R* market_obj = Rcpp::as<dse_rusc_etu_R*>(market_inp);
 
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rusc_ltu")) {
             dse_rusc_ltu_R* market_obj = Rcpp::as<dse_rusc_ltu_R*>(market_inp);
             
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rusc_ntu")) {
             dse_rusc_ntu_R* market_obj = Rcpp::as<dse_rusc_ntu_R*>(market_inp);
 
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rusc_tu")) {
             dse_rusc_tu_R* market_obj = Rcpp::as<dse_rusc_tu_R*>(market_inp);
 
-            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::arc_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         //
         else {

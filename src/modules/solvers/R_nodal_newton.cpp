@@ -43,25 +43,28 @@ SEXP nodal_newton_R(SEXP market_inp)
         arma::vec mu_x0_out, mu_0y_out;
         double val_out;
 
+        double err_tol = 1E-06;
+        trame::uint_t max_iter = 2000U;
+
         if (Rf_inherits(market_inp, "Rcpp_mfe_cd")) {
             mfe_cd_R* market_obj = Rcpp::as<mfe_cd_R*>(market_inp);
 
-            success = trame::nodal_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::nodal_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_mfe_ces")) {
             mfe_ces_R* market_obj = Rcpp::as<mfe_ces_R*>(market_inp);
             
-            success = trame::nodal_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::nodal_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_mfe_geo")) {
             mfe_geo_R* market_obj = Rcpp::as<mfe_geo_R*>(market_inp);
 
-            success = trame::nodal_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::nodal_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else if (Rf_inherits(market_inp, "Rcpp_mfe_min")) {
             mfe_min_R* market_obj = Rcpp::as<mfe_min_R*>(market_inp);
 
-            success = trame::nodal_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,nullptr,nullptr);
+            success = trame::nodal_newton(*market_obj,mu_out,mu_x0_out,mu_0y_out,U_out,V_out,val_out,err_tol,max_iter);
         }
         else {
             ::Rf_error( "trame: unrecognized market type" );

@@ -47,27 +47,27 @@ SEXP oap_lp_R(SEXP market_inp)
         if (Rf_inherits(market_inp, "Rcpp_dse_empirical_tu")) {
             dse_empirical_tu_R* market_obj = Rcpp::as<dse_empirical_tu_R*>(market_inp);
 
-            success = trame::oap_lp_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,nullptr,&val_out,&resid_out);
+            success = trame::oap_lp_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&val_out,&resid_out,true);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_logit_tu")) {
             dse_logit_tu_R* market_obj = Rcpp::as<dse_logit_tu_R*>(market_inp);
 
-            success = trame::oap_lp_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,nullptr,&val_out,&resid_out);
+            success = trame::oap_lp_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&val_out,&resid_out,true);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_none_tu")) {
             dse_none_tu_R* market_obj = Rcpp::as<dse_none_tu_R*>(market_inp);
 
-            success = trame::oap_lp_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,nullptr,&val_out,&resid_out);
+            success = trame::oap_lp_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&val_out,&resid_out,true);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rsc_tu")) {
             dse_rsc_tu_R* market_obj = Rcpp::as<dse_rsc_tu_R*>(market_inp);
 
-            success = trame::oap_lp_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,nullptr,&val_out,&resid_out);
+            success = trame::oap_lp_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&val_out,&resid_out,true);
         }
         else if (Rf_inherits(market_inp, "Rcpp_dse_rusc_tu")) {
             dse_rusc_tu_R* market_obj = Rcpp::as<dse_rusc_tu_R*>(market_inp);
 
-            success = trame::oap_lp_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,nullptr,&val_out,&resid_out);
+            success = trame::oap_lp_int(*market_obj,&mu_out,&mu_x0_out,&mu_0y_out,&u_out,&v_out,&val_out,&resid_out,true);
         }
         //
         else {

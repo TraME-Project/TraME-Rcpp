@@ -115,7 +115,7 @@ SEXP none_R::G_R(const arma::vec& n, const arma::mat& U_inp)
     return R_NilValue;
 }
 
-SEXP none_R::Gx_R(const arma::mat& U_x_inp, int x)
+SEXP none_R::Gx_R(const arma::mat& U_x_inp, trame::uint_t x)
 {
     try {
         arma::mat mu_x_out;
@@ -144,7 +144,7 @@ SEXP none_R::Gstar_R(const arma::vec& n, const arma::mat& mu_inp)
     return R_NilValue;
 }
 
-SEXP none_R::Gstarx_R(const arma::mat& mu_x_inp, int x)
+SEXP none_R::Gstarx_R(const arma::mat& mu_x_inp, trame::uint_t x)
 {   
     Rprintf("Gstar not yet defined for no arums case.\n");
     //
@@ -166,7 +166,7 @@ SEXP none_R::Gbar_R(const arma::mat& U_bar, const arma::mat& mu_bar, const arma:
     return R_NilValue;
 }
 
-empirical_R none_R::simul_R(int n_draws)
+empirical_R none_R::simul_R(trame::uint_t n_draws)
 {
     trame::arums::empirical emp_obj;
     this->simul_int(emp_obj,&n_draws,nullptr);

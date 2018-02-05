@@ -122,7 +122,7 @@ SEXP rusc_R::G_R(const arma::vec& n, const arma::mat& U_inp)
     return R_NilValue;
 }
 
-SEXP rusc_R::Gx_R(const arma::mat& U_x_inp, int x)
+SEXP rusc_R::Gx_R(const arma::mat& U_x_inp, trame::uint_t x)
 {
     try {
         arma::mat mu_x_out;
@@ -166,7 +166,7 @@ SEXP rusc_R::Gstar_R(const arma::vec& n, const arma::mat& mu_inp)
     return R_NilValue;
 }
 
-SEXP rusc_R::Gstarx_R(const arma::mat& mu_x_inp, int x)
+SEXP rusc_R::Gstarx_R(const arma::mat& mu_x_inp, trame::uint_t x)
 {   
     try {
         arma::mat U_x_out;
@@ -196,7 +196,7 @@ SEXP rusc_R::Gbar_R(const arma::mat& U_bar, const arma::mat& mu_bar, const arma:
     return R_NilValue;
 }
 
-empirical_R rusc_R::simul_R(int n_draws)
+empirical_R rusc_R::simul_R(trame::uint_t n_draws)
 {
     trame::arums::empirical emp_obj;
     this->simul_int(emp_obj,&n_draws,nullptr);
