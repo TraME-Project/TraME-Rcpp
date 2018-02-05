@@ -34,14 +34,9 @@ using namespace Rcpp;
 SEXP inv_pwa_R(SEXP a_R, SEXP B_R, SEXP C_R, SEXP k_R)
 {
     try {
-        arma::vec a = as<arma::vec>(a_R);
-        arma::mat B = as<arma::mat>(B_R);
-        arma::mat C = as<arma::mat>(C_R);
-        double k = as<double>(k_R);
-        
-        arma::vec ret = trame::inv_pwa(a,B,C,k);
+        arma::vec ret = trame::inv_pwa(as<arma::vec>(a_R),as<arma::mat>(B_R),as<arma::mat>(C_R),as<double>(k_R));
         //
-        return Rcpp::List::create(Rcpp::Named("vals") = ret);
+        return wrap(ret);
     } catch( std::exception &ex ) {
         forward_exception_to_r( ex );
     } catch(...) {

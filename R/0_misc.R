@@ -22,7 +22,7 @@
 inversePWA <- function(a, B, C, k=1.0)
 {
     #
-    vals <- .Call("inv_pwa_R", a,B,C,k, PACKAGE = "TraME.Rcpp")$vals
+    vals <- .Call("inv_pwa_R", a,B,C,k, PACKAGE = "TraME.Rcpp")
     #
     return(c(vals))
 }
