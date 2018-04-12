@@ -12,5 +12,6 @@ src/trame/Makefile
 *.o
 *.so
 *.test
+*.tmp
 *.vscode
 src/trame/include/armadillo*
