@@ -90,3 +90,7 @@ Alfred Galichon and Keith O'Hara
 ## License
 
 GPL (>= 2) 
+
+## Acknowledgements
+
+Work on TraME is supported by NSF Grant DMS-1716489
